@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gaaji Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="videos">
+  <video id="remote" autoplay></video>
+  <video id="local" autoplay muted></video>
+</div>
+
+<div class="controls">
+  <input id="text" placeholder="Type message">
+  <button onclick="send()">Send</button>
+  <button onclick="toggleMic()">Mic</button>
+  <button onclick="toggleCam()">Cam</button>
+  <button onclick="report()">Report</button>
+  <button onclick="next()">Next</button>
+</div>
+
+<div id="messages"></div>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

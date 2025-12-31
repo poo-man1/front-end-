@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Gaaji – Random Video Chat</title>
+  <meta name="description" content="Gaaji lets you meet strangers via random video chat. 18+ only.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="box">
+    <h1>Gaaji</h1>
+    <p>Meet strangers instantly</p>
+
+    <label>
+      <input type="checkbox" id="age"> I am 18+ years old
+    </label>
+
+    <button onclick="start()">Start Chat</button>
+
+    <p>
+      <a href="terms.html">Terms</a> |
+      <a href="privacy.html">Privacy</a>
+    </p>
+  </div>
+
+<script>
+function start() {
+  if (!document.getElementById("age").checked) {
+    alert("You must be 18+");
+    return;
+  }
+  location.href = "chat.html";
+}
+</script>
+</body>
+</html>
