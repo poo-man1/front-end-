@@ -1,46 +1,77 @@
-const socket = io("https://gaaji-server.onrender.com",
+const socket = io("https://gaaji-server.onrender.com", {
+  transports: ["websocket"]
+});
 
 const localVideo = document.getElementById("local");
 const remoteVideo = document.getElementById("remote");
 const messages = document.getElementById("messages");
 
-let pc, localStream;
+let pc = null;
+let localStream = null;
 let micOn = true;
 let camOn = true;
 
+// ICE config (STUN only for now – TURN optional)
 const iceConfig = {
   iceServers: [
-    { urls: "stun:stun.l.google.com:19302" },
-    {
-      urls: "turn:global.relay.metered.ca:80",
-      username: "YOUR_TURN_USERNAME",
-      credential: "YOUR_TURN_PASSWORD"
-    }
+    { urls: "stun:stun.l.google.com:19302" }
   ]
 };
 
-navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-.then(stream => {
-  localStream = stream;
-  localVideo.srcObject = stream;
-});
+/* ==============================
+   1️⃣ GET CAMERA FIRST (FIX)
+================================ */
+async function initMedia() {
+  try {
+    localStream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true
+    });
 
-socket.on("matched", async ({ initiator }) => {
+    localVideo.srcObject = localStream;
+    localVideo.muted = true; // 🔴 VERY IMPORTANT (prevents echo)
+
+  } catch (err) {
+    alert("Camera or mic permission denied");
+    console.error(err);
+  }
+}
+
+initMedia();
+
+/* ==============================
+   2️⃣ CREATE PEER CONNECTION
+================================ */
+function createPeerConnection() {
   pc = new RTCPeerConnection(iceConfig);
 
-  localStream.getTracks().forEach(t =>
-    pc.addTrack(t, localStream)
-  );
+  // Add local tracks ONLY after stream exists
+  localStream.getTracks().forEach(track => {
+    pc.addTrack(track, localStream);
+  });
 
-  pc.ontrack = e => remoteVideo.srcObject = e.streams[0];
+  pc.ontrack = event => {
+    remoteVideo.srcObject = event.streams[0];
+  };
 
-  pc.onicecandidate = e => {
-    if (e.candidate) socket.emit("signal", e.candidate);
+  pc.onicecandidate = event => {
+    if (event.candidate) {
+      socket.emit("signal", event.candidate);
+    }
   };
 
   pc.onconnectionstatechange = () => {
-    if (pc.connectionState === "failed") reset();
+    if (pc.connectionState === "failed") {
+      resetConnection();
+    }
   };
+}
+
+/* ==============================
+   3️⃣ SOCKET EVENTS
+================================ */
+socket.on("matched", async ({ initiator }) => {
+  createPeerConnection();
 
   if (initiator) {
     const offer = await pc.createOffer();
@@ -50,14 +81,18 @@ socket.on("matched", async ({ initiator }) => {
 });
 
 socket.on("signal", async data => {
+  if (!pc) createPeerConnection();
+
   if (data.type === "offer") {
     await pc.setRemoteDescription(data);
     const answer = await pc.createAnswer();
     await pc.setLocalDescription(answer);
     socket.emit("signal", answer);
-  } else if (data.type === "answer") {
+  }
+  else if (data.type === "answer") {
     await pc.setRemoteDescription(data);
-  } else {
+  }
+  else {
     await pc.addIceCandidate(data);
   }
 });
@@ -66,16 +101,20 @@ socket.on("chat", msg => {
   messages.innerHTML += `<div>Stranger: ${msg}</div>`;
 });
 
-socket.on("peer-disconnected", reset);
-socket.on("reported", () => alert("You were reported and blocked"));
+socket.on("peer-disconnected", resetConnection);
+socket.on("reported", () => alert("You were reported"));
 socket.on("banned", () => alert("You are temporarily banned"));
 
+/* ==============================
+   4️⃣ CONTROLS
+================================ */
 function send() {
-  const t = text.value;
-  if (!t) return;
-  messages.innerHTML += `<div>You: ${t}</div>`;
-  socket.emit("chat", t);
-  text.value = "";
+  const input = document.getElementById("text");
+  if (!input.value) return;
+
+  messages.innerHTML += `<div>You: ${input.value}</div>`;
+  socket.emit("chat", input.value);
+  input.value = "";
 }
 
 function toggleMic() {
@@ -89,47 +128,24 @@ function toggleCam() {
 }
 
 function report() {
-  if (confirm("Report this user?")) socket.emit("report");
+  if (confirm("Report this user?")) {
+    socket.emit("report");
+    resetConnection();
+  }
 }
 
 function next() {
-  reset();
+  resetConnection();
 }
 
-function reset() {
-  if (pc) pc.close();
+/* ==============================
+   5️⃣ RESET (SAFE)
+================================ */
+function resetConnection() {
+  if (pc) {
+    pc.close();
+    pc = null;
+  }
   socket.disconnect();
   setTimeout(() => location.reload(), 500);
 }
-iceServers: [
-  { urls: "stun:stun.l.google.com:19302" },
-  {
-    urls: "turn:openrelay.metered.ca:80",
-    username: "openrelayproject",
-    credential: "openrelayproject"
-  }
-]
-console.log("Requesting camera & mic...");
-
-navigator.mediaDevices.getUserMedia({
-  video: true,
-  audio: {
-    echoCancellation: true,
-    noiseSuppression: true,
-    autoGainControl: true
-  }
-})
-.then(stream => {
-  console.log("Media stream obtained:", stream);
-  localStream = stream;
-  localVideo.srcObject = stream;
-})
-.catch(err => {
-  console.error("getUserMedia ERROR:", err);
-  alert("Camera or mic blocked: " + err.name);
-});
-
-
-
-
-
