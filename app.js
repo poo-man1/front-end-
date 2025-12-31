@@ -1,4 +1,8 @@
-const socket = io("http://localhost:3000");
+const socket = io("https://gaaji-server.onrender.com", {
+  transports: ["websocket"],
+  secure: true
+});
+
 
 const localVideo = document.getElementById("local");
 const remoteVideo = document.getElementById("remote");
@@ -109,4 +113,5 @@ iceServers: [
     credential: "openrelayproject"
   }
 ]
+
 
