@@ -1,30 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Gaaji Chat</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Gaaji – Video Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      background: #0e0e0e;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .videos {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+    }
+
+    #remote {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: black;
+    }
+
+    #local {
+      position: absolute;
+      bottom: 110px;
+      right: 10px;
+      width: 120px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid white;
+      background: black;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .controls input {
+      width: 60%;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .controls button {
+      padding: 8px 10px;
+      margin: 4px;
+      border: none;
+      border-radius: 5px;
+      background: #ff0055;
+      color: white;
+      cursor: pointer;
+    }
+
+    #messages {
+      position: fixed;
+      bottom: 70px;
+      left: 10px;
+      max-height: 120px;
+      width: 90%;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="videos">
-  <video id="remote" autoplay playsinline></video>
-  <video id="local" autoplay muted playsinline></video>
-</div>
+  <!-- VIDEO AREA -->
+  <div class="videos">
+    <!-- Stranger video -->
+    <video id="remote" autoplay playsinline></video>
 
+    <!-- Your video (MUTED to avoid echo) -->
+    <video id="local" autoplay muted playsinline></video>
+  </div>
 
-<div class="controls">
-  <input id="text" placeholder="Type message">
-  <button onclick="send()">Send</button>
-  <button onclick="toggleMic()">Mic</button>
-  <button onclick="toggleCam()">Cam</button>
-  <button onclick="report()">Report</button>
-  <button onclick="next()">Next</button>
-</div>
+  <!-- CHAT + CONTROLS -->
+  <div id="messages"></div>
 
-<div id="messages"></div>
+  <div class="controls">
+    <input id="text" placeholder="Type message…" />
+    <br />
+    <button onclick="send()">Send</button>
+    <button onclick="toggleMic()">Mic</button>
+    <button onclick="toggleCam()">Cam</button>
+    <button onclick="report()">Report</button>
+    <button onclick="next()">Next</button>
+  </div>
 
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-<script src="app.js"></script>
+  <!-- SOCKET.IO -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+  <!-- YOUR WEBRTC LOGIC -->
+  <script src="app.js"></script>
+
 </body>
 </html>
-
