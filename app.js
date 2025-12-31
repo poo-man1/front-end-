@@ -109,6 +109,27 @@ iceServers: [
     credential: "openrelayproject"
   }
 ]
+console.log("Requesting camera & mic...");
+
+navigator.mediaDevices.getUserMedia({
+  video: true,
+  audio: {
+    echoCancellation: true,
+    noiseSuppression: true,
+    autoGainControl: true
+  }
+})
+.then(stream => {
+  console.log("Media stream obtained:", stream);
+  localStream = stream;
+  localVideo.srcObject = stream;
+})
+.catch(err => {
+  console.error("getUserMedia ERROR:", err);
+  alert("Camera or mic blocked: " + err.name);
+});
+
+
 
 
 
