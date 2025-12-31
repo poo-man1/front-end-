@@ -1,35 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>Gaaji – Random Video Chat</title>
-  <meta name="description" content="Gaaji lets you meet strangers via random video chat. 18+ only.">
-  <link rel="stylesheet" href="style.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Gaaji is a random one-on-one video chat platform. Meet strangers instantly. 18+ only." />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0e0e0e;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 420px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      color: #ff0055;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .age-check {
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #ff0055;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .links {
+      margin-top: 20px;
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    .links a {
+      color: #aaa;
+      text-decoration: none;
+      margin: 0 6px;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="box">
+
+  <div class="container">
     <h1>Gaaji</h1>
-    <p>Meet strangers instantly</p>
+    <p>Random one-on-one video chat.<br />Meet strangers instantly.</p>
 
-    <label>
-      <input type="checkbox" id="age"> I am 18+ years old
-    </label>
+    <div class="age-check">
+      <label>
+        <input type="checkbox" id="ageCheck" />
+        I confirm that I am 18 years or older
+      </label>
+    </div>
 
-    <button onclick="start()">Start Chat</button>
+    <button onclick="startChat()">Start Video Chat</button>
 
-    <p>
+    <div class="links">
       <a href="terms.html">Terms</a> |
       <a href="privacy.html">Privacy</a>
-    </p>
+    </div>
   </div>
 
-<script>
-function start() {
-  if (!document.getElementById("age").checked) {
-    alert("You must be 18+");
-    return;
-  }
-  location.href = "chat.html";
-}
-</script>
+  <script>
+    function startChat() {
+      const age = document.getElementById("ageCheck");
+      if (!age.checked) {
+        alert("You must be 18+ to use Gaaji");
+        return;
+      }
+      window.location.href = "chat.html";
+    }
+  </script>
+
 </body>
 </html>
