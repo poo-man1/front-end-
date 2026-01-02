@@ -2,61 +2,124 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Gaaji – Random Video Chat</title>
+  <title>Gaaji – Meet New People Instantly</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Gaaji is a fun place to meet new people through random one-on-one video chat. 18+ only." />
 
   <style>
     body {
-      background:#0e0e0e;
-      color:#fff;
+      margin: 0;
+      background: #0e0e0e;
+      color: #ffffff;
       font-family: Arial, sans-serif;
-      text-align:center;
-      margin:0;
-      padding:0;
+      text-align: center;
     }
+
     .container {
-      margin-top:120px;
+      max-width: 520px;
+      margin: 120px auto 40px;
+      padding: 0 15px;
     }
+
+    h1 {
+      font-size: 44px;
+      color: #ff0055;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .fun-tags {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 25px;
+    }
+
+    .fun-tags span {
+      display: inline-block;
+      margin: 4px 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #1a1a1a;
+    }
+
     button {
-      background:#ff0055;
-      color:#fff;
-      border:none;
-      padding:12px 24px;
-      border-radius:6px;
-      cursor:pointer;
-      margin-top:20px;
+      background: #ff0055;
+      color: white;
+      border: none;
+      padding: 14px 26px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
     }
-    .modal {
-      display:none;
-      position:fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background:rgba(0,0,0,0.85);
-      overflow:auto;
-      z-index:999;
+
+    button:hover {
+      opacity: 0.9;
     }
-    .modal-content {
-      background:#111;
-      margin:40px auto;
-      padding:20px;
-      width:90%;
-      max-width:600px;
-      border-radius:8px;
-      text-align:left;
-    }
-    .modal-content h2 {
-      color:#ff0055;
-    }
-    .modal-content button {
-      width:100%;
-    }
-    .checkbox {
-      margin:15px 0;
-    }
+
     .online {
-      margin-top:15px;
-      font-size:14px;
-      opacity:0.8;
+      margin-top: 15px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .links {
+      margin-top: 30px;
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    .links a {
+      color: #aaa;
+      text-decoration: none;
+      margin: 0 6px;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      margin-top: 25px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    /* Modal (shared) */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 999;
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      background: #111;
+      margin: 40px auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 650px;
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    .modal-content h2 {
+      color: #ff0055;
+      margin-top: 0;
+    }
+
+    .modal-content button {
+      width: 100%;
+      margin-top: 15px;
     }
   </style>
 </head>
@@ -65,84 +128,146 @@
 
 <div class="container">
   <h1>Gaaji</h1>
-  <p>Random one-on-one video chat</p>
 
-  <button onclick="openTerms()">Start Chat</button>
+  <div class="tagline">
+    A fun place to meet strangers & talk freely
+  </div>
+
+  <div class="fun-tags">
+    <span>🎭 Funny Talks</span>
+    <span>🌍 Meet New People</span>
+    <span>🎧 Chill Conversations</span>
+    <span>💬 Random Chats</span>
+    <span>😄 Just for Fun</span>
+  </div>
+
+  <button onclick="openTerms()">Start Video Chat</button>
 
   <div class="online">
     🔵 <span id="onlineCount">0</span> users online
   </div>
 
-  <p style="margin-top:15px;font-size:13px;">
-    Support: <a href="mailto:busineesman717@gmail.com" style="color:#aaa;">busineesman717@gmail.com</a>
-  </p>
-</div>
+  <div class="links">
+    <a href="#" onclick="showModal('termsModal')">Terms & Conditions</a> |
+    <a href="#" onclick="showModal('privacyModal')">Privacy Policy</a> |
+    <a href="#" onclick="showModal('communityModal')">Community Guidelines</a> |
+    <a href="mailto:busineesman717@gmail.com">Contact</a>
+  </div>
 
-<!-- TERMS & PRIVACY MODAL -->
-<div id="termsModal" class="modal">
-  <div class="modal-content">
-    <h2>Terms & Privacy</h2>
-
-    <p><b>By using Gaaji, you agree to the following:</b></p>
-
-    <ul>
-      <li>Gaaji is strictly for users aged 18 and above.</li>
-      <li>No nudity, sexual content, harassment, or abuse.</li>
-      <li>No recording, screenshots, or screen capture.</li>
-      <li>No sharing of personal information (phone, email, social media).</li>
-      <li>Gaaji does not store video or audio streams.</li>
-      <li>Violations may result in temporary or permanent bans.</li>
-      <li>Metadata (IP, timestamps) may be logged for safety & law enforcement.</li>
-    </ul>
-
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" id="agreeTerms" />
-        I have read and agree to the Terms & Privacy Policy
-      </label>
-    </div>
-
-    <button onclick="acceptTerms()">Continue</button>
+  <div class="footer">
+    © 2026 Gaaji · 18+ Only · For Entertainment Purposes
   </div>
 </div>
 
-<!-- AGE CONFIRMATION MODAL -->
+<!-- TERMS MODAL -->
+<div id="termsModal" class="modal">
+  <div class="modal-content">
+    <h2>Terms & Conditions</h2>
+    <p>
+      Gaaji is an 18+ platform created for entertainment and social interaction.
+      By using Gaaji, you agree that:
+    </p>
+    <ul>
+      <li>You are at least 18 years old</li>
+      <li>You will not engage in nudity, sexual acts, harassment, or abuse</li>
+      <li>You will not record or screenshot conversations</li>
+      <li>You will not share personal contact information</li>
+      <li>Violations may lead to bans without notice</li>
+    </ul>
+    <button onclick="closeModal('termsModal')">Close</button>
+  </div>
+</div>
+
+<!-- PRIVACY MODAL -->
+<div id="privacyModal" class="modal">
+  <div class="modal-content">
+    <h2>Privacy Policy</h2>
+    <ul>
+      <li>No video or audio is stored</li>
+      <li>Chats are peer-to-peer using WebRTC</li>
+      <li>We may log metadata for abuse prevention</li>
+      <li>No accounts or passwords required</li>
+      <li>We do not sell user data</li>
+    </ul>
+    <button onclick="closeModal('privacyModal')">Close</button>
+  </div>
+</div>
+
+<!-- COMMUNITY GUIDELINES MODAL -->
+<div id="communityModal" class="modal">
+  <div class="modal-content">
+    <h2>Community Guidelines</h2>
+    <ul>
+      <li>Be respectful and friendly</li>
+      <li>No nudity or sexual behavior</li>
+      <li>No hate speech or threats</li>
+      <li>No scams or spam</li>
+      <li>Report users who violate rules</li>
+    </ul>
+    <button onclick="closeModal('communityModal')">Close</button>
+  </div>
+</div>
+
+<!-- AGE & TERMS FLOW -->
+<div id="flowModal" class="modal">
+  <div class="modal-content">
+    <h2>Before You Continue</h2>
+
+    <label>
+      <input type="checkbox" id="agreeAll" />
+      I have read and agree to the Terms, Privacy Policy & Community Guidelines
+    </label>
+
+    <br><br>
+
+    <button onclick="verifyAge()">Continue</button>
+  </div>
+</div>
+
 <div id="ageModal" class="modal">
   <div class="modal-content">
     <h2>Age Verification</h2>
-    <p>This platform is strictly for users aged 18 and above.</p>
+    <p>This platform is strictly for users aged 18 or older.</p>
 
-    <button onclick="confirmAge(true)">I am 18 or older</button>
-    <button onclick="confirmAge(false)" style="background:#444;">I am under 18</button>
+    <button onclick="enterChat()">I am 18 or older</button>
+    <button onclick="denyAge()" style="background:#444;">I am under 18</button>
   </div>
 </div>
 
 <script>
+  function showModal(id) {
+    document.getElementById(id).style.display = "block";
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+  }
+
   function openTerms() {
-    document.getElementById("termsModal").style.display = "block";
+    showModal("flowModal");
   }
 
-  function acceptTerms() {
-    if (!document.getElementById("agreeTerms").checked) {
-      alert("You must agree to the Terms & Privacy Policy");
+  function verifyAge() {
+    if (!document.getElementById("agreeAll").checked) {
+      alert("You must agree before continuing");
       return;
     }
-    document.getElementById("termsModal").style.display = "none";
-    document.getElementById("ageModal").style.display = "block";
+    closeModal("flowModal");
+    showModal("ageModal");
   }
 
-  function confirmAge(isAdult) {
-    if (!isAdult) {
-      alert("You must be 18 or older to use Gaaji.");
-      location.reload();
-      return;
-    }
+  function enterChat() {
     window.location.href = "chat.html";
   }
 
-  /* Dummy online users (replace with backend later) */
+  function denyAge() {
+    alert("You must be 18+ to use Gaaji");
+    location.reload();
+  }
+
+  /* Real count will come from backend later */
   document.getElementById("onlineCount").innerText =
-    Math.floor(Math.random() * 200) + 20;
+    Math.floor(Math.random() * 300) + 50;
 </script>
 
 </body>
