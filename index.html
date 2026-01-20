@@ -8,8 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Omingle is a fun place to meet new people through random one-on-one video chat. 18+ only." />
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9679829588405995"
-     crossorigin="anonymous"></script>
+  <!-- Ads (unchanged) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9679829588405995" crossorigin="anonymous"></script>
+
+  <!-- Favicon (optional, if you added it) -->
+  <link rel="icon" href="omingle-favicon.svg" type="image/svg+xml" />
 
   <style>
     body {
@@ -52,7 +55,15 @@
       background: #1a1a1a;
     }
 
-    button {
+    .cta {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .cta button {
       background: #ff0055;
       color: white;
       border: none;
@@ -64,7 +75,11 @@
       max-width: 300px;
     }
 
-    button:hover {
+    .cta button.secondary {
+      background: #2a2a2a;
+    }
+
+    .cta button:hover {
       opacity: 0.9;
     }
 
@@ -134,7 +149,7 @@
   <h1>Omingle</h1>
 
   <div class="tagline">
-    A fun place to meet strangers & talk freely
+    A fun place to meet strangers &amp; talk freely
   </div>
 
   <div class="fun-tags">
@@ -143,15 +158,21 @@
     <span>🎧 Chill Conversations</span>
     <span>💬 Random Chats</span>
     <span>😄 Just for Fun</span>
-  </ton>
+  </div>
+
+  <!-- ✅ Add clear options to proceed -->
+  <div class="cta">
+    <button onclick="startFlow('video')">Start Video Chat</button>
+    <button class="secondary" onclick="startFlow('text')">Start Text Chat</button>
+  </div>
 
   <div class="online">
     🔵 <span id="onlineCount">0</span> users online
   </div>
 
   <div class="links">
-    #Terms & Conditions</a> |
-    #Privacy Policy</a> |
+    <a href="#" onclick="showModal('termsModal')">Terms &amp; Conditions</a> |
+    <a href="#" onclick="showModal('privacyModal')">Privacy Policy</a> |
     <a href="#" onclick="showModal('communityModal')">Community Guidelines</a> |
     <a href="mailto:busineesman717@gmail.com">Contact</a>
   </div>
@@ -164,7 +185,7 @@
 <!-- TERMS MODAL -->
 <div id="termsModal" class="modal">
   <div class="modal-content">
-    <h2>Terms & Conditions</h2>
+    <h2>Terms &amp; Conditions</h2>
     <p>
       Omingle is an 18+ platform created for entertainment and social interaction.
       By using Omingle, you agree that:
@@ -217,7 +238,7 @@
 
     <label>
       <input type="checkbox" id="agreeAll" />
-      I have read and agree to the Terms, Privacy Policy & Community Guidelines
+      I have read and agree to the Terms, Privacy Policy &amp; Community Guidelines
     </label>
 
     <br><br>
@@ -237,6 +258,8 @@
 </div>
 
 <script>
+  let selectedMode = "video"; // "video" or "text"
+
   function showModal(id) {
     document.getElementById(id).style.display = "block";
   }
@@ -245,7 +268,9 @@
     document.getElementById(id).style.display = "none";
   }
 
-  function openTerms() {
+  // Called by the two buttons
+  function startFlow(mode) {
+    selectedMode = mode;
     showModal("flowModal");
   }
 
@@ -259,7 +284,9 @@
   }
 
   function enterChat() {
-    window.location.href = "chat.html";
+    // Navigate to chat with mode as a query param (use it in chat.html if needed)
+    // e.g., chat.html?mode=video or chat.html?mode=text
+    window.location.href = "chat.html?mode=" + encodeURIComponent(selectedMode);
   }
 
   function denyAge() {
@@ -267,6 +294,7 @@
     location.reload();
   }
 
+  // Fake online count (replace later with backend)
   document.getElementById("onlineCount").innerText =
     Math.floor(Math.random() * 300) + 50;
 </script>
