@@ -6,129 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    :root {
-      --bg: #0e0e0e;
-      --panel: #141414;
-      --primary: #ff0055;
-      --muted: #bdbdbd;
-    }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      height: 100dvh; /* mobile safe viewport */
-      display: flex;
-      flex-direction: column;
-    }
+    :root { --bg:#0e0e0e; --panel:#141414; --primary:#ff0055; --muted:#bdbdbd; }
+    body { margin:0; background:var(--bg); color:#fff; font-family:Arial, Helvetica, sans-serif; height:100dvh; display:flex; flex-direction:column; }
 
-    header {
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #101010;
-      border-bottom: 1px solid #1f1f1f;
-    }
-    header .brand {
-      color: var(--primary);
-      font-weight: 700;
-      letter-spacing: 0.3px;
-    }
-    header .status {
-      color: var(--muted);
-      font-size: 13px;
-    }
+    header { padding:12px 16px; display:flex; align-items:center; justify-content:space-between; background:#101010; border-bottom:1px solid #1f1f1f; }
+    header .brand { color:var(--primary); font-weight:700; letter-spacing:0.3px; }
+    header .status { color:var(--muted); font-size:13px; }
 
-    .wrapper {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr auto;
-      gap: 10px;
-      padding: 10px;
-      max-width: 1100px;
-      margin: 0 auto;
-      width: 100%;
-    }
+    .wrapper { flex:1; display:grid; grid-template-columns:1fr; grid-template-rows:1fr auto; gap:10px; padding:10px; max-width:1100px; margin:0 auto; width:100%; }
 
-    /* Video area */
     .videos {
-      background: var(--panel);
-      border: 1px solid #242424;
-      border-radius: 12px;
-      padding: 10px;
-      display: grid;
-      gap: 10px;
-
-      /* MOBILE DEFAULT: stacked (receiver top, you bottom) */
-      grid-template-rows: 1fr 220px;
-      grid-template-columns: 1fr;
+      background:var(--panel); border:1px solid #242424; border-radius:12px; padding:10px;
+      display:grid; gap:10px;
+      /* MOBILE: stacked */
+      grid-template-rows: 1fr 220px; grid-template-columns:1fr;
     }
 
-    .video-box {
-      position: relative;
-      background: #000;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background: #000;
-      display: block;
-    }
-    .label {
-      position: absolute;
-      left: 10px;
-      bottom: 10px;
-      background: rgba(0,0,0,0.6);
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      border: 1px solid rgba(255,255,255,0.12);
-    }
+    .video-box { position:relative; background:#000; border-radius:10px; overflow:hidden; }
+    video { width:100%; height:100%; object-fit:cover; background:#000; display:block; }
+    .label { position:absolute; left:10px; bottom:10px; background:rgba(0,0,0,0.6); padding:4px 8px; border-radius:6px; font-size:12px; border:1px solid rgba(255,255,255,0.12); }
 
-    /* Controls row */
     .controls {
-      background: var(--panel);
-      border: 1px solid #242424;
-      border-radius: 12px;
-      padding: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
+      background:var(--panel); border:1px solid #242424; border-radius:12px; padding:10px;
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center;
     }
-    .btn {
-      background: #222;
-      color: #fff;
-      border: 1px solid #333;
-      padding: 10px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .btn.primary {
-      background: var(--primary);
-      border-color: #ff2a71;
-    }
-    .btn:hover {
-      opacity: 0.92;
-    }
+    .btn { background:#222; color:#fff; border:1px solid #333; padding:10px 14px; border-radius:8px; cursor:pointer; font-size:14px; }
+    .btn.primary { background:var(--primary); border-color:#ff2a71; }
+    .btn:hover { opacity:0.92; }
 
-    /* DESKTOP/TABLET: side-by-side (receiver left, you right) */
+    /* DESKTOP: side-by-side */
     @media (min-width: 769px) {
-      .wrapper {
-        grid-template-rows: 1fr auto;
-      }
-      .videos {
-        grid-template-columns: 2fr 1.2fr;
-        grid-template-rows: 1fr;
-        align-items: stretch;
-      }
+      .videos { grid-template-columns: 2fr 1.2fr; grid-template-rows:1fr; }
     }
   </style>
 </head>
@@ -146,8 +54,7 @@
       <video id="remoteVideo" autoplay playsinline></video>
       <div class="label">Receiver</div>
     </div>
-
-    <!-- You (caller/local) -->
+    <!-- You (local) -->
     <div class="video-box" id="localBox">
       <video id="localVideo" autoplay playsinline muted></video>
       <div class="label">You</div>
@@ -169,30 +76,60 @@
   const modeStatus = document.getElementById('modeStatus');
   modeStatus.textContent = mode === 'text' ? 'Text Chat' : 'Video Chat';
 
-  // Basic camera setup for local preview (replace with your WebRTC/signal flow)
+  const localVideo = document.getElementById('localVideo');
+  const remoteVideo = document.getElementById('remoteVideo');
+
   let localStream;
   let micEnabled = true;
   let camEnabled = true;
 
+  // Peer connections for loopback demo
+  let pc1, pc2;
+
   async function initLocal() {
-    if (mode !== 'video') return; // If text mode, you may hide videos and show text UI
+    if (mode !== 'video') return;
+
     try {
       localStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'user' },
         audio: true
       });
-      document.getElementById('localVideo').srcObject = localStream;
+      localVideo.srcObject = localStream;
 
-      // TODO: set up RTCPeerConnection, add tracks, signaling, and attach remote:
-      // const pc = new RTCPeerConnection(iceServers);
-      // localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
-      // pc.ontrack = (e) => { remoteVideo.srcObject = e.streams[0]; };
-
+      // Start loopback so "Receiver" displays for testing
+      await startLoopback(localStream);
     } catch (err) {
       console.error('Camera/Mic error:', err);
       modeStatus.textContent = 'Permissions needed for camera/mic';
       alert('Please allow camera and microphone to start the video chat.');
     }
+  }
+
+  async function startLoopback(stream) {
+    const iceConfig = { iceServers: [{ urls: ['stun:stun.l.google.com:19302'] }] };
+
+    pc1 = new RTCPeerConnection(iceConfig);
+    pc2 = new RTCPeerConnection(iceConfig);
+
+    stream.getTracks().forEach(t => pc1.addTrack(t, stream));
+
+    pc2.ontrack = (ev) => {
+      const [remoteStream] = ev.streams;
+      remoteVideo.srcObject = remoteStream;
+    };
+
+    pc1.onicecandidate = (e) => e.candidate && pc2.addIceCandidate(e.candidate).catch(console.error);
+    pc2.onicecandidate = (e) => e.candidate && pc1.addIceCandidate(e.candidate).catch(console.error);
+
+    const offer = await pc1.createOffer({ offerToReceiveAudio: true, offerToReceiveVideo: true });
+    await pc1.setLocalDescription(offer);
+    await pc2.setRemoteDescription(offer);
+
+    const answer = await pc2.createAnswer();
+    await pc2.setLocalDescription(answer);
+    await pc1.setRemoteDescription(answer);
+
+    modeStatus.textContent = 'Connected (demo loopback)';
   }
 
   // Controls
@@ -211,19 +148,31 @@
   });
 
   document.getElementById('endBtn').addEventListener('click', () => {
-    // Clean up and go back to home
-    if (localStream) {
-      localStream.getTracks().forEach(t => t.stop());
-    }
+    cleanup();
     window.location.href = 'index.html';
   });
 
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    // TODO: integrate with your matching backend to fetch next peer
-    // For now, just show a temp message
+  document.getElementById('nextBtn').addEventListener('click', async () => {
     modeStatus.textContent = 'Finding next match...';
-    setTimeout(() => modeStatus.textContent = mode === 'text' ? 'Text Chat' : 'Video Chat', 1500);
+    await cleanupPeerConnections();
+    await startLoopback(localStream);
+    modeStatus.textContent = 'Connected (demo loopback)';
   });
+
+  function cleanupPeerConnections() {
+    try { pc1 && pc1.close(); } catch {}
+    try { pc2 && pc2.close(); } catch {}
+    pc1 = pc2 = null;
+  }
+
+  function cleanup() {
+    cleanupPeerConnections();
+    if (localStream) localStream.getTracks().forEach(t => t.stop());
+    localVideo.srcObject = null;
+    remoteVideo.srcObject = null;
+  }
+
+  window.addEventListener('beforeunload', cleanup);
 
   // Kick off
   initLocal();
