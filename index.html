@@ -7,152 +7,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Omingle is a fun place to meet new people through random one-on-one video chat. 18+ only." />
 
-  <!-- Ads (unchanged) -->
+  <!-- Ads (optional; keep if you use it) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9679829588405995" crossorigin="anonymous"></script>
 
-  <!-- Favicon -->
+  <!-- Favicon (optional) -->
   <link rel="icon" href="omingle-favicon.svg" type="image/svg+xml" />
 
   <style>
-    body {
-      margin: 0;
-      background: #0e0e0e;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    .container {
-      max-width: 520px;
-      margin: 120px auto 40px;
-      padding: 0 15px;
-    }
-    h1 {
-      font-size: 44px;
-      color: #ff0055;
-      margin-bottom: 10px;
-    }
-    .tagline {
-      font-size: 18px;
-      opacity: 0.9;
-      margin-bottom: 20px;
-    }
-    .fun-tags {
-      font-size: 14px;
-      opacity: 0.8;
-      margin-bottom: 25px;
-    }
-    .fun-tags span {
-      display: inline-block;
-      margin: 4px 6px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: #1a1a1a;
-    }
-    .cta {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: center;
-      margin: 20px 0;
-    }
-    .cta button {
-      background: #ff0055;
-      color: white;
-      border: none;
-      padding: 14px 26px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      max-width: 300px;
-    }
-    .cta button.secondary {
-      background: #2a2a2a;
-    }
-    .cta button:hover {
-      opacity: 0.9;
-    }
-    .online {
-      margin-top: 15px;
-      font-size: 14px;
-      opacity: 0.8;
-    }
-    .links {
-      margin-top: 30px;
-      font-size: 13px;
-      opacity: 0.85;
-    }
-    .links a {
-      color: #aaa;
-      text-decoration: none;
-      margin: 0 6px;
-    }
-    .links a:hover {
-      text-decoration: underline;
-    }
-    .footer {
-      margin-top: 25px;
-      font-size: 12px;
-      opacity: 0.6;
-    }
+    body { margin:0; background:#0e0e0e; color:#fff; font-family:Arial, sans-serif; text-align:center; }
+    .container { max-width:520px; margin:120px auto 40px; padding:0 15px; }
+    h1 { font-size:44px; color:#ff0055; margin-bottom:10px; }
+    .tagline { font-size:18px; opacity:0.9; margin-bottom:20px; }
+    .fun-tags { font-size:14px; opacity:0.8; margin-bottom:25px; }
+    .fun-tags span { display:inline-block; margin:4px 6px; padding:4px 10px; border-radius:20px; background:#1a1a1a; }
+    .cta { display:flex; flex-direction:column; gap:10px; align-items:center; margin:20px 0; }
+    .cta button { background:#ff0055; color:#fff; border:none; padding:14px 26px; font-size:16px; border-radius:8px; cursor:pointer; width:100%; max-width:300px; }
+    .cta button.secondary { background:#2a2a2a; }
+    .cta button:hover { opacity:0.9; }
+    .online { margin-top:15px; font-size:14px; opacity:0.8; }
+    .links { margin-top:30px; font-size:13px; opacity:0.85; }
+    .links a { color:#aaa; text-decoration:none; margin:0 6px; }
+    .links a:hover { text-decoration:underline; }
+    .footer { margin-top:25px; font-size:12px; opacity:0.6; }
 
-    /* Modal (shared) */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      z-index: 999;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    .modal-content {
-      background: #111;
-      margin: 40px auto;
-      padding: 20px;
-      width: 92%;
-      max-width: 780px;
-      border-radius: 10px;
-      text-align: left;
-      line-height: 1.55;
-    }
-    .modal-content h2, .modal-content h3 {
-      color: #ff0055;
-      margin-top: 0.6em;
-    }
-    .modal-content p, .modal-content li {
-      color: #ddd;
-    }
-    .modal-content button {
-      width: 100%;
-      margin-top: 15px;
-      background: #ff0055;
-      color: #fff;
-      border: none;
-      padding: 12px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .close-top {
-      text-align: right;
-      margin: -10px -10px 10px 0;
-    }
-    .close-top button {
-      width: auto;
-      background: #2a2a2a;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 13px;
-    }
+    /* Modal */
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:999; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+    .modal-content { background:#111; margin:40px auto; padding:20px; width:92%; max-width:780px; border-radius:10px; text-align:left; line-height:1.55; }
+    .modal-content h2,.modal-content h3 { color:#ff0055; margin-top:0.6em; }
+    .modal-content p,.modal-content li { color:#ddd; }
+    .modal-content button { width:100%; margin-top:15px; background:#ff0055; color:#fff; border:none; padding:12px 16px; border-radius:8px; cursor:pointer; }
+    .close-top { text-align:right; margin:-10px -10px 10px 0; }
+    .close-top button { width:auto; background:#2a2a2a; padding:6px 10px; border-radius:6px; font-size:13px; }
 
-    /* Under-18 popup specific */
-    .danger {
-      background: #1a0b0e;
-      border: 1px solid #ff335c;
-    }
-    .danger h2 {
-      color: #ff335c;
-    }
+    /* Under-18 special style */
+    .danger { background:#1a0b0e; border:1px solid #ff335c; }
+    .danger h2 { color:#ff335c; }
   </style>
 </head>
 <body>
@@ -160,9 +49,7 @@
 <div class="container">
   <h1>Omingle</h1>
 
-  <div class="tagline">
-    A fun place to meet strangers &amp; talk freely
-  </div>
+  <div class="tagline">A fun place to meet strangers &amp; talk freely</div>
 
   <div class="fun-tags">
     <span>🎭 Funny Talks</span>
@@ -172,15 +59,12 @@
     <span>😄 Just for Fun</span>
   </div>
 
-  <!-- Options to proceed -->
   <div class="cta">
     <button onclick="startFlow('video')">Start Video Chat</button>
     <button class="secondary" onclick="startFlow('text')">Start Text Chat</button>
   </div>
 
-  <div class="online">
-    🔵 <span id="onlineCount">0</span> users online
-  </div>
+  <div class="online">🔵 <span id="onlineCount">0</span> users online</div>
 
   <div class="links">
     <a href="#" onclick="showModal('termsModal')">Terms &amp; Conditions</a> |
@@ -190,68 +74,59 @@
     <a href="mailto:busineesman717@gmail.com">Contact</a>
   </div>
 
-  <div class="footer">
-    © 2026 Omingle · 18+ Only · For Entertainment Purposes
-  </div>
+  <div class="footer">© 2026 Omingle · 18+ Only · For Entertainment Purposes</div>
 </div>
 
-<!-- TERMS MODAL (unchanged content) -->
+<!-- TERMS MODAL -->
 <div id="termsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('termsModal')">Close ✕</button></div>
     <h2 id="termsTitle">Omingle – Terms &amp; Conditions</h2>
-    <!-- ... your existing terms content ... -->
-    <p>
-      Welcome to <strong>Omingle</strong>, an online platform that connects users for random one‑on‑one conversations through video, audio, and text. By accessing or using Omingle...
-    </p>
-    <!-- (keep rest of your terms content as-is) -->
+    <!-- Paste your full Terms content here (you already have it) -->
     <button onclick="closeModal('termsModal')">Close</button>
   </div>
 </div>
 
-<!-- PRIVACY MODAL (unchanged content) -->
+<!-- PRIVACY MODAL -->
 <div id="privacyModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('privacyModal')">Close ✕</button></div>
     <h2 id="privacyTitle">Omingle – Privacy Policy</h2>
-    <!-- ... your existing privacy content ... -->
+    <!-- Paste your full Privacy content here -->
     <button onclick="closeModal('privacyModal')">Close</button>
   </div>
 </div>
 
-<!-- COMMUNITY GUIDELINES MODAL (unchanged content) -->
+<!-- COMMUNITY GUIDELINES MODAL -->
 <div id="communityModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="communityTitle">
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('communityModal')">Close ✕</button></div>
     <h2 id="communityTitle">Omingle – Community Guidelines</h2>
-    <!-- ... your existing guidelines content ... -->
+    <!-- Paste your full Guidelines content here -->
     <button onclick="closeModal('communityModal')">Close</button>
   </div>
 </div>
 
-<!-- LEGAL / DISCLAIMER MODAL (unchanged content) -->
+<!-- LEGAL / DISCLAIMER MODAL -->
 <div id="legalModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('legalModal')">Close ✕</button></div>
     <h2 id="legalTitle">Omingle – Legal Disclaimer &amp; Refund Policy</h2>
-    <!-- ... your existing legal content ... -->
+    <!-- Paste your full Legal content here -->
     <button onclick="closeModal('legalModal')">Close</button>
   </div>
 </div>
 
-<!-- AGE & TERMS FLOW -->
+<!-- FLOW: Agreement then Age -->
 <div id="flowModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="flowTitle">
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('flowModal')">Close ✕</button></div>
     <h2 id="flowTitle">Before You Continue</h2>
-
     <label>
       <input type="checkbox" id="agreeAll" />
       I have read and agree to the Terms, Privacy Policy &amp; Community Guidelines
     </label>
-
     <br><br>
-
     <button onclick="verifyAge()">Continue</button>
   </div>
 </div>
@@ -261,20 +136,17 @@
     <div class="close-top"><button onclick="closeModal('ageModal')">Close ✕</button></div>
     <h2 id="ageTitle">Age Verification</h2>
     <p>This platform is strictly for users aged 18 or older.</p>
-
     <button onclick="enterChat()">I am 18 or older</button>
     <button onclick="denyAge()" style="background:#444;">I am under 18</button>
   </div>
 </div>
 
-<!-- ✅ UNDER 18 REJECTION POPUP -->
+<!-- UNDER 18 REJECTION POPUP -->
 <div id="under18Modal" class="modal" role="alertdialog" aria-modal="true" aria-labelledby="under18Title">
   <div class="modal-content danger">
     <div class="close-top"><button onclick="closeModal('under18Modal')">Close ✕</button></div>
     <h2 id="under18Title">Access Denied – 18+ Only</h2>
-    <p>
-      Omingle is restricted to users aged 18 and above. Your access is blocked. If this is an error, please return when you meet the age requirement.
-    </p>
+    <p>Omingle is restricted to users aged 18 and above. Your access is blocked. Please return when you meet the age requirement.</p>
     <button onclick="reloadFromUnder18()">OK</button>
   </div>
 </div>
@@ -282,12 +154,8 @@
 <script>
   let selectedMode = "video"; // "video" or "text"
 
-  function showModal(id) {
-    document.getElementById(id).style.display = "block";
-  }
-  function closeModal(id) {
-    document.getElementById(id).style.display = "none";
-  }
+  function showModal(id) { document.getElementById(id).style.display = "block"; }
+  function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
   function startFlow(mode) {
     selectedMode = mode;
@@ -304,24 +172,21 @@
   }
 
   function enterChat() {
-    // Navigate to chat with mode as a query param (use it in chat.html)
     window.location.href = "chat.html?mode=" + encodeURIComponent(selectedMode);
   }
 
-  // ✅ Show a proper popup for under-18 rejection
   function denyAge() {
     closeModal("ageModal");
     showModal("under18Modal");
   }
+
   function reloadFromUnder18() {
     closeModal("under18Modal");
-    // Reload to reset state
     location.reload();
   }
 
-  // Fake online count (replace later with backend)
-  document.getElementById("onlineCount").innerText =
-    Math.floor(Math.random() * 300) + 50;
+  // Fake online count
+  document.getElementById("onlineCount").innerText = Math.floor(Math.random() * 300) + 50;
 </script>
 
 </body>
