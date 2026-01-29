@@ -1,114 +1,233 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Omingle – Video Chat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>Omingle – Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+    :root {
+      --bg: #0e0e0e;
+      --panel: #141414;
+      --primary: #ff0055;
+      --muted: #bdbdbd;
+    }
     body {
       margin: 0;
-      background: #0e0e0e;
+      background: var(--bg);
       color: #fff;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
+      height: 100dvh; /* mobile safe viewport */
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #101010;
+      border-bottom: 1px solid #1f1f1f;
+    }
+    header .brand {
+      color: var(--primary);
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    header .status {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .wrapper {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+      gap: 10px;
+      padding: 10px;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Video area */
+    .videos {
+      background: var(--panel);
+      border: 1px solid #242424;
+      border-radius: 12px;
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+
+      /* MOBILE DEFAULT: stacked (receiver top, you bottom) */
+      grid-template-rows: 1fr 220px;
+      grid-template-columns: 1fr;
+    }
+
+    .video-box {
+      position: relative;
+      background: #000;
+      border-radius: 10px;
       overflow: hidden;
     }
-
-    .videos {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: black;
-      z-index: 0; /* base layer */
-    }
-
-    #remote {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      background: black;
-      z-index: 0;
-    }
-
-    #local {
-      position: absolute;
-      bottom: 110px; right: 10px;
-      width: 120px; height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
-      border: 2px solid white;
-      background: black;
-      z-index: 1;
-    }
-
-    #messages {
-      position: fixed;
-      bottom: 70px; left: 10px;
-      max-height: 120px; width: 90%;
-      overflow-y: auto;
-      font-size: 14px;
-      z-index: 10; /* above videos */
-    }
-
-    .controls {
-      position: fixed;
-      bottom: 10px; left: 0;
+    video {
       width: 100%;
-      text-align: center;
-      z-index: 20; /* top-most */
-      /* Optional readability */
-      backdrop-filter: blur(6px);
-      background: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0));
-      padding-bottom: 6px;
+      height: 100%;
+      object-fit: cover;
+      background: #000;
+      display: block;
+    }
+    .label {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      background: rgba(0,0,0,0.6);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
     }
 
-    .controls input {
-      width: 60%;
-      padding: 8px;
-      border-radius: 5px;
-      border: none;
+    /* Controls row */
+    .controls {
+      background: var(--panel);
+      border: 1px solid #242424;
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
     }
-
-    .controls button {
-      padding: 8px 10px;
-      margin: 4px;
-      border: none;
-      border-radius: 5px;
-      background: #ff0055;
-      color: white;
+    .btn {
+      background: #222;
+      color: #fff;
+      border: 1px solid #333;
+      padding: 10px 14px;
+      border-radius: 8px;
       cursor: pointer;
+      font-size: 14px;
+    }
+    .btn.primary {
+      background: var(--primary);
+      border-color: #ff2a71;
+    }
+    .btn:hover {
+      opacity: 0.92;
+    }
+
+    /* DESKTOP/TABLET: side-by-side (receiver left, you right) */
+    @media (min-width: 769px) {
+      .wrapper {
+        grid-template-rows: 1fr auto;
+      }
+      .videos {
+        grid-template-columns: 2fr 1.2fr;
+        grid-template-rows: 1fr;
+        align-items: stretch;
+      }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- VIDEO AREA -->
-  <div class="videos">
-    <!-- Stranger video -->
-    <video id="remote" autoplay playsinline></video>
+<header>
+  <div class="brand">Omingle</div>
+  <div class="status" id="modeStatus">Connecting…</div>
+</header>
 
-    <!-- Your video (MUTED to avoid echo) -->
-    <video id="local" autoplay muted playsinline></video>
-  </div>
+<main class="wrapper" role="main">
+  <section class="videos" aria-label="Video chat area">
+    <!-- Receiver (remote) -->
+    <div class="video-box" id="remoteBox">
+      <video id="remoteVideo" autoplay playsinline></video>
+      <div class="label">Receiver</div>
+    </div>
 
-  <!-- CHAT + CONTROLS -->
-  <div id="messages"></div>
+    <!-- You (caller/local) -->
+    <div class="video-box" id="localBox">
+      <video id="localVideo" autoplay playsinline muted></video>
+      <div class="label">You</div>
+    </div>
+  </section>
 
-  <div class="controls">
-    <input id="text" placeholder="Type message…" />
-    <br />
-    <button onclick="send()">Send</button>
-    <button onclick="toggleMic()">Mic</button>
-    <button onclick="toggleCam()">Cam</button>
-    <button onclick="report()">Report</button>
-    <button onclick="next()">Next</button>
-  </div>
+  <section class="controls" aria-label="Call controls">
+    <button class="btn" id="muteBtn">Mute</button>
+    <button class="btn" id="camBtn">Camera Off</button>
+    <button class="btn" id="nextBtn">Next</button>
+    <button class="btn primary" id="endBtn">End</button>
+  </section>
+</main>
 
-  <!-- SOCKET.IO -->
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script>
+  // Read mode from query (?mode=video|text)
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get('mode') || 'video';
+  const modeStatus = document.getElementById('modeStatus');
+  modeStatus.textContent = mode === 'text' ? 'Text Chat' : 'Video Chat';
 
-  <!-- YOUR WEBRTC LOGIC -->
-  <script src="app.js"></script>
+  // Basic camera setup for local preview (replace with your WebRTC/signal flow)
+  let localStream;
+  let micEnabled = true;
+  let camEnabled = true;
+
+  async function initLocal() {
+    if (mode !== 'video') return; // If text mode, you may hide videos and show text UI
+    try {
+      localStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user' },
+        audio: true
+      });
+      document.getElementById('localVideo').srcObject = localStream;
+
+      // TODO: set up RTCPeerConnection, add tracks, signaling, and attach remote:
+      // const pc = new RTCPeerConnection(iceServers);
+      // localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
+      // pc.ontrack = (e) => { remoteVideo.srcObject = e.streams[0]; };
+
+    } catch (err) {
+      console.error('Camera/Mic error:', err);
+      modeStatus.textContent = 'Permissions needed for camera/mic';
+      alert('Please allow camera and microphone to start the video chat.');
+    }
+  }
+
+  // Controls
+  document.getElementById('muteBtn').addEventListener('click', () => {
+    if (!localStream) return;
+    micEnabled = !micEnabled;
+    localStream.getAudioTracks().forEach(t => t.enabled = micEnabled);
+    document.getElementById('muteBtn').textContent = micEnabled ? 'Mute' : 'Unmute';
+  });
+
+  document.getElementById('camBtn').addEventListener('click', () => {
+    if (!localStream) return;
+    camEnabled = !camEnabled;
+    localStream.getVideoTracks().forEach(t => t.enabled = camEnabled);
+    document.getElementById('camBtn').textContent = camEnabled ? 'Camera Off' : 'Camera On';
+  });
+
+  document.getElementById('endBtn').addEventListener('click', () => {
+    // Clean up and go back to home
+    if (localStream) {
+      localStream.getTracks().forEach(t => t.stop());
+    }
+    window.location.href = 'index.html';
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    // TODO: integrate with your matching backend to fetch next peer
+    // For now, just show a temp message
+    modeStatus.textContent = 'Finding next match...';
+    setTimeout(() => modeStatus.textContent = mode === 'text' ? 'Text Chat' : 'Video Chat', 1500);
+  });
+
+  // Kick off
+  initLocal();
+</script>
+
 </body>
 </html>
