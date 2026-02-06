@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,49 +8,174 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Omingle is a fun place to meet new people through random one-on-one video chat. 18+ only." />
 
-  <!-- Ads (optional; keep if you use it) -->
+  <!-- Ads (unchanged) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9679829588405995" crossorigin="anonymous"></script>
 
-  <!-- Favicon (optional) -->
+  <!-- Favicon (optional, if you added it) -->
   <link rel="icon" href="omingle-favicon.svg" type="image/svg+xml" />
 
   <style>
-    body { margin:0; background:#0e0e0e; color:#fff; font-family:Arial, sans-serif; text-align:center; }
-    .container { max-width:520px; margin:120px auto 40px; padding:0 15px; }
-    h1 { font-size:44px; color:#ff0055; margin-bottom:10px; }
-    .tagline { font-size:18px; opacity:0.9; margin-bottom:20px; }
-    .fun-tags { font-size:14px; opacity:0.8; margin-bottom:25px; }
-    .fun-tags span { display:inline-block; margin:4px 6px; padding:4px 10px; border-radius:20px; background:#1a1a1a; }
-    .cta { display:flex; flex-direction:column; gap:10px; align-items:center; margin:20px 0; }
-    .cta button { background:#ff0055; color:#fff; border:none; padding:14px 26px; font-size:16px; border-radius:8px; cursor:pointer; width:100%; max-width:300px; }
-    .cta button.secondary { background:#2a2a2a; }
-    .cta button:hover { opacity:0.9; }
-    .online { margin-top:15px; font-size:14px; opacity:0.8; }
-    .links { margin-top:30px; font-size:13px; opacity:0.85; }
-    .links a { color:#aaa; text-decoration:none; margin:0 6px; }
-    .links a:hover { text-decoration:underline; }
-    .footer { margin-top:25px; font-size:12px; opacity:0.6; }
+    body {
+      margin: 0;
+      background: #0e0e0e;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
 
-    /* Modal */
-    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:999; overflow-y:auto; -webkit-overflow-scrolling:touch; }
-    .modal-content { background:#111; margin:40px auto; padding:20px; width:92%; max-width:780px; border-radius:10px; text-align:left; line-height:1.55; }
-    .modal-content h2,.modal-content h3 { color:#ff0055; margin-top:0.6em; }
-    .modal-content p,.modal-content li { color:#ddd; }
-    .modal-content button { width:100%; margin-top:15px; background:#ff0055; color:#fff; border:none; padding:12px 16px; border-radius:8px; cursor:pointer; }
-    .close-top { text-align:right; margin:-10px -10px 10px 0; }
-    .close-top button { width:auto; background:#2a2a2a; padding:6px 10px; border-radius:6px; font-size:13px; }
+    .container {
+      max-width: 520px;
+      margin: 120px auto 40px;
+      padding: 0 15px;
+    }
 
-    /* Under-18 special style */
-    .danger { background:#1a0b0e; border:1px solid #ff335c; }
-    .danger h2 { color:#ff335c; }
+    h1 {
+      font-size: 44px;
+      color: #ff0055;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .fun-tags {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 25px;
+    }
+
+    .fun-tags span {
+      display: inline-block;
+      margin: 4px 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #1a1a1a;
+    }
+
+    .cta {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .cta button {
+      background: #ff0055;
+      color: white;
+      border: none;
+      padding: 14px 26px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .cta button.secondary {
+      background: #2a2a2a;
+    }
+
+    .cta button:hover {
+      opacity: 0.9;
+    }
+
+    .online {
+      margin-top: 15px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .links {
+      margin-top: 30px;
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    .links a {
+      color: #aaa;
+      text-decoration: none;
+      margin: 0 6px;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      margin-top: 25px;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    /* Modal (shared) */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 999;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-content {
+      background: #111;
+      margin: 40px auto;
+      padding: 20px;
+      width: 92%;
+      max-width: 780px;
+      border-radius: 10px;
+      text-align: left;
+      line-height: 1.55;
+    }
+
+    .modal-content h2, .modal-content h3 {
+      color: #ff0055;
+      margin-top: 0.6em;
+    }
+
+    .modal-content p, .modal-content li {
+      color: #ddd;
+    }
+
+    .modal-content button {
+      width: 100%;
+      margin-top: 15px;
+      background: #ff0055;
+      color: #fff;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .close-top {
+      text-align: right;
+      margin: -10px -10px 10px 0;
+    }
+
+    .close-top button {
+      width: auto;
+      background: #2a2a2a;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
   </style>
 </head>
+
 <body>
 
 <div class="container">
   <h1>Omingle</h1>
 
-  <div class="tagline">A fun place to meet strangers &amp; talk freely</div>
+  <div class="tagline">
+    A fun place to meet strangers &amp; talk freely
+  </div>
 
   <div class="fun-tags">
     <span>🎭 Funny Talks</span>
@@ -59,12 +185,15 @@
     <span>😄 Just for Fun</span>
   </div>
 
+  <!-- Options to proceed -->
   <div class="cta">
     <button onclick="startFlow('video')">Start Video Chat</button>
     <button class="secondary" onclick="startFlow('text')">Start Text Chat</button>
   </div>
 
-  <div class="online">🔵 <span id="onlineCount">0</span> users online</div>
+  <div class="online">
+    🔵 <span id="onlineCount">0</span> users online
+  </div>
 
   <div class="links">
     <a href="#" onclick="showModal('termsModal')">Terms &amp; Conditions</a> |
@@ -74,7 +203,9 @@
     <a href="mailto:busineesman717@gmail.com">Contact</a>
   </div>
 
-  <div class="footer">© 2026 Omingle · 18+ Only · For Entertainment Purposes</div>
+  <div class="footer">
+    © 2026 Omingle · 18+ Only · For Entertainment Purposes
+  </div>
 </div>
 
 <!-- TERMS MODAL -->
@@ -82,7 +213,88 @@
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('termsModal')">Close ✕</button></div>
     <h2 id="termsTitle">Omingle – Terms &amp; Conditions</h2>
-    <!-- Paste your full Terms content here (you already have it) -->
+
+    <p>
+      Welcome to <strong>Omingle</strong>, an online platform that connects users for random one‑on‑one conversations through video, audio, and text. By accessing or using Omingle, you acknowledge that you have read, understood, and agreed to all the Terms and Conditions listed below. These terms are designed to create a safe, respectful, and enjoyable environment for all users. If you do not agree with any part of these Terms, you must discontinue using the platform immediately.
+    </p>
+
+    <h3>1. Eligibility</h3>
+    <p>
+      Omingle is strictly an <strong>18+ platform</strong>. By using this service, you confirm that you are at least eighteen (18) years old or the age of majority in your jurisdiction. You agree that you will not use Omingle if you are a minor, and you will not allow any minor to access the platform through your device or network. We reserve the right to restrict, suspend, or ban any user who is suspected of being underage or violating these Terms.
+    </p>
+
+    <h3>2. User Responsibilities</h3>
+    <p>When you use Omingle, you are fully responsible for your conduct. You agree to:</p>
+    <ul>
+      <li>Use the platform only for lawful, respectful, and socially appropriate interactions.</li>
+      <li>Avoid any behavior that could harm, offend, or threaten others.</li>
+      <li>Maintain a respectful tone during interactions and comply with community standards.</li>
+      <li>Avoid sharing personal contact information or sensitive data.</li>
+      <li>Understand that all interactions are at your own risk.</li>
+    </ul>
+
+    <h3>3. Prohibited Conduct</h3>
+    <p>To keep Omingle safe for everyone, the following actions are strictly prohibited. Violating any of these rules may result in temporary or permanent bans or technical restrictions:</p>
+    <ul>
+      <li><strong>No nudity or sexual content.</strong></li>
+      <li><strong>No harassment, abuse, threats, or bullying.</strong></li>
+      <li>No hateful, racist, discriminatory, or inciting language.</li>
+      <li>No violent, dangerous, or illegal behavior.</li>
+      <li>No scams, fraud, solicitation, or impersonation.</li>
+      <li>No sharing or requesting sensitive personal data.</li>
+      <li>No recording, screenshotting, or saving conversations.</li>
+    </ul>
+
+    <h3>4. No Recording Policy</h3>
+    <p>
+      You are prohibited from recording, screenshotting, or storing any part of a conversation on Omingle, including video, audio, and text content transmitted through the platform. Recording without consent may violate privacy laws in many regions. We reserve the right to take action against users who violate this policy, including banning or reporting them to appropriate authorities when required by law.
+    </p>
+
+    <h3>5. Privacy and Data Handling</h3>
+    <p>
+      Omingle does not store video or audio content from calls. Conversations are conducted using secure peer‑to‑peer technology wherever possible. We may store minimal metadata such as connection times, IP information, and violation reports for security, abuse prevention, and service improvement. By using Omingle, you agree to our Privacy Policy and consent to reasonable data processing needed to operate the platform.
+    </p>
+
+    <h3>6. Random Matching &amp; Risk</h3>
+    <p>
+      Omingle uses anonymous, automated random matching. You accept that you do not control which users you are connected with and that the platform is not responsible for the actions, language, or behavior of others. If another user behaves inappropriately, you may disconnect or use the <strong>Report</strong> feature.
+    </p>
+
+    <h3>7. Reporting &amp; Enforcement</h3>
+    <p>
+      Users are encouraged to report inappropriate or rule‑breaking behavior. Reported users may be investigated, restricted, or permanently banned. Omingle may use automated systems or manual review to enforce community standards. Enforcement decisions are final and at Omingle’s sole discretion.
+    </p>
+
+    <h3>8. Risks &amp; Disclaimer</h3>
+    <p>
+      Omingle offers a social interaction experience that may expose you to unexpected behavior from strangers. By using this platform, you acknowledge that you participate voluntarily and at your own risk and that Omingle cannot guarantee the behavior or intentions of other users. The service is provided “as‑is” without warranties of any kind, including uninterrupted availability or error‑free functionality.
+    </p>
+
+    <h3>9. User Blocking &amp; Bans</h3>
+    <p>
+      Omingle may temporarily or permanently ban users for violating rules or engaging in harmful behavior. Banned users may not attempt to bypass restrictions using VPNs, new accounts, proxies, or alternate devices.
+    </p>
+
+    <h3>10. Changes to the Service</h3>
+    <p>
+      We may modify, pause, update, or discontinue features at any time. Terms may be updated occasionally, and it is your responsibility to review them. Continued use indicates acceptance of changes.
+    </p>
+
+    <h3>11. Limitation of Liability</h3>
+    <p>
+      To the maximum extent permitted by law, Omingle, its creators, partners, and affiliates are not liable for indirect or consequential damages arising from your use of the platform, interactions with users, unauthorized access, data loss, or technical failures.
+    </p>
+
+    <h3>12. Termination</h3>
+    <p>
+      We reserve the right to terminate or restrict access for any user who violates these Terms. You may stop using the platform at any time; violations may lead to long‑term bans.
+    </p>
+
+    <h3>13. Agreement</h3>
+    <p>
+      By continuing to use Omingle, you confirm that you have read, understood, and accepted these Terms &amp; Conditions, and that you will use the platform responsibly, respectfully, and lawfully.
+    </p>
+
     <button onclick="closeModal('termsModal')">Close</button>
   </div>
 </div>
@@ -92,7 +304,96 @@
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('privacyModal')">Close ✕</button></div>
     <h2 id="privacyTitle">Omingle – Privacy Policy</h2>
-    <!-- Paste your full Privacy content here -->
+
+    <p>
+      This Privacy Policy explains how <strong>Omingle</strong> (“we,” “our,” or “the platform”) collects, uses, and protects your information when you access or use our random video chat and messaging services. By using Omingle, you agree to the practices described here. If you do not agree, please discontinue use immediately.
+    </p>
+
+    <h3>1. Introduction</h3>
+    <p>
+      Omingle provides anonymous, real‑time communication between users via video, audio, and text. We prioritize user privacy and collect the minimum data necessary to operate safely and effectively.
+    </p>
+
+    <h3>2. Information We Do NOT Collect</h3>
+    <ul>
+      <li>We do not store video or audio recordings.</li>
+      <li>We do not store chat content.</li>
+      <li>We do not require accounts, passwords, profile data, or photos.</li>
+      <li>We do not collect biometric identifiers.</li>
+    </ul>
+
+    <h3>3. Information We Collect Automatically</h3>
+    <ul>
+      <li>IP address (for security, matching, and abuse prevention)</li>
+      <li>Browser and device information, OS, and network data</li>
+      <li>Connection timestamps and basic session metadata</li>
+      <li>Approximate region (city/state level)</li>
+    </ul>
+
+    <h3>4. Information You Provide Voluntarily</h3>
+    <p>
+      If you contact us via email for support, we will receive your email address and message content solely to respond to you. We do not sell or share this information for advertising.
+    </p>
+
+    <h3>5. Purpose of Processing</h3>
+    <ul>
+      <li>Enable matching and basic functionality</li>
+      <li>Detect, prevent, and investigate abuse or fraud</li>
+      <li>Improve reliability, performance, and user safety</li>
+      <li>Comply with legal obligations where applicable</li>
+    </ul>
+
+    <h3>6. Cookies and Local Storage</h3>
+    <p>
+      We may use minimal cookies or local storage items for session management, preferences (e.g., theme), and security. We do not use cross‑site tracking or behavioral ads.
+    </p>
+
+    <h3>7. Third‑Party Services</h3>
+    <p>
+      We may rely on trusted third parties (hosting providers, analytics for anonymous metrics, CDNs). These providers must meet strict privacy and security standards. They do not have access to your video/audio content.
+    </p>
+
+    <h3>8. Reporting &amp; Moderation</h3>
+    <p>
+      When you file a report, we may temporarily log the reported user’s IP, time of incident, and a general description to investigate and enforce rules.
+    </p>
+
+    <h3>9. Data Retention</h3>
+    <ul>
+      <li>Session logs: automatically deleted within a short period.</li>
+      <li>Ban records: retained for enforcement only.</li>
+      <li>Support emails: retained until resolved or as required by law.</li>
+    </ul>
+
+    <h3>10. Data Sharing</h3>
+    <p>
+      We do not sell your data. We may disclose limited information if required by a lawful request (e.g., court order) or to prevent imminent harm.
+    </p>
+
+    <h3>11. Security Measures</h3>
+    <ul>
+      <li>Strong encryption and secure transport</li>
+      <li>Firewalls and access controls</li>
+      <li>Regular updates and security reviews</li>
+    </ul>
+
+    <h3>12. Your Rights</h3>
+    <p>
+      Depending on your region, you may request access, deletion, or limitation of your data. Because we store minimal data, requests are typically simple to process. Contact us via the email on the homepage.
+    </p>
+
+    <h3>13. Children’s Privacy</h3>
+    <p>
+      Omingle is for users aged 18 and above. We do not knowingly collect data from minors. If we learn a minor is using the platform, we will remove access.
+    </p>
+
+    <h3>14. Policy Updates</h3>
+    <p>
+      We may update this Privacy Policy periodically. Continued use after changes indicates acceptance.
+    </p>
+
+    <p><strong>Your privacy matters. Thank you for trusting Omingle.</strong></p>
+
     <button onclick="closeModal('privacyModal')">Close</button>
   </div>
 </div>
@@ -102,7 +403,79 @@
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('communityModal')">Close ✕</button></div>
     <h2 id="communityTitle">Omingle – Community Guidelines</h2>
-    <!-- Paste your full Guidelines content here -->
+
+    <p>
+      Omingle is designed for friendly, respectful, and spontaneous conversations with people worldwide. Our goal is to maintain a safe environment where users feel comfortable communicating. These guidelines set expectations for appropriate conduct. By using Omingle, you agree to follow them at all times.
+    </p>
+
+    <h3>1. Be Respectful</h3>
+    <p>
+      Treat others with dignity. Avoid language or actions that may harm, offend, or threaten others. Respect differing viewpoints, backgrounds, identities, and cultures.
+    </p>
+
+    <h3>2. No Hate or Discrimination</h3>
+    <p>
+      Do not engage in hateful or discriminatory speech toward individuals or groups based on race, religion, nationality, gender identity, sexual orientation, disability, or appearance.
+    </p>
+
+    <h3>3. No Harassment or Bullying</h3>
+    <ul>
+      <li>Threats or intimidation</li>
+      <li>Repeated unwanted messages</li>
+      <li>Insults, slurs, or verbal abuse</li>
+      <li>Mocking accents, traits, or disabilities</li>
+      <li>Encouraging harmful behavior</li>
+    </ul>
+
+    <h3>4. No Illegal or Unsafe Activities</h3>
+    <ul>
+      <li>Violence or threats</li>
+      <li>Fraud, scams, or impersonation</li>
+      <li>Drug‑related activity or other unlawful acts</li>
+    </ul>
+
+    <h3>5. Absolutely No Nudity or Sexual Content</h3>
+    <p>
+      Omingle strictly prohibits nudity, sexual behavior, and sexually suggestive acts. This rule protects all users and preserves a safe environment.
+    </p>
+
+    <h3>6. No Recording or Screenshotting</h3>
+    <p>
+      Do not record, screenshot, or save any part of a conversation. Respect everyone’s privacy.
+    </p>
+
+    <h3>7. Protect Personal Information</h3>
+    <p>
+      Do not share or request phone numbers, addresses, emails, bank details, passwords, or private social accounts. Keep conversations anonymous.
+    </p>
+
+    <h3>8. Use the Report Feature Responsibly</h3>
+    <p>
+      Report users who violate rules. Do not abuse the report function to target innocent users.
+    </p>
+
+    <h3>9. Disconnection Etiquette</h3>
+    <p>
+      Users may disconnect at any time. Do not guilt‑trip or harass someone for leaving a chat. Respect boundaries.
+    </p>
+
+    <h3>10. Local Laws</h3>
+    <p>
+      You are responsible for following the laws applicable to your region while using Omingle.
+    </p>
+
+    <h3>11. No Bots or Automation</h3>
+    <p>
+      Automated access, scripts, or bots are prohibited and may lead to permanent bans.
+    </p>
+
+    <h3>12. Repeated Violations</h3>
+    <p>
+      Repeated or severe violations may result in temporary or permanent bans, including network or device restrictions.
+    </p>
+
+    <p><strong>Help us keep Omingle safe, friendly, and enjoyable for everyone.</strong></p>
+
     <button onclick="closeModal('communityModal')">Close</button>
   </div>
 </div>
@@ -112,21 +485,54 @@
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('legalModal')">Close ✕</button></div>
     <h2 id="legalTitle">Omingle – Legal Disclaimer &amp; Refund Policy</h2>
-    <!-- Paste your full Legal content here -->
+
+    <h3>1. General Disclaimer</h3>
+    <p>
+      Omingle is an entertainment platform connecting strangers for live video and text conversations. All interactions occur in real time and may involve unpredictable behavior. Omingle cannot guarantee the identity, conduct, or intentions of any user. You use the platform at your own risk.
+    </p>
+
+    <h3>2. No Professional Advice</h3>
+    <p>
+      Omingle does not provide legal, medical, financial, or professional advice. Any information exchanged between users is opinion and should not be treated as expert guidance.
+    </p>
+
+    <h3>3. No Liability</h3>
+    <p>
+      To the fullest extent permitted by law, Omingle is not responsible for: (a) offensive or harmful behavior by users, (b) emotional distress, (c) lost data or technical failure, (d) scams, fraud, or impersonation, or (e) unauthorized access or misuse by third parties.
+    </p>
+
+    <h3>4. Refund Policy</h3>
+    <p>
+      Omingle is a free platform and does not process payments. Since no purchases, subscriptions, or transactions are charged, there are no refunds to issue.
+    </p>
+
+    <h3>5. Legal Compliance</h3>
+    <p>
+      Users must comply with applicable local, national, and international laws. Violations may result in bans or legal action if necessary.
+    </p>
+
+    <h3>6. Amendments</h3>
+    <p>
+      Omingle may update this legal page at any time. Continued use after changes indicates acceptance.
+    </p>
+
     <button onclick="closeModal('legalModal')">Close</button>
   </div>
 </div>
 
-<!-- FLOW: Agreement then Age -->
+<!-- AGE & TERMS FLOW -->
 <div id="flowModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="flowTitle">
   <div class="modal-content">
     <div class="close-top"><button onclick="closeModal('flowModal')">Close ✕</button></div>
     <h2 id="flowTitle">Before You Continue</h2>
+
     <label>
       <input type="checkbox" id="agreeAll" />
       I have read and agree to the Terms, Privacy Policy &amp; Community Guidelines
     </label>
+
     <br><br>
+
     <button onclick="verifyAge()">Continue</button>
   </div>
 </div>
@@ -136,27 +542,24 @@
     <div class="close-top"><button onclick="closeModal('ageModal')">Close ✕</button></div>
     <h2 id="ageTitle">Age Verification</h2>
     <p>This platform is strictly for users aged 18 or older.</p>
+
     <button onclick="enterChat()">I am 18 or older</button>
     <button onclick="denyAge()" style="background:#444;">I am under 18</button>
-  </div>
-</div>
-
-<!-- UNDER 18 REJECTION POPUP -->
-<div id="under18Modal" class="modal" role="alertdialog" aria-modal="true" aria-labelledby="under18Title">
-  <div class="modal-content danger">
-    <div class="close-top"><button onclick="closeModal('under18Modal')">Close ✕</button></div>
-    <h2 id="under18Title">Access Denied – 18+ Only</h2>
-    <p>Omingle is restricted to users aged 18 and above. Your access is blocked. Please return when you meet the age requirement.</p>
-    <button onclick="reloadFromUnder18()">OK</button>
   </div>
 </div>
 
 <script>
   let selectedMode = "video"; // "video" or "text"
 
-  function showModal(id) { document.getElementById(id).style.display = "block"; }
-  function closeModal(id) { document.getElementById(id).style.display = "none"; }
+  function showModal(id) {
+    document.getElementById(id).style.display = "block";
+  }
 
+  function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+  }
+
+  // Called by the two buttons
   function startFlow(mode) {
     selectedMode = mode;
     showModal("flowModal");
@@ -172,22 +575,21 @@
   }
 
   function enterChat() {
+    // Navigate to chat with mode as a query param (use it in chat.html if needed)
+    // e.g., chat.html?mode=video or chat.html?mode=text
     window.location.href = "chat.html?mode=" + encodeURIComponent(selectedMode);
   }
 
   function denyAge() {
-    closeModal("ageModal");
-    showModal("under18Modal");
-  }
-
-  function reloadFromUnder18() {
-    closeModal("under18Modal");
+    alert("You must be 18+ to use Omingle");
     location.reload();
   }
 
-  // Fake online count
-  document.getElementById("onlineCount").innerText = Math.floor(Math.random() * 300) + 50;
+  // Fake online count (replace later with backend)
+  document.getElementById("onlineCount").innerText =
+    Math.floor(Math.random() * 300) + 50;
 </script>
 
 </body>
 </html>
+``
