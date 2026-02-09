@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Omingle – Video Chat</title>
+  <title>Gaaji – Video Chat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -17,49 +16,38 @@
 
     .videos {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: black;
-      z-index: 0; /* base layer */
     }
 
     #remote {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       background: black;
-      z-index: 0;
     }
 
     #local {
       position: absolute;
-      bottom: 110px; right: 10px;
-      width: 120px; height: 160px;
+      bottom: 110px;
+      right: 10px;
+      width: 120px;
+      height: 160px;
       object-fit: cover;
       border-radius: 10px;
       border: 2px solid white;
       background: black;
-      z-index: 1;
-    }
-
-    #messages {
-      position: fixed;
-      bottom: 70px; left: 10px;
-      max-height: 120px; width: 90%;
-      overflow-y: auto;
-      font-size: 14px;
-      z-index: 10; /* above videos */
     }
 
     .controls {
       position: fixed;
-      bottom: 10px; left: 0;
+      bottom: 10px;
+      left: 0;
       width: 100%;
       text-align: center;
-      z-index: 20; /* top-most */
-      /* Optional readability */
-      backdrop-filter: blur(6px);
-      background: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0));
-      padding-bottom: 6px;
     }
 
     .controls input {
@@ -77,6 +65,16 @@
       background: #ff0055;
       color: white;
       cursor: pointer;
+    }
+
+    #messages {
+      position: fixed;
+      bottom: 70px;
+      left: 10px;
+      max-height: 120px;
+      width: 90%;
+      overflow-y: auto;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -110,5 +108,6 @@
 
   <!-- YOUR WEBRTC LOGIC -->
   <script src="app.js"></script>
+
 </body>
 </html>
