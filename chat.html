@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
+    /* ===== Base ===== */
     body {
       margin: 0;
       background: #0e0e0e;
@@ -14,67 +15,159 @@
       overflow: hidden;
     }
 
+    /* ===== Video Stage as Grid ===== */
     .videos {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0; /* top:0; right:0; bottom:0; left:0 */
+      display: grid;
       background: black;
+      /* Mobile-first: vertical split (top/bottom) */
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
     }
 
+    /* Remote (stranger) video – top on mobile, left on desktop */
     #remote {
       width: 100%;
       height: 100%;
       object-fit: cover;
       background: black;
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
     }
 
+    /* Local (your) video – bottom on mobile, right on desktop */
     #local {
-      position: absolute;
-      bottom: 110px;
-      right: 10px;
-      width: 120px;
-      height: 160px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-radius: 10px;
-      border: 2px solid white;
       background: black;
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      /* remove PIP styling for true split */
+      position: static;
+      border-radius: 0;
+      border: none;
     }
 
+    /* ===== Desktop/Laptop: side-by-side split ===== */
+    @media (min-width: 900px) {
+      .videos {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+      }
+      #remote { grid-column: 1 / 2; grid-row: 1 / 2; }
+      #local  { grid-column: 2 / 3; grid-row: 1 / 2; }
+
+      /* Center the overlays nicely on big screens */
+      #messages, .controls {
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(900px, 92vw);
+      }
+    }
+
+    /* ===== Centered site name (small, non-blocking) ===== */
+    .site-title {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(12px, 2.2vw, 18px);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(0, 0, 0, 0.28);
+      padding: 6px 10px;
+      border-radius: 8px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(2px);
+      z-index: 5;
+      pointer-events: none; /* never block clicks */
+    }
+
+    /* If you prefer CSS-only (no extra HTML), comment .site-title above,
+       and uncomment this block to render the name via ::after:
+    .videos::after {
+      content: "Gaaji";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(12px, 2.2vw, 18px);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(0, 0, 0, 0.28);
+      padding: 6px 10px;
+      border-radius: 8px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(2px);
+      z-index: 5;
+      pointer-events: none;
+    }
+    */
+
+    /* ===== Messages ===== */
+    #messages {
+      position: fixed;
+      bottom: 70px;
+      left: 10px;
+      max-height: 22vh;
+      width: 90%;
+      overflow-y: auto;
+      font-size: 14px;
+      z-index: 6;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+    }
+
+    /* ===== Controls ===== */
     .controls {
       position: fixed;
       bottom: 10px;
       left: 0;
       width: 100%;
       text-align: center;
+      z-index: 6;
     }
 
     .controls input {
-      width: 60%;
-      padding: 8px;
-      border-radius: 5px;
+      width: min(700px, 70vw);
+      max-width: 90vw;
+      padding: 8px 10px;
+      border-radius: 6px;
       border: none;
+      outline: none;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
     }
 
     .controls button {
-      padding: 8px 10px;
-      margin: 4px;
+      padding: 10px 12px;
+      margin: 6px 4px 0;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       background: #ff0055;
       color: white;
       cursor: pointer;
     }
+    .controls button:hover { filter: brightness(1.1); }
 
-    #messages {
-      position: fixed;
-      bottom: 70px;
-      left: 10px;
-      max-height: 120px;
-      width: 90%;
-      overflow-y: auto;
-      font-size: 14px;
+    /* ===== Small landscape phones: use side-by-side for space ===== */
+    @media (max-height: 480px) and (orientation: landscape) {
+      .videos {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+      }
+      #remote { grid-column: 1 / 2; grid-row: 1 / 2; }
+      #local  { grid-column: 2 / 3; grid-row: 1 / 2; }
+    }
+
+    /* ===== iOS Notch Safe Areas ===== */
+    @supports (padding: max(0px)) {
+      .controls { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+      #messages { left: max(10px, env(safe-area-inset-left)); }
     }
   </style>
 </head>
@@ -90,6 +183,9 @@
     <video id="local" autoplay muted playsinline></video>
   </div>
 
+  <!-- Centered site name (small) -->
+  <div class="site-title">Gaaji</div>
+
   <!-- CHAT + CONTROLS -->
   <div id="messages"></div>
 
@@ -104,10 +200,10 @@
   </div>
 
   <!-- SOCKET.IO -->
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  https://cdn.socket.io/4.7.5/socket.io.min.js</script>
 
   <!-- YOUR WEBRTC LOGIC -->
-  <script src="app.js"></script>
+  app.js</script>
 
 </body>
 </html>
