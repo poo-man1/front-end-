@@ -43,6 +43,42 @@
   object-fit: cover;   /* crop to fill */
   background: #111;
   border-radius: 8px;
+}/* Full-viewport flexible layout for the call area */
+.call-wrap {
+  display: grid;
+  gap: 8px;
+  height: 100vh;          /* occupy full screen during call */
+  padding: 8px;
+  background: #000;
+}
+
+/* Mobile / Tablet (stacked: receiver on top, caller bottom) */
+@media (max-width: 991px) {
+  .call-wrap {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  #remoteVideo { grid-row: 1; }
+  #localVideo  { grid-row: 2; }
+}
+
+/* Laptop / Desktop (side-by-side: receiver left, caller right) */
+@media (min-width: 992px) {
+  .call-wrap {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+  #remoteVideo { grid-column: 1; }
+  #localVideo  { grid-column: 2; }
+}
+
+/* Make videos fill their grid area nicely */
+#remoteVideo, #localVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* crop to fill */
+  background: #111;
+  border-radius: 8px;
 }
   </style>
 </head>
@@ -79,6 +115,7 @@
 
 </body>
 </html>
+
 
 
 
