@@ -4,9 +4,6 @@
 <meta charset="UTF-8" />
 <title>Omingle – Meet New People Instantly</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Omingle is a fun place to meet new people through random one-on-one video chat. 18+ only." />
-
-<link rel="icon" href="omingle-favicon.svg" type="image/svg+xml" />
 
 <style>
 body {
@@ -35,20 +32,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-.fun-tags {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 25px;
-}
-
-.fun-tags span {
-  display: inline-block;
-  margin: 4px 6px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  background: #1a1a1a;
-}
-
 .cta {
   display: flex;
   flex-direction: column;
@@ -71,10 +54,6 @@ h1 {
 
 .cta button.secondary {
   background: #2a2a2a;
-}
-
-.cta button:hover {
-  opacity: 0.9;
 }
 
 .online {
@@ -105,7 +84,7 @@ h1 {
   opacity: 0.6;
 }
 
-/* ===== UPDATED POPUP MODAL ===== */
+/* ===== POPUP MODAL ===== */
 .modal {
   display: none;
   position: fixed;
@@ -113,7 +92,6 @@ h1 {
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(5px);
   z-index: 999;
-
   align-items: center;
   justify-content: center;
 }
@@ -125,47 +103,7 @@ h1 {
   max-width: 420px;
   border-radius: 12px;
   text-align: left;
-  line-height: 1.55;
-  box-shadow: 0 0 30px rgba(255,0,85,0.4);
-  animation: popIn 0.25s ease;
-}
-
-@keyframes popIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-.modal-content h2,
-.modal-content h3 {
-  color: #ff0055;
-}
-
-.modal-content p,
-.modal-content li {
-  color: #ddd;
-}
-
-.modal-content button {
-  width: 100%;
-  margin-top: 15px;
-  background: #ff0055;
-  color: #fff;
-  border: none;
-  padding: 12px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.close-top {
-  text-align: right;
-}
-
-.close-top button {
-  width: auto;
-  background: #2a2a2a;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 13px;
+  box-shadow: 0 0 25px rgba(255,0,85,0.4);
 }
 </style>
 </head>
@@ -179,28 +117,20 @@ h1 {
     A fun place to meet strangers & talk freely
   </div>
 
-  <div class="fun-tags">
-    <span>🎭 Funny Talks</span>
-    <span>🌍 Meet New People</span>
-    <span>🎧 Chill Conversations</span>
-    <span>💬 Random Chats</span>
-    <span>😄 Just for Fun</span>
-  </div>
-
   <div class="cta">
     <button onclick="startFlow('video')">Start Video Chat</button>
     <button class="secondary" onclick="startFlow('text')">Start Text Chat</button>
   </div>
 
   <div class="online">
-    🔵 <span id="onlineCount">0</span> users online
+    🔵 <span id="onlineCount">156</span> users online
   </div>
 
   <div class="links">
-    <a href="#" onclick="showModal('termsModal')">Terms & Conditions</a> |
-    <a href="#" onclick="showModal('privacyModal')">Privacy Policy</a> |
-    <a href="#" onclick="showModal('communityModal')">Community Guidelines</a> |
-    <a href="#" onclick="showModal('legalModal')">Legal / Disclaimer</a>
+    Terms & Conditions |
+    Privacy Policy |
+    Community Guidelines |
+    Legal / Disclaimer
   </div>
 
   <div class="footer">
@@ -208,13 +138,13 @@ h1 {
   </div>
 </div>
 
-<!-- FLOW MODAL -->
+<!-- TERMS CONFIRM MODAL -->
 <div id="flowModal" class="modal">
   <div class="modal-content">
     <h2>Before You Continue</h2>
     <label>
       <input type="checkbox" id="agreeAll" />
-      I have read and agree to the Terms, Privacy Policy & Community Guidelines
+      I agree to Terms, Privacy Policy & Community Guidelines
     </label>
     <button onclick="verifyAge()">Continue</button>
   </div>
@@ -226,7 +156,7 @@ h1 {
     <h2>Age Verification</h2>
     <p>This platform is strictly for users aged 18 or older.</p>
     <button onclick="enterChat()">I am 18 or older</button>
-    <button onclick="denyAge()" style="background:#444;">I am under 18</button>
+    <button onclick="denyAge()" style="background:#444; margin-top:8px;">I am under 18</button>
   </div>
 </div>
 
@@ -263,107 +193,7 @@ function denyAge() {
   alert("You must be 18+ to use Omingle");
   location.reload();
 }
-
-document.getElementById("onlineCount").innerText =
-  Math.floor(Math.random() * 300) + 50;
 </script>
 
 </body>
 </html>
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  75% { transform: translateX(-6px); }
-  100% { transform: translateX(0); }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-  <h1>Omingle</h1>
-  <div class="tagline">
-    A fun place to meet strangers & talk freely
-  </div>
-
-  <div class="cta">
-    <button onclick="startFlow('video')">Start Video Chat</button>
-    <button class="secondary" onclick="startFlow('text')">Start Text Chat</button>
-  </div>
-</div>
-
-<!-- TERMS FLOW MODAL -->
-<div id="flowModal" class="modal" onclick="outsideClick(event, 'flowModal')">
-  <div class="modal-content" id="flowBox">
-    <h2>Before You Continue</h2>
-    <label>
-      <input type="checkbox" id="agreeAll" />
-      I have read and agree to the Terms, Privacy Policy & Community Guidelines
-    </label>
-    <button onclick="verifyAge()">Continue</button>
-  </div>
-</div>
-
-<!-- AGE MODAL -->
-<div id="ageModal" class="modal" onclick="outsideClick(event, 'ageModal')">
-  <div class="modal-content">
-    <h2>Age Verification</h2>
-    <p>This platform is strictly for users aged 18 or older.</p>
-    <button onclick="enterChat()">I am 18 or older</button>
-    <button class="secondary" onclick="denyAge()">I am under 18</button>
-  </div>
-</div>
-
-<script>
-let selectedMode = "video";
-
-function showModal(id) {
-  document.getElementById(id).style.display = "flex";
-  document.body.classList.add("modal-open");
-}
-
-function closeModal(id) {
-  document.getElementById(id).style.display = "none";
-  document.body.classList.remove("modal-open");
-}
-
-function outsideClick(event, id) {
-  if (event.target.id === id) {
-    closeModal(id);
-  }
-}
-
-function startFlow(mode) {
-  selectedMode = mode;
-  showModal("flowModal");
-}
-
-function verifyAge() {
-  const checkbox = document.getElementById("agreeAll");
-  const box = document.getElementById("flowBox");
-
-  if (!checkbox.checked) {
-    box.classList.add("shake");
-    setTimeout(() => box.classList.remove("shake"), 300);
-    return;
-  }
-
-  closeModal("flowModal");
-  showModal("ageModal");
-}
-
-function enterChat() {
-  window.location.href = "chat.html?mode=" + encodeURIComponent(selectedMode);
-}
-
-function denyAge() {
-  alert("You must be 18+ to use Omingle");
-  location.reload();
-}
-</script>
-
-</body>
-</html>
-
