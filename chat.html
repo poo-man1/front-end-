@@ -148,11 +148,10 @@ video {
    REMOVE const socket = io(); from here.
 */
 
-const socket = io();
-
-/* Real-time online count */
-socket.on("onlineCount", (count) => {
-  document.getElementById("onlineCount").innerText = count;
+socket.on("onlinecount",(count)=>{
+  const el =
+    document.getelementById("onlinecount");
+  if(el)el.innertext=count;
 });
 </script>
 
@@ -161,3 +160,4 @@ socket.on("onlineCount", (count) => {
 
 </body>
 </html>
+
