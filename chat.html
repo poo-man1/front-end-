@@ -1,138 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Omingle – Video Chat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<title>Omingle – Video Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <style>
-   
-    /* Full-viewport flexible layout for the call area */
-.call-wrap {
 <style>
-  body {
-    margin: 0;
-    background: #0e0e0e;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
-  }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #111, #1a0010);
+  color: white;
+  overflow-x: hidden;
+}
 
-  /* Header Title */
-  .brand {
-    position: fixed;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 28px;
-    font-weight: bold;
-    color: #ff0055;
-    z-index: 1000;
-    letter-spacing: 1px;
-  }
+/* ===== TOP HEADER ===== */
+.topbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff0055;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
 
-  /* Video Layout */
+/* ===== TABS ===== */
+.tabs {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  background: #181818;
+  padding: 12px 0;
+  font-weight: bold;
+}
+
+.tabs span {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.tabs .active {
+  opacity: 1;
+  border-bottom: 3px solid #ff0055;
+  padding-bottom: 6px;
+}
+
+/* ===== VIDEO SECTION ===== */
+.videos {
+  display: flex;
+  height: 60vh;
+  gap: 15px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+video {
+  flex: 1;
+  border-radius: 18px;
+  object-fit: cover;
+  background: black;
+  border: 2px solid #ff0055;
+  box-shadow: 0 0 20px rgba(255,0,85,0.6);
+  transition: 0.3s;
+}
+
+video:hover {
+  box-shadow: 0 0 35px rgba(255,0,85,0.9);
+}
+
+/* MOBILE LAYOUT */
+@media (max-width: 768px) {
   .videos {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    padding-top: 60px;
-    box-sizing: border-box;
-    gap: 10px;
-  }
-
-  /* Desktop = Side by Side */
-  .videos {
-    flex-direction: row;
+    flex-direction: column;
+    height: 65vh;
   }
 
   video {
-    flex: 1;
-    background: black;
-    object-fit: cover;
-    border-radius: 15px;
-    border: 2px solid #ff0055;
-    box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+    height: 50%;
   }
+}
 
-  /* Mobile = Up & Down */
-  @media (max-width: 768px) {
-    .videos {
-      flex-direction: column;
-      padding: 70px 10px 10px;
-    }
+/* ===== ONLINE COUNT ===== */
+.online-box {
+  text-align: center;
+  font-size: 22px;
+  color: #00c3ff;
+  margin-top: 10px;
+}
 
-    video {
-      height: 50%;
-    }
-  }
+/* ===== PREMIUM BUTTONS ===== */
+.bottom-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
 
-  .controls {
-    position: fixed;
-    bottom: 10px;
-    left: 0;
-    width: 100%;
-    text-align: center;
-  }
+.bottom-controls button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  min-width: 140px;
+}
 
-  .controls input {
-    width: 60%;
-    padding: 8px;
-    border-radius: 5px;
-    border: none;
-  }
+.yellow-btn {
+  background: #f7c600;
+  color: black;
+}
 
-  .controls button {
-    padding: 8px 10px;
-    margin: 4px;
-    border: none;
-    border-radius: 5px;
-    background: #ff0055;
-    color: white;
-    cursor: pointer;
-  }
+.blue-btn {
+  background: #49b6d6;
+  color: black;
+}
 
-  #messages {
-    position: fixed;
-    bottom: 70px;
-    left: 10px;
-    max-height: 120px;
-    width: 90%;
-    overflow-y: auto;
-    font-size: 14px;
-  }
+.pink-btn {
+  background: #ff0055;
+  color: white;
+}
+
+.bottom-controls button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+/* ===== YOUR OLD CONTROLS ===== */
+.controls {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.controls input {
+  width: 60%;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+.controls button {
+  padding: 8px 10px;
+  margin: 4px;
+  border: none;
+  border-radius: 5px;
+  background: #ff0055;
+  color: white;
+  cursor: pointer;
+}
+
+#messages {
+  text-align: center;
+  max-height: 120px;
+  overflow-y: auto;
+  font-size: 14px;
+}
 </style>
 </head>
 
 <body>
 
-  <!-- VIDEO AREA -->
-  <div class="videos">
-    <!-- Stranger video -->
-    <video id="remote" autoplay playsinline></video>
+<div class="topbar">Omingle</div>
 
-    <!-- Your video (MUTED to avoid echo) -->
-    <video id="local" autoplay muted playsinline></video>
-  </div>
+<div class="tabs">
+  <span class="active">VIDEO CHAT</span>
+  <span>MESSAGE</span>
+  <span>HISTORY</span>
+</div>
 
-  <!-- CHAT + CONTROLS -->
-  <div id="messages"></div>
+<!-- VIDEO AREA -->
+<div class="videos">
+  <video id="remote" autoplay playsinline></video>
+  <video id="local" autoplay muted playsinline></video>
+</div>
 
-  <div class="controls">
-    <input id="text" placeholder="Type message…" />
-    <br />
-    <button onclick="send()">Send</button>
-    <button onclick="toggleMic()">Mic</button>
-    <button onclick="toggleCam()">Cam</button>
-    <button onclick="report()">Report</button>
-    <button onclick="next()">Next</button>
-  </div>
+<div class="online-box">
+  <span id="onlineCount">0</span>+ Online
+</div>
 
-  <!-- SOCKET.IO -->
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<div class="bottom-controls">
+  <button class="yellow-btn">Male & Female</button>
+  <button class="yellow-btn">Preferences</button>
+  <button class="blue-btn">Start Match</button>
+</div>
 
-  <!-- YOUR WEBRTC LOGIC -->
-  <script src="app.js"></script>
+<!-- YOUR EXISTING CHAT AREA -->
+<div id="messages"></div>
+
+<div class="controls">
+  <input id="text" placeholder="Type message…" />
+  <br />
+  <button onclick="send()">Send</button>
+  <button onclick="toggleMic()">Mic</button>
+  <button onclick="toggleCam()">Cam</button>
+  <button onclick="report()">Report</button>
+  <button onclick="next()">Next</button>
+</div>
+
+<!-- SOCKET.IO -->
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+<script>
+document.getElementById("onlineCount").innerText =
+  Math.floor(Math.random() * 30000) + 5000;
+</script>
+
+<!-- YOUR WEBRTC LOGIC -->
+<script src="app.js"></script>
 
 </body>
 </html>
