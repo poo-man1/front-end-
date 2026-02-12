@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <title>Omingle – Meet New People Instantly</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Omingle is a fun place to meet new people through random one-on-one video chat. 18+ only." />
+
+<link rel="icon" href="omingle-favicon.svg" type="image/svg+xml" />
 
 <style>
 body {
@@ -12,10 +15,6 @@ body {
   color: #ffffff;
   font-family: Arial, sans-serif;
   text-align: center;
-}
-
-body.modal-open {
-  overflow: hidden;
 }
 
 .container {
@@ -27,12 +26,35 @@ body.modal-open {
 h1 {
   font-size: 44px;
   color: #ff0055;
+  margin-bottom: 10px;
 }
 
 .tagline {
   font-size: 18px;
   opacity: 0.9;
   margin-bottom: 20px;
+}
+
+.fun-tags {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 25px;
+}
+
+.fun-tags span {
+  display: inline-block;
+  margin: 4px 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #1a1a1a;
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  margin: 20px 0;
 }
 
 .cta button {
@@ -45,24 +67,55 @@ h1 {
   cursor: pointer;
   width: 100%;
   max-width: 300px;
-  margin: 10px 0;
 }
 
 .cta button.secondary {
   background: #2a2a2a;
 }
 
-/* ===== PREMIUM MODAL ===== */
+.cta button:hover {
+  opacity: 0.9;
+}
+
+.online {
+  margin-top: 15px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.links {
+  margin-top: 30px;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.links a {
+  color: #aaa;
+  text-decoration: none;
+  margin: 0 6px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  margin-top: 25px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* ===== UPDATED POPUP MODAL ===== */
 .modal {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(5px);
   z-index: 999;
+
   align-items: center;
   justify-content: center;
-  animation: fadeIn 0.2s ease;
 }
 
 .modal-content {
@@ -70,15 +123,26 @@ h1 {
   padding: 25px;
   width: 90%;
   max-width: 420px;
-  border-radius: 14px;
+  border-radius: 12px;
   text-align: left;
-  box-shadow: 0 0 40px rgba(255,0,85,0.4);
+  line-height: 1.55;
+  box-shadow: 0 0 30px rgba(255,0,85,0.4);
   animation: popIn 0.25s ease;
 }
 
-.modal-content h2 {
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-content h2,
+.modal-content h3 {
   color: #ff0055;
-  margin-top: 0;
+}
+
+.modal-content p,
+.modal-content li {
+  color: #ddd;
 }
 
 .modal-content button {
@@ -92,24 +156,120 @@ h1 {
   cursor: pointer;
 }
 
-.modal-content button.secondary {
-  background: #444;
+.close-top {
+  text-align: right;
 }
 
-.shake {
-  animation: shake 0.3s;
+.close-top button {
+  width: auto;
+  background: #2a2a2a;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Omingle</h1>
+
+  <div class="tagline">
+    A fun place to meet strangers & talk freely
+  </div>
+
+  <div class="fun-tags">
+    <span>🎭 Funny Talks</span>
+    <span>🌍 Meet New People</span>
+    <span>🎧 Chill Conversations</span>
+    <span>💬 Random Chats</span>
+    <span>😄 Just for Fun</span>
+  </div>
+
+  <div class="cta">
+    <button onclick="startFlow('video')">Start Video Chat</button>
+    <button class="secondary" onclick="startFlow('text')">Start Text Chat</button>
+  </div>
+
+  <div class="online">
+    🔵 <span id="onlineCount">0</span> users online
+  </div>
+
+  <div class="links">
+    <a href="#" onclick="showModal('termsModal')">Terms & Conditions</a> |
+    <a href="#" onclick="showModal('privacyModal')">Privacy Policy</a> |
+    <a href="#" onclick="showModal('communityModal')">Community Guidelines</a> |
+    <a href="#" onclick="showModal('legalModal')">Legal / Disclaimer</a>
+  </div>
+
+  <div class="footer">
+    © 2026 Omingle · 18+ Only · For Entertainment Purposes
+  </div>
+</div>
+
+<!-- FLOW MODAL -->
+<div id="flowModal" class="modal">
+  <div class="modal-content">
+    <h2>Before You Continue</h2>
+    <label>
+      <input type="checkbox" id="agreeAll" />
+      I have read and agree to the Terms, Privacy Policy & Community Guidelines
+    </label>
+    <button onclick="verifyAge()">Continue</button>
+  </div>
+</div>
+
+<!-- AGE MODAL -->
+<div id="ageModal" class="modal">
+  <div class="modal-content">
+    <h2>Age Verification</h2>
+    <p>This platform is strictly for users aged 18 or older.</p>
+    <button onclick="enterChat()">I am 18 or older</button>
+    <button onclick="denyAge()" style="background:#444;">I am under 18</button>
+  </div>
+</div>
+
+<script>
+let selectedMode = "video";
+
+function showModal(id) {
+  document.getElementById(id).style.display = "flex";
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
 }
 
-@keyframes popIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+function startFlow(mode) {
+  selectedMode = mode;
+  showModal("flowModal");
 }
 
+function verifyAge() {
+  if (!document.getElementById("agreeAll").checked) {
+    alert("You must agree before continuing");
+    return;
+  }
+  closeModal("flowModal");
+  showModal("ageModal");
+}
+
+function enterChat() {
+  window.location.href = "chat.html?mode=" + encodeURIComponent(selectedMode);
+}
+
+function denyAge() {
+  alert("You must be 18+ to use Omingle");
+  location.reload();
+}
+
+document.getElementById("onlineCount").innerText =
+  Math.floor(Math.random() * 300) + 50;
+</script>
+
+</body>
+</html>
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-6px); }
@@ -206,3 +366,4 @@ function denyAge() {
 
 </body>
 </html>
+
