@@ -196,12 +196,11 @@ h1 {
 
   <div class="cta">
     <button class="primary-btn" onclick="startFlow('video')">Start Video Chat</button>
-    <button class="secondary-btn" onclick="startFlow('text')">Start Text Chat</button>
   </div>
 
-  <div class="online">
-    🔵 156 users online
-  </div>
+ <div class="online">
+  🔵 <span id="onlineCount">0</span> users online
+</div>
 
    <div class="links">
     <a href="#" onclick="showModal('termsModal')">Terms &amp; Conditions</a> |
@@ -939,6 +938,7 @@ function denyAge() {
 
 </body>
 </html> 
+
 
 
 
