@@ -902,7 +902,25 @@ You agree NOT to engage in the following prohibited actions:</h3></p>
 </div>
 
   
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
 <script>
+// Connect to Render backend safely
+const socket = io("https://YOUR-REAL-RENDER-NAME.onrender.com", {
+  transports: ["websocket", "polling"]
+});
+
+// Handle connection errors (prevents crash)
+socket.on("connect_error", (err) => {
+  console.log("Socket connection failed:", err.message);
+});
+
+// Update online count
+socket.on("onlineCount", (count) => {
+  const el = document.getElementById("onlineCount");
+  if (el) el.innerText = count;
+});
+
 let selectedMode = "video";
 
 function showModal(id) {
@@ -937,10 +955,9 @@ function denyAge() {
 }
 </script>
 
-  
-
 </body>
 </html> 
+
 
 
 
