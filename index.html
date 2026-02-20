@@ -93,12 +93,14 @@ h1 {
   margin-left: auto;
   margin-right: auto:
   font-size: 14px;
+  text-align: center;
 }
 
 .links a {
   color: #ffffff;
   text-decoration: none;
   padding: 6px 0;
+  transition: 0.3s;
   margin: 0 6px;
 }
   
@@ -107,6 +109,10 @@ h1 {
   color: #ff0055;
 }
 
+ .links a:last-child {
+    grid-column:1 / span 2;
+  }
+  
 .footer {
   margin-top: 25px;
   font-size: 12px;
@@ -308,6 +314,7 @@ function denyAge() {
 
 </body>
 </html> 
+
 
 
 
