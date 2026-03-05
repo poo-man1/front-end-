@@ -319,10 +319,12 @@ function denyAge() {
   
   <script>
     const socket = 
-      io("https://https://gaaji-server.onrender.com",{
+      io("https://gaaji-server.onrender.com",{
         transports: ["websocket"]
       });
     socket.on("onlineCount", (count) => {
+      console.log("online users:",count);
+      
       documnet.getElementById("onlineUsers").innerText 
         = count;
     });
@@ -330,6 +332,7 @@ function denyAge() {
 
 </body>
 </html> 
+
 
 
 
