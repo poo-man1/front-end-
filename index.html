@@ -214,8 +214,8 @@ h1 {
     <button class="primary-btn" onclick="startFlow('video')">Start Video Chat</button>
   </div>
 
- <div class="online">
-  🔵 <span id="onlineCount">0</span>
+ <div class="online-count">
+  🔵 <span id="onlineUsers">0</span>
 </div>
 <div class="links">
   <a href="terms.html">Terms & Conditions</a>
@@ -322,16 +322,23 @@ function denyAge() {
       io("https://gaaji-server.onrender.com",{
         transports: ["websocket"]
       });
+    socket.on("connect", () =>{
+      console.log("Connected:", socket.id);
+    });
     socket.on("onlineCount", (count) => {
       console.log("online users:",count);
-      
-      documnet.getElementById("onlineUsers").innerText 
-        = count;
+
+      const el =
+      documnet.getElementById("onlineUsers").
+        if(el){
+        el.innerText = count;
+      }
     });
       </script>
 
 </body>
 </html> 
+
 
 
 
