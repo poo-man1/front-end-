@@ -143,15 +143,13 @@ video {
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 
 <script>
-/* IMPORTANT:
-   If app.js already creates: const socket = io();
-   REMOVE const socket = io(); from here.
-*/
+/* This uses the socket created in app.js */
 
-socket.on("onlinecount",(count)=>{
-  const el =
-    document.getelementById("onlinecount");
-  if(el)el.innertext=count;
+socket.on("onlineCount", (count) => {
+  const el = document.getElementById("onlineCount");
+  if (el) {
+    el.innerText = count;
+  }
 });
 </script>
 
@@ -160,4 +158,3 @@ socket.on("onlinecount",(count)=>{
 
 </body>
 </html>
-
