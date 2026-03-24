@@ -126,19 +126,34 @@ h1 {
   align-items: center;
   justify-content: center;
 }
-
-.modal-content {
+  .modal-content {
   background: #111;
-  padding: 25px;
+  padding: 45px 25px 25px; /* ✅ Extra top space so X doesn't overlap */
   width: 90%;
   max-width: 420px;
   border-radius: 14px;
   text-align: left;
   box-shadow: 0 0 40px rgba(255,0,85,0.4);
-  position: relative;
+  position: relative;     /* ✅ Required for absolute positioning of X */
   max-height: 85vh;
   overflow-y: auto;
 }
+
+.close-btn {
+  position: absolute;
+  top: 12px;             /* ✅ Clean top-right placement */
+  right: 12px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;       /* ✅ Bigger, readable */
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;            /* ✅ Removes button default spacing */
+  z-index: 10;           /* ✅ Always visible above text */
+}
+
 
 .modal-content h2 {
   color: #ff0055;
