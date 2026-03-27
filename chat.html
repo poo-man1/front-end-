@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,9 +78,8 @@ video {
   position: fixed;
   bottom: 120px;
   left: 10px;
-  width: 95%;
-  margin: 10px auto;
-  max-height: 120px;
+  width: 90%;
+  max-height: 100px;
   overflow-y: auto;
   font-size: 14px;
 }
@@ -117,6 +115,9 @@ video {
 
 <div class="topbar">
   Omingle
+ <div class="online-count">
+🔵 <span id="onlineUsers">0</span> users online
+</div>
 </div>
 
 <!-- VIDEO AREA -->
@@ -124,7 +125,6 @@ video {
   <video id="remote" autoplay playsinline></video>
   <video id="local" autoplay muted playsinline></video>
 </div>
-  
 
 <!-- CHAT -->
 <div id="messages"></div>
@@ -158,4 +158,3 @@ socket.on("onlineCount", (count) => {
 
 </body>
 </html>
-
