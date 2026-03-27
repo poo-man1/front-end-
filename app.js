@@ -43,6 +43,13 @@ async function initMedia() {
 }
 
 initMedia();
+socket.on("connect", () => {
+  console.log("Connected:",socket.id);
+  socket.emit("find-partner");
+});
+socket.onAny((event, ...args) => {
+  console.log("EVENT:", event,args);
+});
 
 /* ==============================
    2️⃣ CREATE PEER CONNECTION
