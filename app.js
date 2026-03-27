@@ -164,10 +164,7 @@ function resetConnection() {
   }
 
   // Reconnect to server fresh for a new match
-  try {
-    socket.disconnect();
-  } catch (e) {}
-  setTimeout(() => location.reload(), 400);
+  remoteVideo.srcobject = null;
 }
 
 /* ==============================
