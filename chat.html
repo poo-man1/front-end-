@@ -28,7 +28,6 @@ body {
   font-weight: bold;
   color: #ff0055;
   z-index: 1000;
-  gap: 15px;
 }
 
 .online-top {
@@ -36,17 +35,6 @@ body {
   right: 15px;
   font-size: 14px;
   color: #00ffcc;
-  background: rgba(0,0,0,0.6);
-  padding: 5px 12px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.online-top i {
-  font-size: 10px;
-  color: #00ff88;
 }
 
 /* ===== VIDEO SECTION ===== */
@@ -88,47 +76,13 @@ video {
 /* ===== CHAT SECTION ===== */
 #messages {
   position: fixed;
-  bottom: 80px;
+  bottom: 120px;
   left: 10px;
-  right: 10px;
-  width: auto;
+  width: 95%;
   margin: 10px auto;
   max-height: 120px;
   overflow-y: auto;
   font-size: 14px;
-  background: rgba(0,0,0,0.7);
-  border-radius: 10px;
-  padding: 8px;
-  backdrop-filter: blur(5px);
-}
-
-.message {
-  margin: 5px 0;
-  padding: 4px 8px;
-  border-radius: 8px;
-  word-wrap: break-word;
-}
-
-.message.own {
-  background: #ff0055;
-  align-self: flex-end;
-  text-align: right;
-  margin-left: auto;
-  width: fit-content;
-  max-width: 80%;
-}
-
-.message.other {
-  background: #333;
-  text-align: left;
-  width: fit-content;
-  max-width: 80%;
-}
-
-.message small {
-  font-size: 10px;
-  opacity: 0.7;
-  display: block;
 }
 
 /* ===== CONTROLS ===== */
@@ -137,9 +91,6 @@ video {
   bottom: 10px;
   width: 100%;
   text-align: center;
-  background: rgba(0,0,0,0.8);
-  padding: 10px 0;
-  z-index: 100;
 }
 
 .controls input {
@@ -147,79 +98,16 @@ video {
   padding: 8px;
   border-radius: 5px;
   border: none;
-  background: #222;
-  color: white;
-}
-
-.controls input:focus {
-  outline: none;
-  border: 1px solid #ff0055;
 }
 
 .controls button {
-  padding: 8px 15px;
+  padding: 8px 10px;
   margin: 4px;
   border: none;
   border-radius: 5px;
   background: #ff0055;
   color: white;
   cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s;
-}
-
-.controls button:hover {
-  background: #ff3377;
-  transform: scale(1.02);
-}
-
-.controls button:active {
-  transform: scale(0.98);
-}
-
-.status-badge {
-  position: fixed;
-  top: 70px;
-  right: 15px;
-  background: rgba(0,0,0,0.7);
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  z-index: 1000;
-  color: #ff0055;
-}
-
-/* Loading overlay */
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 3px solid rgba(255,0,85,0.3);
-  border-top-color: #ff0055;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.hidden {
-  display: none;
 }
 </style>
 </head>
@@ -228,13 +116,6 @@ video {
 
 <div class="topbar">
   Omingle
-  <div class="online-top" id="onlineCountDisplay">
-    <i>●</i> <span id="onlineUsersCount">0</span> online
-  </div>
-</div>
-
-<div class="status-badge" id="statusBadge">
-  🔍 Finding partner...
 </div>
 
 <!-- VIDEO AREA -->
@@ -242,377 +123,37 @@ video {
   <video id="remote" autoplay playsinline></video>
   <video id="local" autoplay muted playsinline></video>
 </div>
+  
 
 <!-- CHAT -->
 <div id="messages"></div>
 
 <div class="controls">
-  <input id="text" placeholder="Type message…" onkeypress="handleKeyPress(event)" />
+  <input id="text" placeholder="Type message…" />
   <br />
-  <button onclick="sendMessage()">Send</button>
+  <button onclick="send()">Send</button>
   <button onclick="toggleMic()">Mic</button>
   <button onclick="toggleCam()">Cam</button>
-  <button onclick="reportUser()">Report</button>
-  <button onclick="skipToNext()">Next</button>
+  <button onclick="report()">Report</button>
+  <button onclick="next()">Next</button>
 </div>
 
-<!-- Loading Overlay -->
-<div id="loadingOverlay" class="loading-overlay">
-  <div class="loading-spinner"></div>
-  <div>Connecting to server...</div>
-</div>
-
+<!-- SOCKET.IO -->
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 
 <script>
-// ==================== CONFIGURATION ====================
-const socket = io("https://gaaji-server.onrender.com", {
-  transports: ["websocket"]
-});
-
-let localStream = null;
-let peerConnection = null;
-let currentRoom = null;
-let isConnected = false;
-let micEnabled = true;
-let camEnabled = true;
-
-// ICE Servers configuration
-const configuration = {
-  iceServers: [
-    { urls: "stun:stun.l.google.com:19302" },
-    { urls: "stun:stun1.l.google.com:19302" }
-  ]
-};
-
-// DOM Elements
-const remoteVideo = document.getElementById('remote');
-const localVideo = document.getElementById('local');
-const messagesDiv = document.getElementById('messages');
-const textInput = document.getElementById('text');
-const statusBadge = document.getElementById('statusBadge');
-const loadingOverlay = document.getElementById('loadingOverlay');
-const onlineUsersSpan = document.getElementById('onlineUsersCount');
-
-// ==================== ONLINE COUNT (REAL-TIME) ====================
-socket.on("connect", () => {
-  console.log("✅ Connected to server, ID:", socket.id);
-  updateStatus("Connected", false);
-  loadingOverlay.classList.add('hidden');
-  // Initialize media after connection
-  initMedia();
-});
+/* This uses the socket created in app.js */
 
 socket.on("onlineCount", (count) => {
-  console.log("📊 Online users:", count);
-  if (onlineUsersSpan) {
-    onlineUsersSpan.innerText = count;
-  }
-  updateStatus(`${count} people online`, false);
-});
-
-// ==================== MEDIA INITIALIZATION ====================
-async function initMedia() {
-  try {
-    localStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true
-    });
-    localVideo.srcObject = localStream;
-    updateStatus("Camera & mic ready", false);
-    
-    // Find a random partner
-    socket.emit("findPartner");
-  } catch (err) {
-    console.error("Media error:", err);
-    updateStatus("❌ Cannot access camera/microphone", true);
-    alert("Please allow camera and microphone access to use Omingle");
-    loadingOverlay.classList.add('hidden');
-  }
-}
-
-// ==================== PEER CONNECTION ====================
-function createPeerConnection(roomId, isInitiator) {
-  const pc = new RTCPeerConnection(configuration);
-  
-  // Add local tracks
-  if (localStream) {
-    localStream.getTracks().forEach(track => {
-      pc.addTrack(track, localStream);
-    });
-  }
-  
-  // Handle remote stream
-  pc.ontrack = (event) => {
-    if (event.streams && event.streams[0]) {
-      remoteVideo.srcObject = event.streams[0];
-      isConnected = true;
-      updateStatus("🎉 Connected! Chatting now", false);
-      addSystemMessage("Connected! Say hi to your new friend 👋");
-    }
-  };
-  
-  // Handle ICE candidates
-  pc.onicecandidate = (event) => {
-    if (event.candidate) {
-      socket.emit("iceCandidate", {
-        roomId: roomId,
-        candidate: event.candidate
-      });
-    }
-  };
-  
-  // Handle connection state
-  pc.onconnectionstatechange = () => {
-    console.log("Connection state:", pc.connectionState);
-    if (pc.connectionState === 'connected') {
-      updateStatus("Connected - Enjoy your chat!", false);
-    } else if (pc.connectionState === 'disconnected') {
-      updateStatus("Connection lost, finding new partner...", true);
-    } else if (pc.connectionState === 'failed') {
-      updateStatus("Connection failed, trying again...", true);
-      setTimeout(() => skipToNext(), 2000);
-    }
-  };
-  
-  return pc;
-}
-
-// ==================== SOCKET EVENT HANDLERS ====================
-socket.on("partnerFound", async (data) => {
-  console.log("Partner found:", data);
-  currentRoom = data.roomId;
-  
-  if (data.isInitiator) {
-    // Create offer
-    peerConnection = createPeerConnection(currentRoom, true);
-    const offer = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(offer);
-    socket.emit("signal", {
-      roomId: currentRoom,
-      signal: offer,
-      isOffer: true
-    });
-    updateStatus("Connecting to partner...", false);
-  } else {
-    // Wait for offer
-    peerConnection = createPeerConnection(currentRoom, false);
-    updateStatus("Receiving connection...", false);
-  }
-});
-
-socket.on("signal", async (data) => {
-  if (!peerConnection) return;
-  
-  try {
-    if (data.isOffer) {
-      await peerConnection.setRemoteDescription(new RTCSessionDescription(data.signal));
-      const answer = await peerConnection.createAnswer();
-      await peerConnection.setLocalDescription(answer);
-      socket.emit("signal", {
-        roomId: currentRoom,
-        signal: answer,
-        isOffer: false
-      });
-    } else {
-      await peerConnection.setRemoteDescription(new RTCSessionDescription(data.signal));
-    }
-  } catch (err) {
-    console.error("Signal error:", err);
-  }
-});
-
-socket.on("iceCandidate", async (data) => {
-  if (peerConnection && data.candidate) {
-    try {
-      await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
-    } catch (err) {
-      console.error("ICE candidate error:", err);
-    }
-  }
-});
-
-socket.on("partnerLeft", () => {
-  updateStatus("Partner left the chat. Finding new partner...", true);
-  addSystemMessage("Your partner has left the chat");
-  isConnected = false;
-  
-  // Clean up old connection
-  if (peerConnection) {
-    peerConnection.close();
-    peerConnection = null;
-  }
-  
-  // Find new partner
-  setTimeout(() => {
-    socket.emit("findPartner");
-  }, 1000);
-});
-
-// ==================== CHAT MESSAGES ====================
-socket.on("chatMessage", (data) => {
-  addMessage(data.message, false);
-});
-
-function sendMessage() {
-  const message = textInput.value.trim();
-  if (message && isConnected && currentRoom) {
-    socket.emit("chatMessage", {
-      roomId: currentRoom,
-      message: message
-    });
-    addMessage(message, true);
-    textInput.value = '';
-  } else if (!isConnected) {
-    updateStatus("Not connected to anyone yet", true);
-    setTimeout(() => updateStatus("", false), 2000);
-  }
-}
-
-function handleKeyPress(event) {
-  if (event.key === 'Enter') {
-    sendMessage();
-  }
-}
-
-function addMessage(message, isOwn) {
-  const messageDiv = document.createElement('div');
-  messageDiv.className = `message ${isOwn ? 'own' : 'other'}`;
-  const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  messageDiv.innerHTML = `
-    ${escapeHtml(message)}
-    <small>${isOwn ? 'You' : 'Stranger'} • ${time}</small>
-  `;
-  messagesDiv.appendChild(messageDiv);
-  messageDiv.scrollIntoView({ behavior: 'smooth' });
-}
-
-function addSystemMessage(message) {
-  const messageDiv = document.createElement('div');
-  messageDiv.className = 'message other';
-  messageDiv.style.background = '#ff005522';
-  messageDiv.style.textAlign = 'center';
-  messageDiv.style.fontStyle = 'italic';
-  messageDiv.innerHTML = `
-    ${escapeHtml(message)}
-    <small>System</small>
-  `;
-  messagesDiv.appendChild(messageDiv);
-  messageDiv.scrollIntoView({ behavior: 'smooth' });
-}
-
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-// ==================== CONTROLS ====================
-function toggleMic() {
-  if (localStream) {
-    const audioTrack = localStream.getAudioTracks()[0];
-    if (audioTrack) {
-      micEnabled = !micEnabled;
-      audioTrack.enabled = micEnabled;
-      const micBtn = document.querySelector('button:nth-of-type(2)');
-      if (micBtn) micBtn.textContent = micEnabled ? 'Mic' : 'Mic 🔇';
-      updateStatus(micEnabled ? "Mic on" : "Mic off", false);
-    }
-  }
-}
-
-function toggleCam() {
-  if (localStream) {
-    const videoTrack = localStream.getVideoTracks()[0];
-    if (videoTrack) {
-      camEnabled = !camEnabled;
-      videoTrack.enabled = camEnabled;
-      const camBtn = document.querySelector('button:nth-of-type(3)');
-      if (camBtn) camBtn.textContent = camEnabled ? 'Cam' : 'Cam 📹❌';
-      updateStatus(camEnabled ? "Camera on" : "Camera off", false);
-    }
-  }
-}
-
-function reportUser() {
-  if (isConnected && currentRoom) {
-    socket.emit("reportUser", { roomId: currentRoom });
-    alert("Thank you for reporting. We'll review this user.");
-    addSystemMessage("You reported this user. Thank you for keeping Omingle safe!");
-    skipToNext();
-  } else {
-    alert("Not connected to anyone to report");
-  }
-}
-
-function skipToNext() {
-  if (peerConnection) {
-    peerConnection.close();
-    peerConnection = null;
-  }
-  if (currentRoom) {
-    socket.emit("leaveRoom", { roomId: currentRoom });
-  }
-  isConnected = false;
-  updateStatus("Skipping to next person...", false);
-  remoteVideo.srcObject = null;
-  
-  setTimeout(() => {
-    socket.emit("findPartner");
-  }, 500);
-}
-
-function updateStatus(message, isError) {
-  if (message) {
-    statusBadge.innerHTML = isError ? `⚠️ ${message}` : `💬 ${message}`;
-    statusBadge.style.color = isError ? '#ff8888' : '#ff0055';
-    if (!isError && message.includes('Connected')) {
-      setTimeout(() => {
-        if (statusBadge.innerHTML.includes('Connected')) {
-          statusBadge.innerHTML = `🎥 ${message}`;
-        }
-      }, 3000);
-    }
-  } else {
-    statusBadge.innerHTML = `🎥 Omingle`;
-  }
-}
-
-// ==================== CLEANUP ON PAGE UNLOAD ====================
-window.addEventListener('beforeunload', () => {
-  if (peerConnection) {
-    peerConnection.close();
-  }
-  if (currentRoom) {
-    socket.emit("leaveRoom", { roomId: currentRoom });
-  }
-  if (localStream) {
-    localStream.getTracks().forEach(track => track.stop());
-  }
-});
-
-// Handle connection errors
-socket.on("connect_error", (err) => {
-  console.error("Connection error:", err);
-  updateStatus("Connection error, reconnecting...", true);
-  loadingOverlay.classList.remove('hidden');
-});
-
-socket.on("disconnect", () => {
-  updateStatus("Disconnected from server", true);
-  loadingOverlay.classList.remove('hidden');
-});
-
-// Reconnection
-socket.io.on("reconnect", () => {
-  console.log("Reconnected");
-  loadingOverlay.classList.add('hidden');
-  updateStatus("Reconnected", false);
-  if (!currentRoom && !peerConnection) {
-    socket.emit("findPartner");
+  const el = document.getElementById("onlineCount");
+  if (el) {
+    el.innerText = count;
   }
 });
 </script>
+
+<!-- YOUR WEBRTC LOGIC -->
+<script src="app.js"></script>
 
 </body>
 </html>
