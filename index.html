@@ -1,673 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Omingle — Connect Freely, Talk Freely</title>
-  <!-- Google Fonts & simple CSS reset -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 (free icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9679829588405995"
+crossorigin="anonymous"></script>
 
-    body {
-      background: linear-gradient(145deg, #0b1120 0%, #111827 100%);
-      font-family: 'Inter', sans-serif;
-      color: #eef2ff;
-      line-height: 1.4;
-      scroll-behavior: smooth;
-    }
+<meta charset="UTF-8" />
+<title>Omingle – Meet New People Instantly</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    /* custom scroll */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #1e293b;
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #4f46e5;
-      border-radius: 10px;
-    }
+<style>
+body {
+  margin: 0;
+  background: #0e0e0e;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
 
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 2rem 2rem 1.5rem;
-    }
+.container {
+  max-width: 520px;
+  margin: 120px auto 40px;
+  padding: 0 15px;
+}
 
-    /* header / logo area */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 1.2rem;
-      margin-bottom: 3rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid rgba(79, 70, 229, 0.3);
-    }
-    .logo h1 {
-      font-size: 2.2rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #c084fc, #818cf8);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      display: inline-block;
-    }
-    .logo span {
-      font-size: 0.9rem;
-      font-weight: 400;
-      color: #9ca3af;
-      margin-left: 8px;
-    }
-    .tagline {
-      color: #a5b4fc;
-      font-weight: 500;
-      background: rgba(79, 70, 229, 0.2);
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
-      font-size: 0.85rem;
-      backdrop-filter: blur(2px);
-    }
+h1 {
+  font-size: 44px;
+  color: #ff0055;
+  margin-bottom: 10px;
+}
 
-    /* hero + CTA section */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-    .hero-badge {
-      background: rgba(139, 92, 246, 0.2);
-      padding: 0.4rem 1.2rem;
-      border-radius: 60px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #c4b5fd;
-      margin-bottom: 1.2rem;
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(139, 92, 246, 0.4);
-    }
-    .hero h2 {
-      font-size: 3.2rem;
-      font-weight: 800;
-      max-width: 800px;
-      background: linear-gradient(to right, #ffffff, #c7d2fe);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      margin-bottom: 1rem;
-    }
-    .hero-desc {
-      font-size: 1.2rem;
-      color: #cbd5e6;
-      max-width: 580px;
-      margin-bottom: 2rem;
-    }
-    .btn-start {
-      background: linear-gradient(105deg, #4f46e5 0%, #7c3aed 100%);
-      border: none;
-      padding: 1rem 2.5rem;
-      border-radius: 60px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: white;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-    .btn-start i {
-      font-size: 1.3rem;
-      transition: transform 0.2s;
-    }
-    .btn-start:hover {
-      transform: scale(1.02);
-      background: linear-gradient(105deg, #6366f1, #8b5cf6);
-      box-shadow: 0 12px 28px rgba(79, 70, 229, 0.6);
-    }
-    .btn-start:hover i {
-      transform: translateX(4px);
-    }
+.tagline {
+  font-size: 18px;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
 
-    /* feature grid — modern cards */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 1.8rem;
-      margin: 3rem 0 4rem;
-    }
-    .feature-card {
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(12px);
-      border-radius: 2rem;
-      padding: 1.6rem 1.2rem;
-      text-align: center;
-      transition: all 0.25s ease;
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
-    }
-    .feature-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(139, 92, 246, 0.6);
-      background: rgba(30, 41, 59, 0.8);
-      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.4);
-    }
-    .icon-circle {
-      background: linear-gradient(145deg, #312e81, #1e1b4b);
-      width: 64px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.2rem;
-      border-radius: 32px;
-      font-size: 2rem;
-      color: #a78bfa;
-      transition: 0.2s;
-    }
-    .feature-card h3 {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-    .feature-card p {
-      color: #b9c2d4;
-      font-size: 0.9rem;
-    }
+.fun-tags span {
+  display: inline-block;
+  margin: 4px 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #1a1a1a;
+  font-size: 13px;
+}
 
-    /* random chat preview / chill banner */
-    .interactive-banner {
-      background: linear-gradient(115deg, #1e1a3a, #0f172a);
-      border-radius: 2rem;
-      padding: 2rem 2rem;
-      margin: 2rem 0 3rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1.5rem;
-      border: 1px solid rgba(168, 85, 247, 0.3);
-    }
-    .banner-text h3 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .banner-text p {
-      color: #cbd5e1;
-      margin-top: 6px;
-    }
-    .mini-chat-btn {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid #8b5cf6;
-      padding: 0.8rem 1.8rem;
-      border-radius: 40px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: 0.2s;
-      cursor: pointer;
-    }
-    .mini-chat-btn:hover {
-      background: #4f46e5;
-      border-color: #c4b5fd;
-    }
+.cta {
+  margin: 25px 0;
+}
 
-    /* "1" design (like the playful 1 in original but stylish) */
-    .daily-stat {
-      display: flex;
-      justify-content: center;
-      margin: 1rem 0 2rem;
-    }
-    .stat-bubble {
-      background: rgba(0,0,0,0.35);
-      backdrop-filter: blur(8px);
-      border-radius: 80px;
-      padding: 0.5rem 1.8rem;
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      border: 1px solid #a78bfa;
-      display: inline-flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-    .stat-bubble span:first-child {
-      font-size: 2.5rem;
-      color: #facc15;
-    }
-    .stat-bubble span:last-child {
-      font-size: 1rem;
-      font-weight: 400;
-      color: #b9c2d4;
-    }
+.cta button {
+  width: 100%;
+  max-width: 320px;
+  padding: 14px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-    /* footer links */
-    .footer-links {
-      margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(99, 102, 241, 0.25);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1.5rem;
-    }
-    .links-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-    .links-group a, .legal-links a {
-      color: #b9c2d4;
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: 0.2s;
-      font-weight: 500;
-    }
-    .links-group a:hover, .legal-links a:hover {
-      color: #c084fc;
-    }
-    .copyright {
-      font-size: 0.8rem;
-      color: #6b7280;
-    }
-    .badge-18 {
-      background: #2d2a4e;
-      padding: 4px 10px;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      font-weight: 600;
-    }
+.primary-btn {
+  background: #ff0055;
+  color: #fff;
+}
 
-    /* Modal (video chat mockup) */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0.2s, opacity 0.2s ease;
-    }
-    .modal-overlay.active {
-      visibility: visible;
-      opacity: 1;
-    }
-    .modal-card {
-      background: #0f172ad9;
-      background: linear-gradient(135deg, #111827, #0a0f1c);
-      border-radius: 2rem;
-      width: 90%;
-      max-width: 500px;
-      border: 1px solid #6d28d9;
-      box-shadow: 0 25px 40px rgba(0,0,0,0.5);
-      overflow: hidden;
-      animation: fadeUp 0.25s ease;
-    }
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .modal-header {
-      padding: 1.2rem 1.5rem;
-      background: #1e1a3e;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #4c1d95;
-    }
-    .modal-header h3 {
-      font-weight: 700;
-    }
-    .close-modal {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.6rem;
-      cursor: pointer;
-    }
-    .modal-body {
-      padding: 2rem 1.8rem;
-      text-align: center;
-    }
-    .video-placeholder {
-      background: #020617;
-      border-radius: 1.5rem;
-      padding: 2rem;
-      margin-bottom: 1.5rem;
-      border: 2px dashed #6366f1;
-    }
-    .fake-avatar {
-      font-size: 3.5rem;
-      background: #2d2b55;
-      width: 80px;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 60px;
-      margin: 0 auto 0.8rem;
-    }
-    .connect-controls {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .mock-btn {
-      background: #2d3748;
-      padding: 8px 18px;
-      border-radius: 40px;
-      border: none;
-      color: white;
-      font-weight: 500;
-    }
-    .mock-btn-primary {
-      background: #4f46e5;
-    }
+.secondary-btn {
+  background: #2a2a2a;
+  color: #fff;
+}
 
-    /* responsive */
-    @media (max-width: 700px) {
-      .container {
-        padding: 1.5rem;
-      }
-      .hero h2 {
-        font-size: 2.2rem;
-      }
-      .features {
-        gap: 1rem;
-      }
-      .footer-links {
-        flex-direction: column;
-        text-align: center;
-      }
-      .links-group {
-        justify-content: center;
-      }
-    }
-    button {
-      font-family: inherit;
-    }
-  </style>
-</head>
-<body>
-<div class="container">
-  <!-- header area : brand & tagline -->
-  <div class="navbar">
-    <div class="logo">
-      <h1>Omingle <span>✨</span></h1>
-      <div style="font-size: 0.75rem; color:#8b9dc3;">A fun place to meet strangers & talk freely</div>
-    </div>
-    <div class="tagline">
-      <i class="fas fa-comment-dots"></i> 18+ · safe vibes
-    </div>
-  </div>
+.primary-btn:hover {
+  background: #e6004c;
+}
 
-  <!-- hero section with start video chat -->
-  <div class="hero">
-    <div class="hero-badge">
-      <i class="fas fa-globe"></i>  instant connections · no signup
-    </div>
-    <h2>Talk freely, meet new souls</h2>
-    <div class="hero-desc">
-      Jump into random conversations, funny talks, or chill moments — all anonymously.
-    </div>
-    <button class="btn-start" id="openVideoModalBtn">
-      <i class="fas fa-video"></i> Start Video Chat
-    </button>
-  </div>
+.secondary-btn:hover {
+  background: #3a3a3a;
+}
 
-  <!-- feature grid : matches original icons + improved -->
-  <div class="features">
-    <div class="feature-card">
-      <div class="icon-circle"><i class="fas fa-comment-smile"></i></div>
-      <h3>Funny Talks</h3>
-      <p>Laugh-out-loud conversations with witty strangers.</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon-circle"><i class="fas fa-user-plus"></i></div>
-      <h3>Meet New People</h3>
-      <p>Expand your circle, global random chats.</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon-circle"><i class="fas fa-mug-hot"></i></div>
-      <h3>Chill Conversations</h3>
-      <p>Laid-back vibes, deep or light — your pace.</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon-circle"><i class="fas fa-random"></i></div>
-      <h3>Random Chats</h3>
-      <p>Pure serendipity, one tap away.</p>
-    </div>
-    <div class="feature-card">
-      <div class="icon-circle"><i class="fas fa-heart"></i></div>
-      <h3>Just for Fun</h3>
-      <p>No pressure, just genuine moments.</p>
-    </div>
-  </div>
+.online-count {
+  margin-top: 15px;
+  font-size: 14px;
+  opacity: 0.8;
+}
 
-  <!-- interactive banner : matches "chill conversations" theme -->
-  <div class="interactive-banner">
-    <div class="banner-text">
-      <h3><i class="fas fa-headset"></i> Live random audio room</h3>
-      <p>Listen, talk, vibe — 100% anonymous & spontaneous</p>
-    </div>
-    <div class="mini-chat-btn" id="quickJoinBtn">
-      <i class="fas fa-microphone-alt"></i> Try a random chat
-      <i class="fas fa-arrow-right"></i>
-    </div>
-  </div>
+/* ✅ NEW FOOTER BUTTONS YOU REQUESTED */
+.footer-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 25px;
+}
 
-  <!-- the quirky "1" element - modernized -->
-  <div class="daily-stat">
-    <div class="stat-bubble">
-      <span>1</span>
-      <span>click · new connection</span>
-      <i class="fas fa-infinity" style="font-size: 1rem; margin-left: 6px;"></i>
-    </div>
-  </div>
+.footer-btn {
+  padding: 6px 14px;
+  font-size: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, #ff0055, #ff2d75);
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.25s ease;
+  display: inline-block;
+}
 
-  <!-- footer links exactly from original but styled -->
-  <div class="footer-links">
-    <div class="links-group">
-      <a href="#">Blogs</a>
-      <a href="#">Terms & Conditions</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Community Guidelines</a>
-      <a href="#">Legal</a>
-      <a href="#">Contact</a>
-    </div>
-    <div class="copyright">
-      © 2026 Omingle · <span class="badge-18">18+ Only</span> · For Entertainment Purposes
-    </div>
-  </div>
-</div>
-
-<!-- modal overlay : fake video chat UI/UX (simulating start video chat) -->
-<div id="videoModal" class="modal-overlay">
-  <div class="modal-card">
-    <div class="modal-header">
-      <h3><i class="fas fa-video"></i> Omingle · Video Lounge</h3>
-      <button class="close-modal" id="closeModalBtn">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="video-placeholder">
-        <div class="fake-avatar">
-          <i class="fas fa-user-astronaut"></i>
-        </div>
-        <p style="font-weight: 500; margin: 8px 0;">Finding your random match...</p>
-        <div style="width: 60px; height: 3px; background: #4f46e5; margin: 12px auto; border-radius: 4px;"></div>
-        <p style="font-size: 0.8rem; color: #9ca3af;"><i class="fas fa-shield-alt"></i> Anonymous · moderated</p>
-      </div>
-      <div class="connect-controls">
-        <button class="mock-btn" id="mockNextBtn"><i class="fas fa-sync-alt"></i> Next</button>
-        <button class="mock-btn mock-btn-primary" id="mockStopBtn"><i class="fas fa-phone-slash"></i> End chat</button>
-      </div>
-      <p style="margin-top: 18px; font-size: 0.75rem; color:#b9c2d4;">
-        <i class="fas fa-lock"></i> Your privacy first · camera simulation (demo)
-      </p>
-    </div>
-  </div>
-</div>
-
-<script>
-  // Enhanced UI/UX: modal open/close + playful interactions & toast-like feedback
-
-  const modal = document.getElementById('videoModal');
-  const openBtn = document.getElementById('openVideoModalBtn');
-  const closeBtn = document.getElementById('closeModalBtn');
-  const quickJoin = document.getElementById('quickJoinBtn');
-  const mockNext = document.getElementById('mockNextBtn');
-  const mockStop = document.getElementById('mockStopBtn');
-
-  // Helper to show a tiny temporary toast (enhanced UX)
-  function showFloatyMessage(text, isError = false) {
-    // create ephemeral toast
-    const toast = document.createElement('div');
-    toast.innerText = text;
-    toast.style.position = 'fixed';
-    toast.style.bottom = '30px';
-    toast.style.left = '50%';
-    toast.style.transform = 'translateX(-50%)';
-    toast.style.backgroundColor = isError ? '#b91c1c' : '#2d3e50';
-    toast.style.color = 'white';
-    toast.style.padding = '10px 20px';
-    toast.style.borderRadius = '40px';
-    toast.style.fontSize = '0.9rem';
-    toast.style.fontWeight = '500';
-    toast.style.zIndex = '1100';
-    toast.style.backdropFilter = 'blur(12px)';
-    toast.style.background = isError ? '#991b1bdd' : '#1e293bdd';
-    toast.style.border = '1px solid #a78bfa';
-    toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
-    document.body.appendChild(toast);
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transition = '0.2s';
-      setTimeout(() => toast.remove(), 300);
-    }, 2300);
-  }
-
-  // Open modal and simulate "connecting"
-  function openModal() {
-    modal.classList.add('active');
-    // small playful status simulation: placeholder text changing
-    const placeholderDiv = document.querySelector('.video-placeholder');
-    const avatarDiv = document.querySelector('.fake-avatar i');
-    const statusText = document.querySelector('.video-placeholder p');
-    if (statusText) {
-      statusText.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Connecting to a random stranger...';
-      setTimeout(() => {
-        if (modal.classList.contains('active')) {
-          statusText.innerHTML = '🎥 Connected! Say hi! (demo mode)';
-          if (avatarDiv) avatarDiv.className = 'fas fa-smile-wink';
-          const extra = document.querySelector('.video-placeholder div:first-child');
-        }
-      }, 1800);
-    }
-  }
-
-  function closeModal() {
-    modal.classList.remove('active');
-    // reset modal inner text for next open
-    const statusP = document.querySelector('.video-placeholder p');
-    const avatarIcon = document.querySelector('.fake-avatar i');
-    if (statusP) statusP.innerHTML = 'Finding your random match...';
-    if (avatarIcon) avatarIcon.className = 'fas fa-user-astronaut';
-  }
-
-  openBtn.addEventListener('click', () => {
-    openModal();
-    showFloatyMessage("🔮 Matching you with someone spontaneous...");
-  });
-
-  closeBtn.addEventListener('click', closeModal);
-  // clicking outside close
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  // Quick join mini-chat button: better UX simulating a fast random chat modal OR just a notification
-  quickJoin.addEventListener('click', () => {
-    // open the video chat modal but with audio/text emphasis
-    openModal();
-    showFloatyMessage("🎙️ Entering random chat room · be respectful");
-    // custom update in modal to reflect "audio" style but still fun
-    const videoPlace = document.querySelector('.video-placeholder');
-    if (videoPlace) {
-      const existing = videoPlace.querySelector('.fake-avatar i');
-      if (existing) existing.className = 'fas fa-headphones';
-      const textP = videoPlace.querySelector('p');
-      if (textP) textP.innerHTML = '<i class="fas fa-waveform"></i> Audio chat · speak freely';
-    }
-  });
-
-  // Mock interactions inside modal
-  mockNext.addEventListener('click', () => {
-    const statusField = document.querySelector('.video-placeholder p');
-    if (statusField) {
-      statusField.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Skipping to next person...';
-      setTimeout(() => {
-        if (modal.classList.contains('active')) {
-          statusField.innerHTML = '✨ New match! Start fresh conversation.';
-          const avatarIcon = document.querySelector('.fake-avatar i');
-          if (avatarIcon) avatarIcon.className = 'fas fa-comet';
-        }
-      }, 1000);
-    }
-    showFloatyMessage("⏩ You moved to a new stranger");
-  });
-
-  mockStop.addEventListener('click', () => {
-    closeModal();
-    showFloatyMessage("👋 Chat ended · come back anytime", false);
-  });
-
-  // extra tiny micro interactions: hover stats on feature cards, add ripple like effect
-  const cards = document.querySelectorAll('.feature-card');
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      const title = card.querySelector('h3')?.innerText || 'feature';
-      showFloatyMessage(`✨ Explore ${title} — ready when you are`);
-    });
-  });
-
-  // demo nice console greeting
-  console.log("Omingle UI/UX enhanced — safe, playful, modern");
-</script>
-</body>
-</html>  box-shadow: 0 4px 12px rgba(255, 0, 85, 0.4);
+.footer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 0, 85, 0.4);
 }
 
 .footer {
