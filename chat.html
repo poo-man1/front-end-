@@ -89,14 +89,25 @@ video {
   position: fixed;
   bottom: 120px;
   left: 10px;
-  width: 95%;
+  right: 10px;
+  width: auto;
   margin: 10px auto;
   max-height: 120px;
   overflow-y: auto;
   font-size: 14px;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.7);
   border-radius: 10px;
   padding: 8px;
+}
+
+#messages div {
+  margin: 5px 0;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+#messages div:first-child {
+  margin-top: 0;
 }
 
 /* ===== CONTROLS ===== */
@@ -110,6 +121,73 @@ video {
 .controls input {
   width: 60%;
   padding: 8px;
+  border-radius: 5px;
+  border: none;
+  background: #222;
+  color: white;
+}
+
+.controls input:focus {
+  outline: none;
+  border: 1px solid #ff0055;
+}
+
+.controls button {
+  padding: 8px 10px;
+  margin: 4px;
+  border: none;
+  border-radius: 5px;
+  background: #ff0055;
+  color: white;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #ff3377;
+  transform: scale(1.02);
+}
+
+.controls button:active {
+  transform: scale(0.98);
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  Omingle
+  <div class="online-top">
+    <i>●</i> <span id="onlineCount">0</span> online
+  </div>
+</div>
+
+<!-- VIDEO AREA -->
+<div class="videos">
+  <video id="remote" autoplay playsinline></video>
+  <video id="local" autoplay muted playsinline></video>
+</div>
+  
+
+<!-- CHAT -->
+<div id="messages"></div>
+
+<div class="controls">
+  <input id="text" placeholder="Type message…" onkeypress="if(event.key==='Enter') send()" />
+  <br />
+  <button onclick="send()">Send</button>
+  <button onclick="toggleMic()">Mic</button>
+  <button onclick="toggleCam()">Cam</button>
+  <button onclick="report()">Report</button>
+  <button onclick="next()">Next</button>
+</div>
+
+<!-- SOCKET.IO -->
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>  padding: 8px;
   border-radius: 5px;
   border: none;
   background: #222;
