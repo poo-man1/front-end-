@@ -1,160 +1,114 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Omingle – Video Chat</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <title>Omingle – Video Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #111, #1a0010);
-  color: white;
-  overflow: hidden;
-}
+  <style>
+    body {
+      margin: 0;
+      background: #0e0e0e;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
 
-/* ===== TOP HEADER ===== */
-.topbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  background: rgba(0,0,0,0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: #ff0055;
-  z-index: 1000;
-}
+    .videos {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      z-index: 0; /* base layer */
+    }
 
-.online-top {
-  position: absolute;
-  right: 15px;
-  font-size: 14px;
-  color: #00ffcc;
-}
+    #remote {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      background: black;
+      z-index: 0;
+    }
 
-/* ===== VIDEO SECTION ===== */
-.videos {
-  display: flex;
-  height: calc(100vh - 140px);
-  margin-top: 60px;
-  gap: 15px;
-  padding: 15px;
-  box-sizing: border-box;
-}
+    #local {
+      position: absolute;
+      bottom: 110px; right: 10px;
+      width: 120px; height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid white;
+      background: black;
+      z-index: 1;
+    }
 
-/* Desktop = Left & Right */
-.videos {
-  flex-direction: row;
-}
+    #messages {
+      position: fixed;
+      bottom: 70px; left: 10px;
+      max-height: 120px; width: 90%;
+      overflow-y: auto;
+      font-size: 14px;
+      z-index: 10; /* above videos */
+    }
 
-video {
-  flex: 1;
-  border-radius: 18px;
-  object-fit: cover;
-  background: black;
-  border: 2px solid #ff0055;
-  box-shadow: 0 0 25px rgba(255,0,85,0.6);
-  transition: 0.3s;
-}
+    .controls {
+      position: fixed;
+      bottom: 10px; left: 0;
+      width: 100%;
+      text-align: center;
+      z-index: 20; /* top-most */
+      /* Optional readability */
+      backdrop-filter: blur(6px);
+      background: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0));
+      padding-bottom: 6px;
+    }
 
-/* Mobile = Up & Down */
-@media (max-width: 768px) {
-  .videos {
-    flex-direction: column;
-  }
+    .controls input {
+      width: 60%;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+    }
 
-  video {
-    height: 50%;
-  }
-}
-
-/* ===== CHAT SECTION ===== */
-#messages {
-  position: fixed;
-  bottom: 120px;
-  left: 10px;
-  width: 95%;
-  margin: 10px auto;
-  max-height: 120px;
-  overflow-y: auto;
-  font-size: 14px;
-}
-
-/* ===== CONTROLS ===== */
-.controls {
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-}
-
-.controls input {
-  width: 60%;
-  padding: 8px;
-  border-radius: 5px;
-  border: none;
-}
-
-.controls button {
-  padding: 8px 10px;
-  margin: 4px;
-  border: none;
-  border-radius: 5px;
-  background: #ff0055;
-  color: white;
-  cursor: pointer;
-}
-</style>
+    .controls button {
+      padding: 8px 10px;
+      margin: 4px;
+      border: none;
+      border-radius: 5px;
+      background: #ff0055;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="topbar">
-  Omingle
-</div>
+  <!-- VIDEO AREA -->
+  <div class="videos">
+    <!-- Stranger video -->
+    <video id="remote" autoplay playsinline></video>
 
-<!-- VIDEO AREA -->
-<div class="videos">
-  <video id="remote" autoplay playsinline></video>
-  <video id="local" autoplay muted playsinline></video>
-</div>
-  
+    <!-- Your video (MUTED to avoid echo) -->
+    <video id="local" autoplay muted playsinline></video>
+  </div>
 
-<!-- CHAT -->
-<div id="messages"></div>
+  <!-- CHAT + CONTROLS -->
+  <div id="messages"></div>
 
-<div class="controls">
-  <input id="text" placeholder="Type message…" />
-  <br />
-  <button onclick="send()">Send</button>
-  <button onclick="toggleMic()">Mic</button>
-  <button onclick="toggleCam()">Cam</button>
-  <button onclick="report()">Report</button>
-  <button onclick="next()">Next</button>
-</div>
+  <div class="controls">
+    <input id="text" placeholder="Type message…" />
+    <br />
+    <button onclick="send()">Send</button>
+    <button onclick="toggleMic()">Mic</button>
+    <button onclick="toggleCam()">Cam</button>
+    <button onclick="report()">Report</button>
+    <button onclick="next()">Next</button>
+  </div>
 
-<!-- SOCKET.IO -->
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <!-- SOCKET.IO -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 
-<script>
-/* This uses the socket created in app.js */
-
-socket.on("onlineCount", (count) => {
-  const el = document.getElementById("onlineCount");
-  if (el) {
-    el.innerText = count;
-  }
-});
-</script>
-
-<!-- YOUR WEBRTC LOGIC -->
-<script src="app.js"></script>
-
+  <!-- YOUR WEBRTC LOGIC -->
+  <script src="app.js"></script>
 </body>
 </html>
-
