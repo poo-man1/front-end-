@@ -42,10 +42,14 @@ async function initMedia() {
   }
 }
 
-initMedia();
-socket.on("connect", () => {
-  console.log("Connected:",socket.id);
+async function startApp() {
+  await initMedia();
+  console.log("Media ready");
   socket.emit("find-partner");
+}
+socket.on("connect",() => {
+  console.log("Connected:",socket.id);
+  startApp();
 });
 socket.onAny((event, ...args) => {
   console.log("EVENT:", event,args);
