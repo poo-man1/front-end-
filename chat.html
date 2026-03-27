@@ -14,7 +14,6 @@ body {
   overflow: hidden;
 }
 
-/* ===== TOP HEADER ===== */
 .topbar {
   position: fixed;
   top: 0;
@@ -37,7 +36,6 @@ body {
   color: #00ffcc;
 }
 
-/* ===== VIDEO SECTION ===== */
 .videos {
   display: flex;
   height: calc(100vh - 140px);
@@ -47,11 +45,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Desktop = Left & Right */
-.videos {
-  flex-direction: row;
-}
-
 video {
   flex: 1;
   border-radius: 18px;
@@ -59,10 +52,8 @@ video {
   background: black;
   border: 2px solid #ff0055;
   box-shadow: 0 0 25px rgba(255,0,85,0.6);
-  transition: 0.3s;
 }
 
-/* Mobile = Up & Down */
 @media (max-width: 768px) {
   .videos {
     flex-direction: column;
@@ -73,19 +64,16 @@ video {
   }
 }
 
-/* ===== CHAT SECTION ===== */
 #messages {
   position: fixed;
   bottom: 120px;
   left: 10px;
   width: 95%;
-  margin: 10px auto;
   max-height: 120px;
   overflow-y: auto;
   font-size: 14px;
 }
 
-/* ===== CONTROLS ===== */
 .controls {
   position: fixed;
   bottom: 10px;
@@ -116,16 +104,14 @@ video {
 
 <div class="topbar">
   Omingle
+  <span class="online-top">Online: <span id="onlineCount">0</span></span>
 </div>
 
-<!-- VIDEO AREA -->
 <div class="videos">
   <video id="remote" autoplay playsinline></video>
   <video id="local" autoplay muted playsinline></video>
 </div>
-  
 
-<!-- CHAT -->
 <div id="messages"></div>
 
 <div class="controls">
@@ -138,21 +124,18 @@ video {
   <button onclick="next()">Next</button>
 </div>
 
-<!-- SOCKET.IO -->
+<!-- ✅ FIXED SOCKET.IO SCRIPT TAG -->
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 
 <script>
-/* This uses the socket created in app.js */
+const socket = io();
 
 socket.on("onlineCount", (count) => {
-  const el = document.getElementById("onlineCount");
-  if (el) {
-    el.innerText = count;
-  }
+  document.getElementById("onlineCount").innerText = count;
 });
 </script>
 
-<!-- YOUR WEBRTC LOGIC -->
+<!-- ✅ FIXED app.js SCRIPT -->
 <script src="app.js"></script>
 
 </body>
