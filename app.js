@@ -1,8 +1,11 @@
+
 // ===== Brand & Server Settings =====
 const APP_NAME = "Omingle";
+// NOTE: Keeping your existing server to avoid breaking connections.
+// If you've renamed the backend, update the URL below once.
 const SERVER_URL = "https://gaaji-server.onrender.com";
 
-// ===== Socket.IO =====
+// ===== Socket.IO Connection =====
 const socket = io(SERVER_URL, {
   transports: ["websocket"]
 });
@@ -16,13 +19,13 @@ let localStream = null;
 let micOn = true;
 let camOn = true;
 
-// ICE config
+// ICE config (STUN only for now – TURN optional)
 const iceConfig = {
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
 };
 
 /* ==============================
-   1️⃣ INIT MEDIA + START MATCHING
+   1️⃣ GET CAMERA FIRST (FIX)
 ================================ */
 async function initMedia() {
   try {
@@ -32,13 +35,9 @@ async function initMedia() {
     });
 
     localVideo.srcObject = localStream;
-    localVideo.muted = true;
-
-    // 🔥 START MATCHING AFTER CAMERA READY
-    socket.emit("find-partner");
-
+    localVideo.muted = true; // 🔴 VERY IMPORTANT (prevents echo)
   } catch (err) {
-    alert(`Camera/Mic permission denied on ${APP_NAME}`);
+    alert(`Camera or mic permission denied on ${APP_NAME}`);
     console.error(err);
   }
 }
@@ -46,12 +45,13 @@ async function initMedia() {
 initMedia();
 
 /* ==============================
-   2️⃣ PEER CONNECTION
+   2️⃣ CREATE PEER CONNECTION
 ================================ */
 function createPeerConnection() {
   pc = new RTCPeerConnection(iceConfig);
 
-  localStream.getTracks().forEach(track => {
+  // Add local tracks ONLY after stream exists
+  localStream.getTracks().forEach((track) => {
     pc.addTrack(track, localStream);
   });
 
@@ -66,8 +66,8 @@ function createPeerConnection() {
   };
 
   pc.onconnectionstatechange = () => {
-    if (pc.connectionState === "failed" || pc.connectionState === "disconnected") {
-      resetPeerOnly();
+    if (pc.connectionState === "failed") {
+      resetConnection();
     }
   };
 }
@@ -75,13 +75,7 @@ function createPeerConnection() {
 /* ==============================
    3️⃣ SOCKET EVENTS
 ================================ */
-socket.on("connect", () => {
-  console.log("Connected:", socket.id);
-});
-
 socket.on("matched", async ({ initiator }) => {
-  showStatus("Connected to stranger ✅");
-
   createPeerConnection();
 
   if (initiator) {
@@ -99,16 +93,10 @@ socket.on("signal", async (data) => {
     const answer = await pc.createAnswer();
     await pc.setLocalDescription(answer);
     socket.emit("signal", answer);
-
   } else if (data.type === "answer") {
     await pc.setRemoteDescription(data);
-
   } else {
-    try {
-      await pc.addIceCandidate(data);
-    } catch (e) {
-      console.warn("ICE error", e);
-    }
+    await pc.addIceCandidate(data);
   }
 });
 
@@ -117,13 +105,9 @@ socket.on("chat", (msg) => {
   scrollMessagesToBottom();
 });
 
-socket.on("peer-disconnected", () => {
-  showStatus("Stranger left 😢");
-  next();
-});
-
-socket.on("reported", () => alert("You were reported"));
-socket.on("banned", () => alert("You are temporarily banned"));
+socket.on("peer-disconnected", resetConnection);
+socket.on("reported", () => alert(`You were reported on ${APP_NAME}`));
+socket.on("banned", () => alert(`You are temporarily banned from ${APP_NAME}`));
 
 /* ==============================
    4️⃣ CONTROLS
@@ -140,40 +124,33 @@ function send() {
 
 function toggleMic() {
   micOn = !micOn;
-  const track = localStream.getAudioTracks()[0];
-  if (track) track.enabled = micOn;
+  const tracks = localStream.getAudioTracks();
+  if (tracks[0]) tracks[0].enabled = micOn;
 }
 
 function toggleCam() {
   camOn = !camOn;
-  const track = localStream.getVideoTracks()[0];
-  if (track) track.enabled = camOn;
+  const tracks = localStream.getVideoTracks();
+  if (tracks[0]) tracks[0].enabled = camOn;
 }
 
 function report() {
   if (confirm("Report this user?")) {
     socket.emit("report");
-    showStatus("Reported. Finding new match…");
-    next();
+    showStatus("Reported. Finding a new match…");
+    resetConnection();
   }
 }
 
 function next() {
-  showStatus("Finding new stranger…");
-
-  resetPeerOnly();
-
-  remoteVideo.srcObject = null;
-  messages.innerHTML = "";
-
-  socket.emit("next");          // inform server
-  socket.emit("find-partner");  // 🔥 find new match
+  showStatus("Connecting to the next match…");
+  resetConnection();
 }
 
 /* ==============================
    5️⃣ RESET (SAFE)
 ================================ */
-function resetPeerOnly() {
+function resetConnection() {
   try {
     if (pc) {
       pc.ontrack = null;
@@ -185,10 +162,16 @@ function resetPeerOnly() {
   } catch (e) {
     console.warn("Peer close error", e);
   }
+
+  // Reconnect to server fresh for a new match
+  try {
+    socket.disconnect();
+  } catch (e) {}
+  setTimeout(() => location.reload(), 400);
 }
 
 /* ==============================
-   6️⃣ HELPERS
+   6️⃣ Small Helpers
 ================================ */
 function escapeHtml(str) {
   return String(str)
@@ -204,14 +187,14 @@ function scrollMessagesToBottom() {
 }
 
 function showStatus(text) {
+  // Quick transient banner above controls
   const id = "omingle-status";
   let el = document.getElementById(id);
-
   if (!el) {
     el = document.createElement("div");
     el.id = id;
     el.style.position = "fixed";
-    el.style.bottom = "60px";
+    el.style.bottom = "50px";
     el.style.left = "50%";
     el.style.transform = "translateX(-50%)";
     el.style.background = "rgba(0,0,0,0.7)";
@@ -222,12 +205,8 @@ function showStatus(text) {
     el.style.zIndex = "1000";
     document.body.appendChild(el);
   }
-
   el.textContent = text;
   el.style.display = "block";
-
   clearTimeout(el._t);
-  el._t = setTimeout(() => {
-    el.style.display = "none";
-  }, 2000);
+  el._t = setTimeout(() => (el.style.display = "none"), 1800);
 }
