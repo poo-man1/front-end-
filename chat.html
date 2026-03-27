@@ -35,6 +35,17 @@ body {
   right: 15px;
   font-size: 14px;
   color: #00ffcc;
+  background: rgba(0,0,0,0.6);
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.online-top i {
+  font-size: 10px;
+  color: #00ff88;
 }
 
 /* ===== VIDEO SECTION ===== */
@@ -83,6 +94,9 @@ video {
   max-height: 120px;
   overflow-y: auto;
   font-size: 14px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 10px;
+  padding: 8px;
 }
 
 /* ===== CONTROLS ===== */
@@ -98,6 +112,13 @@ video {
   padding: 8px;
   border-radius: 5px;
   border: none;
+  background: #222;
+  color: white;
+}
+
+.controls input:focus {
+  outline: none;
+  border: 1px solid #ff0055;
 }
 
 .controls button {
@@ -109,6 +130,10 @@ video {
   color: white;
   cursor: pointer;
 }
+
+.controls button:hover {
+  background: #ff3377;
+}
 </style>
 </head>
 
@@ -116,6 +141,9 @@ video {
 
 <div class="topbar">
   Omingle
+  <div class="online-top">
+    <i>●</i> <span id="onlineCount">0</span> online
+  </div>
 </div>
 
 <!-- VIDEO AREA -->
@@ -142,19 +170,39 @@ video {
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 
 <script>
-/* This uses the socket created in app.js */
+// Create a SEPARATE socket connection for online count only
+// This won't interfere with your existing app.js socket
 
-socket.on("onlineCount", (count) => {
-  const el = document.getElementById("onlineCount");
-  if (el) {
-    el.innerText = count;
-  }
-});
+(function() {
+  // Create a new socket connection specifically for online count
+  const countSocket = io("https://gaaji-server.onrender.com", {
+    transports: ["websocket"]
+  });
+  
+  // Listen for online count updates
+  countSocket.on("onlineCount", (count) => {
+    const el = document.getElementById("onlineCount");
+    if (el) {
+      el.innerText = count;
+    }
+    console.log("Online users:", count);
+  });
+  
+  countSocket.on("connect", () => {
+    console.log("Online count socket connected");
+  });
+  
+  countSocket.on("connect_error", (err) => {
+    console.error("Online count socket error:", err);
+  });
+})();
+
+// Note: Your existing app.js will create its OWN socket connection
+// This separate socket won't interfere with the WebRTC functionality
 </script>
 
-<!-- YOUR WEBRTC LOGIC -->
+<!-- YOUR WEBRTC LOGIC - This should remain exactly as it was -->
 <script src="app.js"></script>
 
 </body>
-</html>  
-
+</html>
