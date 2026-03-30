@@ -60,6 +60,11 @@ socket.onAny((event, ...args) => {
 ================================ */
 function createPeerConnection() {
   pc = new RTCPeerConnection(iceConfig);
+  if(!localStream){
+    console.log("waiting for
+                localStream...");
+    return;
+  }
 
   // Add local tracks ONLY after stream exists
   localStream.getTracks().forEach((track) => {
@@ -87,7 +92,13 @@ function createPeerConnection() {
    3️⃣ SOCKET EVENTS
 ================================ */
 socket.on("matched", async ({ initiator }) => {
-  createPeerConnection();
+  console.log("Matched event triggered");
+  if(!localstream) {
+    console.log("Waiting for media before
+                connecting...");
+    await initmedia();
+  }
+  createpeerConnection();
 
   if (initiator) {
     const offer = await pc.createOffer();
