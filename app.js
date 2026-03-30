@@ -42,29 +42,13 @@ async function initMedia() {
   }
 }
 
-async function startApp() {
-  await initMedia();
-  console.log("Media ready");
-  socket.emit("find-partner");
-}
-socket.on("connect",() => {
-  console.log("Connected:",socket.id);
-  startApp();
-});
-socket.onAny((event, ...args) => {
-  console.log("EVENT:", event,args);
-});
+initMedia();
 
 /* ==============================
    2️⃣ CREATE PEER CONNECTION
 ================================ */
 function createPeerConnection() {
   pc = new RTCPeerConnection(iceConfig);
-  if(!localStream){
-    console.log("waiting for
-                localStream...");
-    return;
-  }
 
   // Add local tracks ONLY after stream exists
   localStream.getTracks().forEach((track) => {
@@ -92,13 +76,7 @@ function createPeerConnection() {
    3️⃣ SOCKET EVENTS
 ================================ */
 socket.on("matched", async ({ initiator }) => {
-  console.log("Matched event triggered");
-  if(!localstream) {
-    console.log("Waiting for media before
-                connecting...");
-    await initmedia();
-  }
-  createpeerConnection();
+  createPeerConnection();
 
   if (initiator) {
     const offer = await pc.createOffer();
