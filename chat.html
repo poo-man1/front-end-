@@ -180,8 +180,6 @@ video {
   <button onclick="next()">⏭ Next</button>
 </div>
 
-<!-- ✅ Wake up Render BEFORE socket loads -->
-<script>fetch("https://gaaji-server.onrender.com/").catch(()=>{});</script>
 
 <!-- ✅ Socket.IO — match version with index.html -->
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
