@@ -3,8 +3,12 @@ const APP_NAME = "Omingle";
 const SERVER_URL = "https://gaaji-server.onrender.com";
 
 // ===== Socket.IO Connection =====
+// ✅ polling first so Render cold-start doesn't kill the connection
 const socket = io(SERVER_URL, {
-  transports: ["websocket", "polling"] // ✅ polling as fallback
+  transports: ["polling", "websocket"],
+  reconnectionAttempts: 10,
+  reconnectionDelay: 2000,
+  timeout: 20000
 });
 
 const localVideo = document.getElementById("local");
@@ -16,11 +20,12 @@ let localStream = null;
 let micOn = true;
 let camOn = true;
 
-// ✅ ICE candidate queue — fixes race condition
+// ✅ ICE candidate queue — fixes race condition where candidates
+//    arrive before remote description is set
 let iceCandidateQueue = [];
 let remoteDescSet = false;
 
-// ✅ Multiple STUN + FREE TURN servers
+// ✅ Multiple STUN servers + free TURN for cross-network connections
 const iceConfig = {
   iceServers: [
     { urls: "stun:stun.l.google.com:19302" },
@@ -28,7 +33,7 @@ const iceConfig = {
     { urls: "stun:stun2.l.google.com:19302" },
     { urls: "stun:stun3.l.google.com:19302" },
     { urls: "stun:stun4.l.google.com:19302" },
-    // ✅ Free TURN from Open Relay Project (works globally including India)
+    // ✅ Free TURN — handles symmetric NAT (mobile data, office networks)
     {
       urls: "turn:openrelayproject.org:443?transport=tcp",
       username: "openrelayproject",
@@ -40,11 +45,11 @@ const iceConfig = {
       credential: "openrelayproject"
     }
   ],
-  iceCandidatePoolSize: 10 // ✅ pre-gather candidates for faster connection
+  iceCandidatePoolSize: 10 // ✅ pre-gather candidates for faster connect
 };
 
 /* ==============================
-   1️⃣ GET CAMERA FIRST
+   1️⃣ GET CAMERA & MIC
 ================================ */
 async function initMedia() {
   try {
@@ -53,9 +58,9 @@ async function initMedia() {
       audio: true
     });
     localVideo.srcObject = localStream;
-    localVideo.muted = true;
+    localVideo.muted = true; // prevent echo
   } catch (err) {
-    alert(`Camera or mic permission denied on ${APP_NAME}`);
+    alert(`Camera or mic permission denied on ${APP_NAME}. Please allow access and refresh.`);
     console.error(err);
   }
 }
@@ -66,37 +71,40 @@ initMedia();
    2️⃣ CREATE PEER CONNECTION
 ================================ */
 function createPeerConnection() {
-  // Clean up existing
+  // Clean up any existing connection first
   if (pc) {
     pc.close();
     pc = null;
   }
-
   iceCandidateQueue = [];
   remoteDescSet = false;
 
   pc = new RTCPeerConnection(iceConfig);
 
+  // Add local tracks
   localStream.getTracks().forEach((track) => {
     pc.addTrack(track, localStream);
   });
 
+  // Show remote video when tracks arrive
   pc.ontrack = (event) => {
     remoteVideo.srcObject = event.streams[0];
   };
 
+  // Send ICE candidates to partner via signaling server
   pc.onicecandidate = (event) => {
     if (event.candidate) {
       socket.emit("signal", { type: "candidate", candidate: event.candidate });
     }
   };
 
+  // Connection state logging + UI feedback
   pc.onconnectionstatechange = () => {
     console.log("Connection state:", pc.connectionState);
     if (pc.connectionState === "connected") {
       showStatus("✅ Connected!");
     } else if (pc.connectionState === "failed") {
-      showStatus("❌ Connection failed. Try next.");
+      showStatus("❌ Connection failed. Try pressing Next.");
     } else if (pc.connectionState === "disconnected") {
       showStatus("⚠️ Peer disconnected.");
     }
@@ -108,7 +116,9 @@ function createPeerConnection() {
 }
 
 /* ==============================
-   ✅ DRAIN ICE QUEUE (Race fix)
+   ✅ DRAIN ICE QUEUE
+   Flush any candidates that arrived
+   before remote description was set
 ================================ */
 async function drainIceCandidateQueue() {
   while (iceCandidateQueue.length > 0) {
@@ -124,6 +134,15 @@ async function drainIceCandidateQueue() {
 /* ==============================
    3️⃣ SOCKET EVENTS
 ================================ */
+socket.on("connect", () => {
+  console.log("✅ Socket connected:", socket.id);
+});
+
+socket.on("connect_error", (err) => {
+  console.error("❌ Socket connection error:", err.message);
+  showStatus("⏳ Connecting to server...");
+});
+
 socket.on("waiting", () => {
   showStatus("⏳ Waiting for a match...");
 });
@@ -133,9 +152,13 @@ socket.on("matched", async ({ initiator }) => {
   createPeerConnection();
 
   if (initiator) {
-    const offer = await pc.createOffer();
-    await pc.setLocalDescription(offer);
-    socket.emit("signal", offer);
+    try {
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      socket.emit("signal", offer);
+    } catch (e) {
+      console.error("Offer error:", e);
+    }
   }
 });
 
@@ -157,9 +180,9 @@ socket.on("signal", async (data) => {
       await drainIceCandidateQueue(); // ✅ flush queued candidates
 
     } else if (data.type === "candidate" || data.candidate) {
-      // ✅ Queue if remote description not set yet
+      // ✅ Queue if remote description not ready yet
       const candidate = data.candidate || data;
-      if (remoteDescSet) {
+      if (remoteDescSet && pc) {
         await pc.addIceCandidate(new RTCIceCandidate(candidate));
       } else {
         iceCandidateQueue.push(candidate);
@@ -176,14 +199,15 @@ socket.on("chat", (msg) => {
 });
 
 socket.on("peer-disconnected", () => {
-  showStatus("👋 Stranger disconnected.");
+  showStatus("👋 Stranger disconnected. Press Next for a new match.");
   cleanupPeer();
   remoteVideo.srcObject = null;
 });
 
-socket.on("reported", () => alert(`You were reported on ${APP_NAME}`));
+socket.on("reported", () => alert(`You were reported on ${APP_NAME}.`));
+
 socket.on("banned", () => {
-  alert(`You are temporarily banned from ${APP_NAME}`);
+  alert(`You are temporarily banned from ${APP_NAME}.`);
   socket.disconnect();
 });
 
@@ -219,17 +243,17 @@ function report() {
   }
 }
 
-// ✅ next() — no more page reload!
+// ✅ No more page reload — server handles re-matching
 function next() {
   cleanupPeer();
   remoteVideo.srcObject = null;
   messages.innerHTML = "";
-  socket.emit("next"); // ✅ server handles re-matching
+  socket.emit("next");
   showStatus("🔄 Finding next match...");
 }
 
 /* ==============================
-   5️⃣ CLEANUP (no reload)
+   5️⃣ CLEANUP (no page reload)
 ================================ */
 function cleanupPeer() {
   try {
@@ -273,114 +297,16 @@ function showStatus(text) {
     el.style.cssText = `
       position:fixed; bottom:50px; left:50%;
       transform:translateX(-50%);
-      background:rgba(0,0,0,0.75); color:#fff;
-      padding:8px 16px; border-radius:8px;
-      font-size:14px; z-index:1000;
+      background:rgba(0,0,0,0.8); color:#fff;
+      padding:10px 20px; border-radius:30px;
+      font-size:14px; z-index:9999;
+      font-family:inherit; pointer-events:none;
+      border: 1px solid rgba(244,63,94,0.5);
     `;
     document.body.appendChild(el);
   }
   el.textContent = text;
   el.style.display = "block";
   clearTimeout(el._t);
-  el._t = setTimeout(() => (el.style.display = "none"), 2500);
-    }/* ==============================
-   4️⃣ CONTROLS
-================================ */
-function send() {
-  const input = document.getElementById("text");
-  if (!input.value) return;
-
-  messages.innerHTML += `<div>You: ${escapeHtml(input.value)}</div>`;
-  socket.emit("chat", input.value);
-  input.value = "";
-  scrollMessagesToBottom();
-}
-
-function toggleMic() {
-  micOn = !micOn;
-  const tracks = localStream.getAudioTracks();
-  if (tracks[0]) tracks[0].enabled = micOn;
-}
-
-function toggleCam() {
-  camOn = !camOn;
-  const tracks = localStream.getVideoTracks();
-  if (tracks[0]) tracks[0].enabled = camOn;
-}
-
-function report() {
-  if (confirm("Report this user?")) {
-    socket.emit("report");
-    showStatus("Reported. Finding a new match…");
-    resetConnection();
-  }
-}
-
-function next() {
-  showStatus("Connecting to the next match…");
-  resetConnection();
-}
-
-/* ==============================
-   5️⃣ RESET (SAFE)
-================================ */
-function resetConnection() {
-  try {
-    if (pc) {
-      pc.ontrack = null;
-      pc.onicecandidate = null;
-      pc.onconnectionstatechange = null;
-      pc.close();
-      pc = null;
-    }
-  } catch (e) {
-    console.warn("Peer close error", e);
-  }
-
-  // Reconnect to server fresh for a new match
-  try {
-    socket.disconnect();
-  } catch (e) {}
-  setTimeout(() => location.reload(), 400);
-}
-
-/* ==============================
-   6️⃣ Small Helpers
-================================ */
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function scrollMessagesToBottom() {
-  messages.scrollTop = messages.scrollHeight;
-}
-
-function showStatus(text) {
-  // Quick transient banner above controls
-  const id = "omingle-status";
-  let el = document.getElementById(id);
-  if (!el) {
-    el = document.createElement("div");
-    el.id = id;
-    el.style.position = "fixed";
-    el.style.bottom = "50px";
-    el.style.left = "50%";
-    el.style.transform = "translateX(-50%)";
-    el.style.background = "rgba(0,0,0,0.7)";
-    el.style.color = "#fff";
-    el.style.padding = "8px 12px";
-    el.style.borderRadius = "6px";
-    el.style.fontSize = "14px";
-    el.style.zIndex = "1000";
-    document.body.appendChild(el);
-  }
-  el.textContent = text;
-  el.style.display = "block";
-  clearTimeout(el._t);
-  el._t = setTimeout(() => (el.style.display = "none"), 1800);
+  el._t = setTimeout(() => (el.style.display = "none"), 3000);
 }
