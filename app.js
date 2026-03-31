@@ -149,7 +149,7 @@ socket.on("waiting", () => {
 
 socket.on("matched", async ({ initiator }) => {
   showStatus("🎉 Matched! Connecting...");
-  createPeerConnection();
+  createPeerConnection(); // always fresh connection
 
   if (initiator) {
     try {
@@ -167,20 +167,33 @@ socket.on("signal", async (data) => {
 
   try {
     if (data.type === "offer") {
+      // ✅ Fix glare: if we already sent an offer, rollback first
+      if (pc.signalingState === "have-local-offer") {
+        try { await pc.setLocalDescription({ type: "rollback" }); } catch(e) {}
+      }
+      if (pc.signalingState !== "stable") {
+        console.warn("Skipping offer in state:", pc.signalingState);
+        return;
+      }
       await pc.setRemoteDescription(new RTCSessionDescription(data));
       remoteDescSet = true;
-      await drainIceCandidateQueue(); // ✅ flush queued candidates
+      await drainIceCandidateQueue();
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
       socket.emit("signal", answer);
 
     } else if (data.type === "answer") {
+      // ✅ Only accept answer if we are waiting for one
+      if (pc.signalingState !== "have-local-offer") {
+        console.warn("Skipping answer in state:", pc.signalingState);
+        return;
+      }
       await pc.setRemoteDescription(new RTCSessionDescription(data));
       remoteDescSet = true;
-      await drainIceCandidateQueue(); // ✅ flush queued candidates
+      await drainIceCandidateQueue();
 
     } else if (data.type === "candidate" || data.candidate) {
-      // ✅ Queue if remote description not ready yet
+      // ✅ Queue candidates until remote desc is set
       const candidate = data.candidate || data;
       if (remoteDescSet && pc) {
         await pc.addIceCandidate(new RTCIceCandidate(candidate));
@@ -192,6 +205,7 @@ socket.on("signal", async (data) => {
     console.error("Signal handling error:", e);
   }
 });
+
 
 socket.on("chat", (msg) => {
   messages.innerHTML += `<div><b>Stranger:</b> ${escapeHtml(msg)}</div>`;
