@@ -6,12 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #111, #1a0010);
   color: white;
   overflow: hidden;
+  height: 100vh;
 }
 
 /* ===== TOP HEADER ===== */
@@ -33,56 +35,71 @@ body {
 .online-top {
   position: absolute;
   right: 15px;
-  font-size: 14px;
+  font-size: 13px;
   color: #00ffcc;
+}
+
+/* ===== STATUS BANNER ===== */
+#statusBar {
+  position: fixed;
+  top: 60px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  padding: 5px;
+  background: rgba(0,0,0,0.7);
+  color: #fda4af;
+  z-index: 999;
+  display: none;
 }
 
 /* ===== VIDEO SECTION ===== */
 .videos {
   display: flex;
-  height: calc(100vh - 140px);
-  margin-top: 60px;
-  gap: 15px;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-/* Desktop = Left & Right */
-.videos {
   flex-direction: row;
+  height: calc(100vh - 150px);
+  margin-top: 60px;
+  gap: 10px;
+  padding: 10px;
 }
 
 video {
   flex: 1;
   border-radius: 18px;
   object-fit: cover;
-  background: black;
+  background: #0a0a0a;
   border: 2px solid #ff0055;
-  box-shadow: 0 0 25px rgba(255,0,85,0.6);
-  transition: 0.3s;
+  box-shadow: 0 0 25px rgba(255,0,85,0.5);
 }
 
-/* Mobile = Up & Down */
+/* Mobile = stacked */
 @media (max-width: 768px) {
   .videos {
     flex-direction: column;
   }
-
   video {
     height: 50%;
+    flex: none;
   }
 }
 
-/* ===== CHAT SECTION ===== */
+/* ===== CHAT MESSAGES ===== */
 #messages {
   position: fixed;
-  bottom: 120px;
+  bottom: 115px;
   left: 10px;
-  width: 95%;
-  margin: 10px auto;
-  max-height: 120px;
+  width: calc(100% - 20px);
+  max-height: 100px;
   overflow-y: auto;
-  font-size: 14px;
+  font-size: 13px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
+#messages div {
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 /* ===== CONTROLS ===== */
@@ -91,23 +108,42 @@ video {
   bottom: 10px;
   width: 100%;
   text-align: center;
+  padding: 0 8px;
 }
 
 .controls input {
-  width: 60%;
-  padding: 8px;
-  border-radius: 5px;
-  border: none;
+  width: 55%;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #ff0055;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 13px;
+  outline: none;
 }
 
+.controls input::placeholder { color: #aaa; }
+
 .controls button {
-  padding: 8px 10px;
-  margin: 4px;
+  padding: 8px 12px;
+  margin: 4px 2px;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   background: #ff0055;
   color: white;
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.controls button:hover {
+  background: #ff3377;
+  transform: scale(1.04);
+}
+
+.controls button.btn-gray {
+  background: #333;
 }
 </style>
 </head>
@@ -116,34 +152,78 @@ video {
 
 <div class="topbar">
   Omingle
+  <div class="online-top">
+    🟢 <span id="onlineUsers">0</span> online
+  </div>
 </div>
 
-<!-- VIDEO AREA -->
+<!-- Status banner (shows connecting/matched/etc) -->
+<div id="statusBar"></div>
+
+<!-- VIDEO AREA — remote first (bigger feel), local second -->
 <div class="videos">
   <video id="remote" autoplay playsinline></video>
-  <video id="local" autoplay muted playsinline></video>
+  <video id="local"  autoplay muted playsinline></video>
 </div>
-  
 
-<!-- CHAT -->
+<!-- CHAT MESSAGES -->
 <div id="messages"></div>
 
+<!-- CONTROLS -->
 <div class="controls">
-  <input id="text" placeholder="Type message…" />
+  <input id="text" placeholder="Type a message…" onkeydown="if(event.key==='Enter')send()" />
   <br />
   <button onclick="send()">Send</button>
-  <button onclick="toggleMic()">Mic</button>
-  <button onclick="toggleCam()">Cam</button>
-  <button onclick="report()">Report</button>
-  <button onclick="next()">Next</button>
+  <button onclick="toggleMic()" class="btn-gray" id="micBtn">🎤 Mic</button>
+  <button onclick="toggleCam()" class="btn-gray" id="camBtn">📷 Cam</button>
+  <button onclick="report()" class="btn-gray">🚩 Report</button>
+  <button onclick="next()">⏭ Next</button>
 </div>
 
-<!-- SOCKET.IO -->
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<!-- ✅ Wake up Render BEFORE socket loads -->
+<script>fetch("https://gaaji-server.onrender.com/").catch(()=>{});</script>
 
+<!-- ✅ Socket.IO — match version with index.html -->
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 
-<!-- YOUR WEBRTC LOGIC -->
+<!-- ✅ WebRTC logic -->
 <script src="app.js"></script>
+
+<!-- ✅ Online count listener & status bar helper -->
+<script>
+  // Online count
+  socket.on("onlineCount", (count) => {
+    const el = document.getElementById("onlineUsers");
+    if (el) el.innerText = count;
+  });
+
+  // Show status in top banner
+  const statusBar = document.getElementById("statusBar");
+  const _origShowStatus = window.showStatus;
+  window.showStatus = function(text) {
+    if (statusBar) {
+      statusBar.textContent = text;
+      statusBar.style.display = "block";
+      clearTimeout(statusBar._t);
+      statusBar._t = setTimeout(() => statusBar.style.display = "none", 3000);
+    }
+    if (_origShowStatus) _origShowStatus(text);
+  };
+
+  // Mic/Cam button label toggle
+  const micBtn = document.getElementById("micBtn");
+  const camBtn = document.getElementById("camBtn");
+  const _origToggleMic = window.toggleMic;
+  const _origToggleCam = window.toggleCam;
+  window.toggleMic = function() {
+    _origToggleMic();
+    micBtn.textContent = micBtn.textContent.includes("🎤") ? "🔇 Mic Off" : "🎤 Mic";
+  };
+  window.toggleCam = function() {
+    _origToggleCam();
+    camBtn.textContent = camBtn.textContent.includes("📷") ? "🚫 Cam Off" : "📷 Cam";
+  };
+</script>
 
 </body>
 </html>
