@@ -1,38 +1,52 @@
-// ===== Brand & Server Settings =====
+// ================================
+//  BRAND & SERVER SETTINGS
+// ================================
 const APP_NAME = "Omingle";
 const SERVER_URL = "https://gaaji-server.onrender.com";
 
-// ===== Socket.IO Connection =====
+// ================================
+//  SOCKET.IO CONNECTION
+// ================================
 const socket = io(SERVER_URL, {
   transports: ["websocket"]
 });
 
-// ===== DOM Elements =====
+// ================================
+//  DOM ELEMENTS
+// ================================
 const localVideo = document.getElementById("local");
 const remoteVideo = document.getElementById("remote");
 const messages = document.getElementById("messages");
 
-// ===== State =====
+// ================================
+//  STATE
+// ================================
 let pc = null;
 let localStream = null;
 let micOn = true;
 let camOn = true;
 
-// ===== ICE Configuration =====
+// ================================
+//  ICE CONFIG (✅ REAL TURN ADDED)
+// ================================
 const iceConfig = {
   iceServers: [
+    // STUN (for same WiFi / easy NAT)
     { urls: "stun:stun.l.google.com:19302" },
+
+    // ✅ TURN (REQUIRED for mobile & different networks)
     {
-      urls: "turn:openrelay.metered.ca:443",
-      username: "openrelayproject",
-      credential: "openrelayproject"
+      urls: "turn:global.relay.metered.ca:443",
+      username: "YOUR_TURN_USERNAME",   // 👈 REPLACE
+      credential: "YOUR_TURN_PASSWORD"  // 👈 REPLACE
     }
-  ]
+  ],
+  iceTransportPolicy: "all"
 };
 
-/* ==============================
-   1️⃣ MEDIA INITIALIZATION
-================================ */
+// ================================
+//  1️⃣ MEDIA INITIALIZATION
+// ================================
 async function initMedia() {
   if (localStream) return;
 
@@ -53,18 +67,16 @@ async function initMedia() {
 
 initMedia();
 
-/* ==============================
-   2️⃣ PEER CONNECTION
-================================ */
+// ================================
+//  2️⃣ PEER CONNECTION
+// ================================
 function createPeerConnection() {
   pc = new RTCPeerConnection(iceConfig);
 
-  // Add tracks only after media is ready
-  if (localStream) {
-    localStream.getTracks().forEach(track => {
-      pc.addTrack(track, localStream);
-    });
-  }
+  // Add local tracks
+  localStream.getTracks().forEach(track => {
+    pc.addTrack(track, localStream);
+  });
 
   pc.ontrack = event => {
     remoteVideo.srcObject = event.streams[0];
@@ -78,15 +90,22 @@ function createPeerConnection() {
   };
 
   pc.onconnectionstatechange = () => {
-    if (pc.connectionState === "failed" || pc.connectionState === "disconnected") {
+    if (
+      pc.connectionState === "failed" ||
+      pc.connectionState === "disconnected"
+    ) {
       resetConnection();
     }
   };
+
+  pc.onicegatheringstatechange = () => {
+    console.log("ICE gathering:", pc.iceGatheringState);
+  };
 }
 
-/* ==============================
-   3️⃣ SOCKET EVENTS
-================================ */
+// ================================
+//  3️⃣ SOCKET EVENTS
+// ================================
 socket.on("matched", async ({ initiator }) => {
   await initMedia();
   createPeerConnection();
@@ -129,9 +148,9 @@ socket.on("peer-disconnected", resetConnection);
 socket.on("reported", () => alert(`You were reported on ${APP_NAME}`));
 socket.on("banned", () => alert(`You are temporarily banned from ${APP_NAME}`));
 
-/* ==============================
-   4️⃣ CHAT + CONTROLS
-================================ */
+// ================================
+//  4️⃣ CONTROLS
+// ================================
 function send() {
   const input = document.getElementById("text");
   if (!input.value) return;
@@ -167,9 +186,9 @@ function next() {
   resetConnection();
 }
 
-/* ==============================
-   5️⃣ SAFE RESET (NO RELOAD)
-================================ */
+// ================================
+//  5️⃣ SAFE RESET (NO RELOAD)
+// ================================
 function resetConnection() {
   try {
     if (pc) {
@@ -177,7 +196,7 @@ function resetConnection() {
       pc = null;
     }
   } catch (e) {
-    console.warn("Peer close error", e);
+    console.warn(e);
   }
 
   remoteVideo.srcObject = null;
@@ -186,9 +205,9 @@ function resetConnection() {
   socket.connect();
 }
 
-/* ==============================
-   6️⃣ HELPERS
-================================ */
+// ================================
+//  6️⃣ HELPERS
+// ================================
 function escapeHtml(str) {
   return String(str)
     .replace(/&/g, "&amp;")
