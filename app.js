@@ -2,49 +2,37 @@
 const APP_NAME = "Omingle";
 const SERVER_URL = "https://gaaji-server.onrender.com";
 
-// ===== Socket.IO Connection =====
-// ✅ polling first so Render cold-start doesn't kill the connection
+// ===== Socket.IO =====
 const socket = io(SERVER_URL, {
   transports: ["polling", "websocket"],
-  reconnectionAttempts: 10,
-  reconnectionDelay: 2000,
-  timeout: 20000
+  reconnectionAttempts: 5,
+  reconnectionDelay: 3000,
+  timeout: 25000
 });
 
-const localVideo = document.getElementById("local");
+const localVideo  = document.getElementById("local");
 const remoteVideo = document.getElementById("remote");
-const messages = document.getElementById("messages");
+const messages    = document.getElementById("messages");
 
-let pc = null;
-let localStream = null;
-let micOn = true;
-let camOn = true;
-
-// ✅ ICE candidate queue — fixes race condition where candidates
-//    arrive before remote description is set
+let pc            = null;
+let localStream   = null;
+let micOn         = true;
+let camOn         = true;
+let isInitiator   = false;
+let makingOffer   = false;
+let ignoreOffer   = false;
 let iceCandidateQueue = [];
-let remoteDescSet = false;
 
-// ✅ Multiple STUN servers + free TURN for cross-network connections
 const iceConfig = {
   iceServers: [
     { urls: "stun:stun.l.google.com:19302" },
     { urls: "stun:stun1.l.google.com:19302" },
     { urls: "stun:stun2.l.google.com:19302" },
-    { urls: "stun:stun3.l.google.com:19302" },
-    { urls: "stun:stun4.l.google.com:19302" },
-    // ✅ Open Relay TURN (free)
     {
       urls: "turn:openrelayproject.org:443?transport=tcp",
       username: "openrelayproject",
       credential: "openrelayproject"
     },
-    {
-      urls: "turn:openrelayproject.org:80?transport=tcp",
-      username: "openrelayproject",
-      credential: "openrelayproject"
-    },
-    // ✅ Metered TURN (free backup — replace with your own from metered.ca)
     {
       urls: "turn:relay.metered.ca:80",
       username: "e8dd65f0a9c494e4a7b84a59",
@@ -64,198 +52,153 @@ const iceConfig = {
   iceCandidatePoolSize: 10
 };
 
-/* ==============================
-   1️⃣ GET CAMERA & MIC
-================================ */
 async function initMedia() {
   try {
     localStream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        width: { ideal: 1280 },
-        height: { ideal: 720 },
-        facingMode: "user"
-      },
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        sampleRate: 44100
-      }
+      video: { width: { ideal: 1280 }, height: { ideal: 720 }, facingMode: "user" },
+      audio: { echoCancellation: true, noiseSuppression: true }
     });
     localVideo.srcObject = localStream;
-    localVideo.muted = true; // prevent echo
+    localVideo.muted = true;
   } catch (err) {
-    alert(`Camera or mic permission denied on ${APP_NAME}. Please allow access and refresh.`);
+    alert("Camera/mic denied. Please allow and refresh.");
     console.error(err);
   }
 }
-
 initMedia();
 
-/* ==============================
-   2️⃣ CREATE PEER CONNECTION
-================================ */
-function createPeerConnection() {
-  // Clean up any existing connection first
+function cleanupPeer() {
   if (pc) {
+    pc.ontrack = null;
+    pc.onicecandidate = null;
+    pc.onconnectionstatechange = null;
+    pc.oniceconnectionstatechange = null;
+    pc.onnegotiationneeded = null;
     pc.close();
     pc = null;
   }
   iceCandidateQueue = [];
-  remoteDescSet = false;
+  makingOffer = false;
+  ignoreOffer = false;
+}
 
+function createPeerConnection() {
+  cleanupPeer();
   pc = new RTCPeerConnection(iceConfig);
 
-  // Add local tracks
-  localStream.getTracks().forEach((track) => {
-    pc.addTrack(track, localStream);
-  });
+  localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
 
-  // Show remote video when tracks arrive
-  pc.ontrack = (event) => {
-    remoteVideo.srcObject = event.streams[0];
-  };
+  pc.ontrack = ({ streams }) => { remoteVideo.srcObject = streams[0]; };
 
-  // Send ICE candidates to partner via signaling server
-  pc.onicecandidate = (event) => {
-    if (event.candidate) {
-      socket.emit("signal", { type: "candidate", candidate: event.candidate });
-    }
-  };
-
-  // Connection state logging + UI feedback
-  pc.onconnectionstatechange = () => {
-    console.log("Connection state:", pc.connectionState);
-    if (pc.connectionState === "connected") {
-      showStatus("✅ Connected!");
-    } else if (pc.connectionState === "failed") {
-      showStatus("❌ Connection failed. Try pressing Next.");
-    } else if (pc.connectionState === "disconnected") {
-      showStatus("⚠️ Peer disconnected.");
-    }
+  pc.onicecandidate = ({ candidate }) => {
+    if (candidate) socket.emit("signal", { type: "candidate", candidate });
   };
 
   pc.oniceconnectionstatechange = () => {
-    console.log("ICE state:", pc.iceConnectionState);
+    console.log("ICE:", pc.iceConnectionState);
+    if (pc.iceConnectionState === "failed" && isInitiator) doOffer(true);
+  };
+
+  pc.onconnectionstatechange = () => {
+    console.log("Conn:", pc.connectionState);
+    if (pc.connectionState === "connected")    showStatus("Connected!");
+    if (pc.connectionState === "failed")       showStatus("Connection failed. Press Next.");
+    if (pc.connectionState === "disconnected") showStatus("Peer disconnected.");
   };
 }
 
-/* ==============================
-   ✅ DRAIN ICE QUEUE
-   Flush any candidates that arrived
-   before remote description was set
-================================ */
-async function drainIceCandidateQueue() {
-  while (iceCandidateQueue.length > 0) {
-    const candidate = iceCandidateQueue.shift();
-    try {
-      await pc.addIceCandidate(new RTCIceCandidate(candidate));
-    } catch (e) {
-      console.warn("ICE candidate error:", e);
-    }
+async function doOffer(iceRestart) {
+  if (!pc) return;
+  try {
+    makingOffer = true;
+    const offer = await pc.createOffer({
+      offerToReceiveVideo: true,
+      offerToReceiveAudio: true,
+      iceRestart: !!iceRestart
+    });
+    if (pc.signalingState !== "stable") { makingOffer = false; return; }
+    await pc.setLocalDescription(offer);
+    socket.emit("signal", pc.localDescription);
+  } catch(e) {
+    console.error("Offer error:", e);
+  } finally {
+    makingOffer = false;
   }
 }
 
-/* ==============================
-   3️⃣ SOCKET EVENTS
-================================ */
-socket.on("connect", () => {
-  console.log("✅ Socket connected:", socket.id);
-});
-
-socket.on("connect_error", (err) => {
-  console.error("❌ Socket connection error:", err.message);
-  showStatus("⏳ Connecting to server...");
-});
-
-socket.on("waiting", () => {
-  showStatus("⏳ Waiting for a match...");
-});
-
-socket.on("matched", async ({ initiator }) => {
-  showStatus("🎉 Matched! Connecting...");
-  createPeerConnection(); // always fresh connection
-
-  if (initiator) {
-    try {
-      const offer = await pc.createOffer({ offerToReceiveVideo: true, offerToReceiveAudio: true });
-      await pc.setLocalDescription(offer);
-      socket.emit("signal", offer);
-    } catch (e) {
-      console.error("Offer error:", e);
-    }
+async function flushICEQueue() {
+  for (const c of iceCandidateQueue) {
+    try { await pc.addIceCandidate(new RTCIceCandidate(c)); } catch(e) {}
   }
+  iceCandidateQueue = [];
+}
+
+// ===== SOCKET EVENTS =====
+socket.on("connect", () => { console.log("Socket:", socket.id); showStatus("Server connected"); });
+socket.on("connect_error", (e) => { showStatus("Connecting..."); });
+socket.on("waiting", () => showStatus("Waiting for a match..."));
+
+socket.on("matched", ({ initiator }) => {
+  isInitiator = initiator;
+  console.log("Matched, initiator:", isInitiator);
+  showStatus("Matched! Connecting...");
+  createPeerConnection();
+  if (isInitiator) doOffer(false);
 });
 
 socket.on("signal", async (data) => {
-  if (!pc) createPeerConnection();
-
+  if (!pc) return;
   try {
     if (data.type === "offer") {
-      // ✅ Fix glare: if we already sent an offer, rollback first
-      if (pc.signalingState === "have-local-offer") {
-        try { await pc.setLocalDescription({ type: "rollback" }); } catch(e) {}
-      }
-      if (pc.signalingState !== "stable") {
-        console.warn("Skipping offer in state:", pc.signalingState);
-        return;
-      }
+      // Perfect Negotiation: polite peer (non-initiator) handles collisions
+      const collision = makingOffer || pc.signalingState !== "stable";
+      ignoreOffer = isInitiator && collision; // initiator = impolite, ignores colliding offer
+      if (ignoreOffer) { console.warn("Glare: ignoring offer"); return; }
+
       await pc.setRemoteDescription(new RTCSessionDescription(data));
-      remoteDescSet = true;
-      await drainIceCandidateQueue();
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      socket.emit("signal", answer);
+      await flushICEQueue();
+      await pc.setLocalDescription(await pc.createAnswer());
+      socket.emit("signal", pc.localDescription);
 
     } else if (data.type === "answer") {
-      // ✅ Only accept answer if we are waiting for one
       if (pc.signalingState !== "have-local-offer") {
-        console.warn("Skipping answer in state:", pc.signalingState);
+        console.warn("Unexpected answer, state:", pc.signalingState);
         return;
       }
       await pc.setRemoteDescription(new RTCSessionDescription(data));
-      remoteDescSet = true;
-      await drainIceCandidateQueue();
+      await flushICEQueue();
 
-    } else if (data.type === "candidate" || data.candidate) {
-      // ✅ Queue candidates until remote desc is set
-      const candidate = data.candidate || data;
-      if (remoteDescSet && pc) {
-        await pc.addIceCandidate(new RTCIceCandidate(candidate));
+    } else if (data.candidate) {
+      if (pc.remoteDescription) {
+        try { await pc.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch(e) {}
       } else {
-        iceCandidateQueue.push(candidate);
+        iceCandidateQueue.push(data.candidate);
       }
     }
-  } catch (e) {
-    console.error("Signal handling error:", e);
+  } catch(e) {
+    console.error("Signal error:", e);
   }
 });
 
-
 socket.on("chat", (msg) => {
-  messages.innerHTML += `<div><b>Stranger:</b> ${escapeHtml(msg)}</div>`;
+  messages.innerHTML += "<div><b>Stranger:</b> " + escapeHtml(msg) + "</div>";
   scrollMessagesToBottom();
 });
 
 socket.on("peer-disconnected", () => {
-  showStatus("👋 Stranger disconnected. Press Next for a new match.");
+  showStatus("Stranger left. Press Next.");
   cleanupPeer();
   remoteVideo.srcObject = null;
 });
 
-socket.on("reported", () => alert(`You were reported on ${APP_NAME}.`));
+socket.on("reported", () => alert("You were reported on " + APP_NAME));
+socket.on("banned",   () => { alert("You are banned from " + APP_NAME); socket.disconnect(); });
 
-socket.on("banned", () => {
-  alert(`You are temporarily banned from ${APP_NAME}.`);
-  socket.disconnect();
-});
-
-/* ==============================
-   4️⃣ CONTROLS
-================================ */
+// ===== CONTROLS =====
 function send() {
   const input = document.getElementById("text");
   if (!input.value.trim()) return;
-  messages.innerHTML += `<div><b>You:</b> ${escapeHtml(input.value)}</div>`;
+  messages.innerHTML += "<div><b>You:</b> " + escapeHtml(input.value) + "</div>";
   socket.emit("chat", input.value);
   input.value = "";
   scrollMessagesToBottom();
@@ -263,88 +206,47 @@ function send() {
 
 function toggleMic() {
   micOn = !micOn;
-  const track = localStream?.getAudioTracks()[0];
-  if (track) track.enabled = micOn;
+  const t = localStream && localStream.getAudioTracks()[0];
+  if (t) t.enabled = micOn;
 }
 
 function toggleCam() {
   camOn = !camOn;
-  const track = localStream?.getVideoTracks()[0];
-  if (track) track.enabled = camOn;
+  const t = localStream && localStream.getVideoTracks()[0];
+  if (t) t.enabled = camOn;
 }
 
 function report() {
-  if (confirm("Report this user?")) {
-    socket.emit("report");
-    showStatus("⚠️ Reported. Finding new match…");
-    next();
-  }
+  if (confirm("Report this user?")) { socket.emit("report"); next(); }
 }
 
-// ✅ No more page reload — server handles re-matching
 function next() {
   cleanupPeer();
   remoteVideo.srcObject = null;
   messages.innerHTML = "";
   socket.emit("next");
-  showStatus("🔄 Finding next match...");
+  showStatus("Finding next match...");
 }
 
-/* ==============================
-   5️⃣ CLEANUP (no page reload)
-================================ */
-function cleanupPeer() {
-  try {
-    if (pc) {
-      pc.ontrack = null;
-      pc.onicecandidate = null;
-      pc.onconnectionstatechange = null;
-      pc.oniceconnectionstatechange = null;
-      pc.close();
-      pc = null;
-    }
-  } catch (e) {
-    console.warn("Peer close error:", e);
-  }
-  iceCandidateQueue = [];
-  remoteDescSet = false;
-}
-
-/* ==============================
-   6️⃣ HELPERS
-================================ */
+// ===== HELPERS =====
 function escapeHtml(str) {
   return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll("&","&amp;").replaceAll("<","&lt;")
+    .replaceAll(">","&gt;").replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
-
-function scrollMessagesToBottom() {
-  messages.scrollTop = messages.scrollHeight;
-}
-
+function scrollMessagesToBottom() { messages.scrollTop = messages.scrollHeight; }
 function showStatus(text) {
   const id = "omingle-status";
   let el = document.getElementById(id);
   if (!el) {
     el = document.createElement("div");
     el.id = id;
-    el.style.cssText = `
-      position:fixed; bottom:50px; left:50%;
-      transform:translateX(-50%);
-      background:rgba(0,0,0,0.8); color:#fff;
-      padding:10px 20px; border-radius:30px;
-      font-size:14px; z-index:9999;
-      font-family:inherit; pointer-events:none;
-      border: 1px solid rgba(244,63,94,0.5);
-    `;
+    el.style.cssText = "position:fixed;bottom:50px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:#fff;padding:10px 20px;border-radius:30px;font-size:14px;z-index:9999;font-family:inherit;pointer-events:none;border:1px solid rgba(244,63,94,0.5);white-space:nowrap;";
     document.body.appendChild(el);
   }
   el.textContent = text;
   el.style.display = "block";
   clearTimeout(el._t);
-  el._t = setTimeout(() => (el.style.display = "none"), 3000);
+  el._t = setTimeout(() => el.style.display = "none", 3000);
 }
