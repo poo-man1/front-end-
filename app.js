@@ -33,7 +33,7 @@ const iceConfig = {
     { urls: "stun:stun2.l.google.com:19302" },
     { urls: "stun:stun3.l.google.com:19302" },
     { urls: "stun:stun4.l.google.com:19302" },
-    // ✅ Free TURN — handles symmetric NAT (mobile data, office networks)
+    // ✅ Open Relay TURN (free)
     {
       urls: "turn:openrelayproject.org:443?transport=tcp",
       username: "openrelayproject",
@@ -43,9 +43,25 @@ const iceConfig = {
       urls: "turn:openrelayproject.org:80?transport=tcp",
       username: "openrelayproject",
       credential: "openrelayproject"
+    },
+    // ✅ Metered TURN (free backup — replace with your own from metered.ca)
+    {
+      urls: "turn:relay.metered.ca:80",
+      username: "e8dd65f0a9c494e4a7b84a59",
+      credential: "uWDBCkHMIwdBqEz3"
+    },
+    {
+      urls: "turn:relay.metered.ca:443",
+      username: "e8dd65f0a9c494e4a7b84a59",
+      credential: "uWDBCkHMIwdBqEz3"
+    },
+    {
+      urls: "turns:relay.metered.ca:443?transport=tcp",
+      username: "e8dd65f0a9c494e4a7b84a59",
+      credential: "uWDBCkHMIwdBqEz3"
     }
   ],
-  iceCandidatePoolSize: 10 // ✅ pre-gather candidates for faster connect
+  iceCandidatePoolSize: 10
 };
 
 /* ==============================
@@ -54,8 +70,16 @@ const iceConfig = {
 async function initMedia() {
   try {
     localStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true
+      video: {
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+        facingMode: "user"
+      },
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        sampleRate: 44100
+      }
     });
     localVideo.srcObject = localStream;
     localVideo.muted = true; // prevent echo
@@ -153,7 +177,7 @@ socket.on("matched", async ({ initiator }) => {
 
   if (initiator) {
     try {
-      const offer = await pc.createOffer();
+      const offer = await pc.createOffer({ offerToReceiveVideo: true, offerToReceiveAudio: true });
       await pc.setLocalDescription(offer);
       socket.emit("signal", offer);
     } catch (e) {
