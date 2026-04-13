@@ -4,12 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+<title>Omingle Blog & FAQ</title>
+
 <!-- ✅ SEO -->
-<meta name="description" content="Explore Omingle FAQs, safety guides, SEO-optimized blog articles, tips, and help information for using random video chat safely.">
-<meta name="keywords" content="Omingle blog, random video chat, meet strangers online, chat safely, online chat tips">
+<meta name="description" content="Explore Omingle FAQs, safety guides, blog articles, tips, and help for using random video chat safely." />
+<meta name="keywords" content="Omingle blog, random video chat, chat with strangers, online chat safety" />
 
 <!-- ✅ FAQ Schema -->
-<script type="application/ld+json" id="schema-json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -18,128 +20,152 @@
 </script>
 
 <style>
+/* =========================
+   OMINGLE BRAND THEME
+========================= */
+:root {
+  --bg: #03050b;
+  --panel: rgba(15,23,42,0.8);
+  --text: #eef2ff;
+  --muted: #c7cbe8;
+  --accent: #f43f5e;
+  --border: rgba(244,63,94,0.35);
+  --shadow: 0 20px 40px -12px rgba(244,63,94,0.25);
+}
+
+/* base */
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
-  background: #0e0e0e;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
   transition: background .3s, color .3s;
 }
-.light-mode { background: #fafafa; color: #000; }
 
+/* glow */
+body::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: -10%;
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(139,92,246,.18), transparent 70%);
+  filter: blur(90px);
+  z-index: -1;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -15%;
+  right: -10%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(244,63,94,.18), transparent 70%);
+  filter: blur(110px);
+  z-index: -1;
+}
+
+/* layout */
 .container {
   max-width: 900px;
-  margin: 80px auto 40px;
+  margin: 90px auto 50px;
   padding: 0 16px;
 }
 
-h1 { text-align: center; color: #ff0055; }
-.subtitle { text-align: center; opacity: .8; margin-bottom: 25px; }
+/* headings */
+h1 {
+  text-align: center;
+  font-size: 2.6rem;
+  background: linear-gradient(135deg,#f9a8d4,#f43f5e);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.subtitle {
+  text-align: center;
+  color: var(--muted);
+  margin-bottom: 30px;
+}
 
-/* NAV */
-.nav a { color: #fff; margin: 0 10px; text-decoration: none; }
-.nav a:hover { color: #ff0055; }
-.light-mode .nav a { color: #000; }
-
-/* SEARCH */
+/* search */
 .search-box input {
   width: 100%;
-  max-width: 500px;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #1a1a1a;
-  color: #fff;
+  max-width: 520px;
+  padding: 14px;
+  border-radius: 40px;
+  border: 1px solid var(--border);
+  background: rgba(15,23,42,0.9);
+  color: var(--text);
 }
-.light-mode .search-box input { background: #e5e5e5; color: #000; }
 
-/* CATEGORIES */
-.categories { text-align: center; margin-top: 15px; }
-.categories button {
-  background: #1a1a1a;
-  border: none;
-  padding: 10px 16px;
-  color: #fff;
+/* BLOG */
+.blog-article {
+  background: var(--panel);
+  padding: 22px;
   border-radius: 18px;
-  margin: 6px;
-  cursor: pointer;
+  margin: 22px 0;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
-.categories button.active,
-.categories button:hover { background: #ff0055; }
+.blog-article h3 {
+  color: var(--accent);
+  margin-top: 0;
+}
 
 /* FAQ */
 .faq-item {
-  background: #141414;
+  background: var(--panel);
   padding: 18px;
-  border-radius: 12px;
+  border-radius: 16px;
   margin-bottom: 16px;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(255,0,85,0.1);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
-.light-mode .faq-item { background: #f2f2f2; color: #000; }
-
-.faq-header { display: flex; justify-content: space-between; align-items: center; }
-.faq-question { color: #ff0055; font-size: 18px; margin: 0; }
-.icon { font-size: 24px; }
+.faq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-question {
+  color: var(--accent);
+  font-size: 1.1rem;
+  margin: 0;
+}
+.icon { font-size: 1.4rem; }
 
 .faq-answer {
   max-height: 0;
   overflow: hidden;
   margin-top: 10px;
-  transition: .3s;
-  color: #ccc;
+  transition: .35s ease;
+  color: var(--muted);
 }
-.light-mode .faq-answer { color: #333; }
 
-/* BLOG ARTICLES */
-.blog-article {
-  background: #141414;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 15px rgba(255,0,85,0.1);
-}
-.light-mode .blog-article { background: #eee; color: #000; }
-.blog-article h3 { color: #ff0055; }
-
-/* Pagination */
-.pagination { text-align: center; margin-top: 25px; }
-.pagination button {
-  padding: 8px 14px;
-  margin: 4px;
-  border: none;
-  border-radius: 6px;
-  background: #1a1a1a;
-  color: #fff;
-  cursor: pointer;
-}
-.pagination button.active { background: #ff0055; }
-
-/* Theme toggle */
-.theme-toggle {
+/* controls */
+.theme-toggle, #backToTop {
   position: fixed;
   bottom: 20px;
-  right: 20px;
-  background: #ff0055;
-  padding: 12px 16px;
+  background: var(--accent);
+  padding: 12px 18px;
   border-radius: 50px;
   cursor: pointer;
   color: white;
   z-index: 999;
 }
 
-/* Back to top */
-#backToTop {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  padding: 12px 16px;
-  background: #ff0055;
-  color: #fff;
-  border-radius: 50px;
-  cursor: pointer;
-  display: none;
-  z-index: 999;
+.theme-toggle { right: 20px; }
+#backToTop { left: 20px; display: none; }
+
+/* footer */
+.footer {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 0.8rem;
+  color: var(--muted);
 }
 </style>
 </head>
@@ -152,177 +178,95 @@ h1 { text-align: center; color: #ff0055; }
 <div class="container">
 
 <h1>Omingle Blog</h1>
-
-<!-- NAVIGATION -->
+<p class="subtitle">Safety tips · FAQs · Guides · Help</p>
 
 <!-- SEARCH -->
 <div class="search-box" style="text-align:center;">
-  <input id="searchInput" onkeyup="searchFAQ()" placeholder="Search questions...">
+  <input id="searchInput" onkeyup="searchFAQ()" placeholder="Search questions..." />
 </div>
-
 
 <!-- BLOG ARTICLES -->
-<h2 style="color:#ff0055; margin-top:50px; text-align:center;">Omingle Blog Articles</h2>
+<h2 style="text-align:center;color:var(--accent);margin-top:50px;">Omingle Blog Articles</h2>
 
-<!-- ✅ BLOG 1 -->
 <div class="blog-article">
-  <h3>1. What Makes Omingle One of the Best Random Video Chat Platforms?</h3>
-  <p>
-    Omingle stands out as one of the simplest and fastest random video chat platforms available. 
-    With no registration required and instant matchmaking, it offers a clean and efficient chatting 
-    experience. Users enjoy its global reach, privacy, and easy-to-use interface.
-  </p>
-  <p>
-    Many people search for “random video chat” and “chat with strangers.” Omingle meets these needs 
-    by providing a safe, anonymous, and engaging chat environment.
-  </p>
+<h3>1. Why Omingle is a Top Random Video Chat Platform</h3>
+<p>Omingle offers instant video chat with no signup, privacy-first design, and simple matchmaking.</p>
 </div>
 
-<!-- ✅ BLOG 2 -->
 <div class="blog-article">
-  <h3>2. Why Random Chatting Is Becoming Popular Worldwide</h3>
-  <p>
-    Random chatting platforms have grown rapidly over the years. People love spontaneous conversations 
-    because they feel natural and pressure-free. Omingle makes this experience exciting by connecting 
-    users instantly with strangers from around the world.
-  </p>
-  <p>
-    Whether you're looking to pass time, meet new people, or explore different cultures, platforms 
-    like Omingle provide the perfect opportunity.
-  </p>
+<h3>2. Why Random Chat Is Growing Worldwide</h3>
+<p>People enjoy spontaneous, pressure-free conversations without commitments.</p>
 </div>
 
-<!-- ✅ BLOG 3 -->
 <div class="blog-article">
-  <h3>3. Top Tips to Stay Safe While Using Omingle</h3>
-  <p>
-    Safety is essential when chatting online. Omingle encourages users to stay anonymous and avoid 
-    sharing personal details. Your privacy matters, and by following simple precautions, you can 
-    enjoy safe and fun conversations.
-  </p>
-  <p>
-    If anything feels uncomfortable, disconnect immediately — you are always in control of your chat.
-  </p>
+<h3>3. Safety Tips While Using Omingle</h3>
+<p>Remain anonymous, never share personal details, and disconnect anytime.</p>
 </div>
 
-
-<!-- ✅ FAQ ITEMS -->
+<!-- FAQ -->
 <div id="faqContainer">
 
-<div class="faq-item" data-category="about" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">What is Omingle?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">Omingle is a free random video chat platform connecting you with new people instantly.</div>
+<div class="faq-item" onclick="toggleFAQ(this)">
+<div class="faq-header">
+<h2 class="faq-question">What is Omingle?</h2><span class="icon">+</span>
+</div>
+<div class="faq-answer">Omingle connects you instantly with random strangers via video chat.</div>
 </div>
 
-<div class="faq-item" data-category="about" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">Do I need an account to use Omingle?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">No, Omingle requires no signup. Tap Start to begin chatting immediately.</div>
+<div class="faq-item" onclick="toggleFAQ(this)">
+<div class="faq-header">
+<h2 class="faq-question">Is signup required?</h2><span class="icon">+</span>
+</div>
+<div class="faq-answer">No registration is needed. Just click Start.</div>
 </div>
 
-<div class="faq-item" data-category="features" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">Does Omingle work on mobile?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">Yes. Omingle supports Android, iPhone, tablets, and desktop browsers.</div>
+<div class="faq-item" onclick="toggleFAQ(this)">
+<div class="faq-header">
+<h2 class="faq-question">Is Omingle safe?</h2><span class="icon">+</span>
+</div>
+<div class="faq-answer">Yes, if you avoid sharing personal information.</div>
 </div>
 
-<div class="faq-item" data-category="features" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">Can I skip to the next user?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">Yes, simply disconnect and Omingle will match you with someone new.</div>
+<div class="faq-item" onclick="toggleFAQ(this)">
+<div class="faq-header">
+<h2 class="faq-question">Why is my camera black?</h2><span class="icon">+</span>
 </div>
-
-<div class="faq-item" data-category="safety" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">Is Omingle safe?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">Yes — as long as you avoid sharing personal information.</div>
-</div>
-
-<div class="faq-item" data-category="safety" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">What should I avoid sharing online?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">Never share your phone number, address, passwords, or private details.</div>
-</div>
-
-<div class="faq-item" data-category="tips" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">How to get better video quality?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">Use stable internet, clean camera lens, and good lighting.</div>
-</div>
-
-<div class="faq-item" data-category="tips" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">How to enjoy conversations more?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">Be friendly, polite, and open-minded for the best experience.</div>
-</div>
-
-<div class="faq-item" data-category="help" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">Why is my camera black?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">Enable camera permissions in your browser and refresh the page.</div>
-</div>
-
-<div class="faq-item" data-category="help" onclick="toggleFAQ(this)">
-  <div class="faq-header">
-    <h2 class="faq-question">Why can't I hear the other user?</h2><span class="icon">+</span>
-  </div>
-  <div class="faq-answer">Check your volume settings or reconnect the chat.</div>
+<div class="faq-answer">Enable camera permissions and refresh the page.</div>
 </div>
 
 </div>
 
-
-<!-- PAGINATION -->
-<div id="pagination" class="pagination"></div>
-
-<div class="footer" style="text-align:center;margin-top:40px;opacity:.6;font-size:12px;">
-  © 2026 Omingle · FAQ & Blog · 18+ Only
+<div class="footer">
+© 2026 Omingle · Blog & FAQ · 18+ Only
 </div>
 
 </div>
 
-<!-- ✅ JavaScript -->
 <script>
-function toggleFAQ(item) {
+function toggleFAQ(item){
   const ans = item.querySelector(".faq-answer");
   const icon = item.querySelector(".icon");
-  if (ans.style.maxHeight) { ans.style.maxHeight = null; icon.textContent = "+"; }
-  else { ans.style.maxHeight = ans.scrollHeight + "px"; icon.textContent = "–"; }
+  if(ans.style.maxHeight){
+    ans.style.maxHeight = null;
+    icon.textContent = "+";
+  } else {
+    ans.style.maxHeight = ans.scrollHeight + "px";
+    icon.textContent = "–";
+  }
 }
 
-function searchFAQ() {
+function searchFAQ(){
   const key = document.getElementById("searchInput").value.toLowerCase();
-  document.querySelectorAll(".faq-item").forEach(i => {
-    const text = i.querySelector(".faq-question").textContent.toLowerCase();
-    i.style.display = text.includes(key) ? "block" : "none";
+  document.querySelectorAll(".faq-item").forEach(i=>{
+    i.style.display = i.textContent.toLowerCase().includes(key) ? "block" : "none";
   });
 }
 
-function filterCategory(cat, btn) {
-  document.querySelectorAll(".categories button").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  document.querySelectorAll(".faq-item").forEach(i => {
-    i.style.display = (cat === "all" || i.dataset.category === cat) ? "block" : "none";
-  });
+function toggleTheme(){
+  document.body.classList.toggle("light");
 }
 
-function toggleTheme() {
-  document.body.classList.toggle("light-mode");
-  const btn = document.querySelector(".theme-toggle");
-  btn.textContent = document.body.classList.contains("light-mode") ? "☀️" : "🌙";
-}
-
-window.addEventListener("scroll", () => {
+window.addEventListener("scroll",()=>{
   document.getElementById("backToTop").style.display =
     window.scrollY > 200 ? "block" : "none";
 });
