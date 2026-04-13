@@ -2,26 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title><h1 style="color: white;">Terms & Conditions | Omingle</h1></title>
+  <title>Terms &amp; Conditions | Omingle</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Terms and Conditions for Omingle random chat platform." />
 
   <style>
     /* =========================
-       THEME TOKENS
+       OMINGLE BRAND THEME
     ========================= */
     :root {
-      --bg: #0f1220;
-      --panel: #161a2b;
-      --text: #e8ecff;
-      --muted: #aab2d5;
-      --accent: #77a8ff;
-      --border: #232845;
-      --link: #8bb8ff;
-      --link-hover: #c9ddff;
-      --shadow: 0 6px 28px rgba(0,0,0,0.35);
+      --bg: #03050b;
+      --panel: rgba(15, 23, 42, 0.78);
+      --text: #eef2ff;
+      --muted: #c7cbe8;
+      --accent: #f43f5e;
+      --border: rgba(244, 63, 94, 0.35);
+      --link: #fda4af;
+      --link-hover: #fecdd3;
+      --shadow: 0 20px 40px -12px rgba(244,63,94,0.25);
 
-      /* spacing scale (fluid with clamp for responsiveness) */
+      /* spacing */
       --space-1: clamp(6px, 0.5vw, 8px);
       --space-2: clamp(8px, 0.9vw, 12px);
       --space-3: clamp(12px, 1.2vw, 16px);
@@ -29,7 +29,7 @@
       --space-5: clamp(20px, 2vw, 28px);
       --space-6: clamp(24px, 3vw, 40px);
 
-      /* type scale */
+      /* typography */
       --fs-100: clamp(12px, 0.9vw, 14px);
       --fs-200: clamp(14px, 1vw, 16px);
       --fs-300: clamp(16px, 1.3vw, 18px);
@@ -39,35 +39,53 @@
 
       --radius-1: 8px;
       --radius-2: 14px;
-      --container-w: 900px; /* readable width cap */
+      --container-w: 900px;
     }
 
     /* =========================
-       GLOBAL RESET & BASE
+       BASE
     ========================= */
     *, *::before, *::after { box-sizing: border-box; }
-    html, body {
+
+    body {
       margin: 0;
-      padding: 0;
+      min-height: 100vh;
       background: var(--bg);
       color: var(--text);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
       line-height: 1.65;
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
+    }
+
+    /* Omingle glow */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: -10%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(139,92,246,0.18), transparent 70%);
+      filter: blur(90px);
+      z-index: -1;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -15%;
+      right: -10%;
+      width: 70%;
+      height: 70%;
+      background: radial-gradient(circle, rgba(244,63,94,0.18), transparent 70%);
+      filter: blur(110px);
+      z-index: -1;
     }
 
     a { color: var(--link); text-decoration: none; }
-    a:hover { color: var(--link-hover); }
-    a:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-      border-radius: 6px;
-    }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
 
     .wrap {
       max-width: var(--container-w);
-      margin: 0 auto;
+      margin: auto;
       padding: var(--space-5) var(--space-3) var(--space-6);
     }
 
@@ -75,45 +93,49 @@
        HEADER
     ========================= */
     header {
-      position: sticky; /* keeps header visible on scroll (optional) */
+      position: sticky;
       top: 0;
       z-index: 10;
-      backdrop-filter: saturate(120%) blur(6px);
-      background: linear-gradient(to bottom, rgba(15,18,32,0.9), rgba(15,18,32,0));
-      margin-bottom: var(--space-3);
+      backdrop-filter: blur(12px);
+      background: rgba(3,5,11,0.75);
+      border-bottom: 1px solid var(--border);
     }
+
     .header-inner {
+      max-width: var(--container-w);
+      margin: auto;
+      padding: var(--space-2) var(--space-3);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: var(--space-3);
-      padding: var(--space-2) var(--space-3);
-      max-width: var(--container-w);
-      margin: 0 auto;
     }
 
     .brand {
       font-size: var(--fs-300);
-      font-weight: 700;
-      color: var(--text);
+      font-weight: 800;
+      background: linear-gradient(135deg, #f9a8d4, #f43f5e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
-    .actions {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
+
     .btn {
-      padding: 10px 14px; /* bigger tap target on mobile */
-      border-radius: var(--radius-1);
+      padding: 10px 16px;
+      border-radius: 40px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      color: var(--link);
+      background: rgba(244,63,94,0.18);
       font-size: var(--fs-200);
+      font-weight: 600;
     }
-    .btn:hover { color: var(--link-hover); border-color: #2c335c; }
+
+    .btn:hover {
+      background: #f43f5e;
+      color: white;
+      text-decoration: none;
+    }
 
     /* =========================
-       MAIN PANEL
+       MAIN
     ========================= */
     main {
       background: var(--panel);
@@ -123,23 +145,15 @@
       box-shadow: var(--shadow);
     }
 
-    h1,h2,h3,h4 {
-      margin: 0.7em 0 0.3em;
-      line-height: 1.3;
-    }
-    h1 { font-size: var(--fs-600); }
-    h2 { font-size: var(--fs-500); color: var(--accent); }
+    h1 { font-size: var(--fs-600); margin-top: 0; }
+    h2 { font-size: var(--fs-500); color: var(--accent); margin-top: 1.6em; }
     h3 { font-size: var(--fs-400); color: var(--accent); }
 
     p, li { font-size: var(--fs-300); }
-    p { margin: 0.6em 0; }
-    ul { padding-left: 1.2em; margin: 0.4em 0 var(--space-2); }
+    ul { padding-left: 1.2em; margin: 0.6em 0; }
     li { margin: 0.4em 0; }
 
-    /* Improve readability on very wide screens */
-    .prose {
-      max-width: 75ch; /* optimal line length */
-    }
+    .prose { max-width: 75ch; }
 
     footer {
       margin-top: var(--space-4);
@@ -148,224 +162,110 @@
       font-size: var(--fs-200);
     }
 
-    /* =========================
-       RESPONSIVE TWEAKS
-    ========================= */
+    ::selection {
+      background: rgba(244,63,94,0.35);
+      color: white;
+    }
+
     @media (max-width: 680px) {
-      .wrap { padding: var(--space-4) var(--space-3) var(--space-6); }
       main { padding: var(--space-4); }
-      .header-inner { padding: var(--space-2) var(--space-2); }
-      .btn { padding: 10px 12px; }
-      ul { padding-left: 1.1em; }
     }
 
-    @media (min-width: 1200px) {
-      /* Slightly increase panel padding on desktops */
-      main { padding: calc(var(--space-5) + 6px); }
-    }
-
-    /* Reduce motion for users who prefer it */
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
     }
-
-    /* Optional: better selection color */
-    ::selection { background: rgba(119,168,255,0.25); color: var(--text); }
-
-    /* Skip link for accessibility */
-    .skip-link {
-      position: absolute;
-      left: -9999px;
-      top: auto;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-    }
-    .skip-link:focus {
-      left: 12px;
-      top: 12px;
-      width: auto;
-      height: auto;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 8px 12px;
-      border-radius: var(--radius-1);
-      z-index: 999;
-    }
   </style>
 </head>
+
 <body>
-  </header>
 
-  <div class="wrap">
-    <main id="content" class="prose" role="main" aria-labelledby="page-title">
-      <h1 id="page-title">Terms &amp; Conditions</h1>
-
-      <p>
-        Welcome to Omingle, an online platform designed to connect adults for random, real‑time video, audio, and text conversations.
-        By using this service, you agree to the full Terms &amp; Conditions listed below.
-        If you do not agree, you must stop using Omingle immediately.
-      </p>
-
-      <!-- 1 -->
-      <h2>1. Eligibility</h2>
-      <ul>
-        <li>Omingle is strictly an 18+ service.</li>
-        <li>You confirm you are at least 18 years old.</li>
-        <li>You will not allow any minor to use Omingle.</li>
-        <li>Underage suspicion may result in instant bans.</li>
-        <li>Omingle may request age verification.</li>
-        <li>Violating age rules may lead to permanent restrictions.</li>
-      </ul>
-
-      <!-- 2 -->
-      <h2>2. Acceptance of Terms</h2>
-      <ul>
-        <li>Using Omingle means you accept these Terms.</li>
-        <li>Changes may be made at any time.</li>
-        <li>Continued use = acceptance of the revised Terms.</li>
-      </ul>
-
-      <!-- 3 -->
-      <h2>3. Nature of the Service</h2>
-      <ul>
-        <li>Omingle connects users randomly for 1‑on‑1 conversations.</li>
-        <li>You cannot choose who you match with.</li>
-        <li>Conversations may be unpredictable.</li>
-        <li>You are responsible for your safety.</li>
-        <li>Use tools like Disconnect and Report when needed.</li>
-      </ul>
-
-      <!-- 4 -->
-      <h2>4. User Responsibilities</h2>
-      <ul>
-        <li>Behave respectfully and lawfully.</li>
-        <li>Do not share sensitive personal information.</li>
-        <li>Disconnect from uncomfortable users immediately.</li>
-        <li>You are responsible for your activity on the platform.</li>
-      </ul>
-
-      <!-- 5 -->
-      <h2>5. Prohibited Conduct</h2>
-      <p>Strictly prohibited actions include:</p>
-      <ul>
-        <li>Harassment, bullying, threats.</li>
-        <li>Hate speech.</li>
-        <li>Illegal activities.</li>
-        <li>Scams, fraud, or money requests.</li>
-        <li>Impersonation.</li>
-        <li>Sharing personal contact details.</li>
-        <li>Encouraging self‑harm or violence.</li>
-        <li>Bypassing bans via VPN/proxies.</li>
-        <li>Viruses or malicious attacks.</li>
-        <li>Unauthorized advertising.</li>
-      </ul>
-
-      <!-- 6 -->
-      <h2>6. No Recording / Screenshot Policy</h2>
-      <ul>
-        <li>No video recording.</li>
-        <li>No screenshots.</li>
-        <li>No screen‑capture tools.</li>
-        <li>No reposting content outside the platform.</li>
-        <li>Violations may lead to permanent bans or legal action.</li>
-      </ul>
-
-      <!-- 7 -->
-      <h2>7. Privacy &amp; Data Processing</h2>
-      <ul>
-        <li>Omingle does not store video/audio conversations.</li>
-        <li>May collect metadata (IP, duration, device info, crash logs).</li>
-        <li>Data used for abuse prevention, improvements, legal compliance.</li>
-        <li>By using Omingle, you consent to this processing.</li>
-      </ul>
-
-      <!-- 8 -->
-      <h2>8. Random Matching System</h2>
-      <p>You cannot:</p>
-      <ul>
-        <li>Select specific users.</li>
-        <li>Filter based on personal traits.</li>
-        <li>Request special matches.</li>
-        <li>Manipulate the system.</li>
-      </ul>
-
-      <!-- 9 -->
-      <h2>9. Reporting &amp; Enforcement</h2>
-      <ul>
-        <li>Reports are confidential.</li>
-        <li>Reported users may be restricted or banned.</li>
-        <li>Automated systems may detect violations.</li>
-        <li>False reports may lead to penalties.</li>
-      </ul>
-
-      <!-- 10 -->
-      <h2>10. Risks &amp; Disclaimer</h2>
-      <ul>
-        <li>Stranger interactions always involve risks.</li>
-        <li>Users may behave unpredictably.</li>
-        <li>You use Omingle at your own risk.</li>
-        <li>Omingle is not liable for user behavior or damages.</li>
-      </ul>
-
-      <!-- 11 -->
-      <h2>11. Blocking, Banning &amp; Enforcement</h2>
-      <ul>
-        <li>Temporary bans</li>
-        <li>Permanent bans</li>
-        <li>IP/device/network blocking</li>
-        <li>Feature restrictions</li>
-        <li>Immediate account disablement</li>
-        <li>Extra enforcement for ban evasion</li>
-      </ul>
-
-      <!-- 12 -->
-      <h2>12. Platform Modifications</h2>
-      <ul>
-        <li>Design updates</li>
-        <li>Algorithm changes</li>
-        <li>Feature additions/removals</li>
-        <li>System maintenance</li>
-      </ul>
-
-      <!-- 13 -->
-      <h2>13. Limitation of Liability</h2>
-      <ul>
-        <li>Omingle is not responsible for damages of any kind.</li>
-        <li>Your only remedy is to stop using the service.</li>
-      </ul>
-
-      <!-- 14 -->
-      <h2>14. Termination</h2>
-      <ul>
-        <li>Violations may lead to instant termination.</li>
-        <li>Illegal activities may be reported.</li>
-        <li>You may stop using Omingle at any time.</li>
-      </ul>
-
-      <!-- 15 -->
-      <h2>15. Contact Information</h2>
-      <p>
-        businessman717@gmail.com
-      </p>
-
-      <!-- 16 -->
-      <h2>16. Agreement</h2>
-      <ul>
-        <li>You have read these Terms.</li>
-        <li>You accept all risks and responsibilities.</li>
-        <li>You agree to comply fully with all rules.</li>
-      </ul>
-
-      <p><strong>Thank you for using Omingle. Stay safe and respectful.</strong></p>
-    </main>
-
-    <footer>
-      © 2026 Omingle · 18+ Only · For Entertainment Purposes
-    </footer>
+<header>
+  <div class="header-inner">
+    <span class="brand">Omingle</span>
+    ← Back to Home
   </div>
+</header>
+
+<div class="wrap">
+<main id="content" class="prose" role="main">
+
+<h1>Terms &amp; Conditions</h1>
+
+<p>
+Welcome to Omingle, a platform designed to connect adults for random,
+real‑time video, audio, and text conversations.  
+By using Omingle, you agree to the Terms &amp; Conditions below.
+</p>
+
+<h2>1. Eligibility</h2>
+<ul>
+  <li>Omingle is strictly 18+.</li>
+  <li>You confirm that you are at least 18 years old.</li>
+  <li>Allowing minors may result in permanent bans.</li>
+</ul>
+
+<h2>2. Acceptance of Terms</h2>
+<ul>
+  <li>Using Omingle means you accept these Terms.</li>
+  <li>Terms may change at any time.</li>
+</ul>
+
+<h2>3. Nature of the Service</h2>
+<ul>
+  <li>Random, one‑on‑one conversations.</li>
+  <li>No control over who you match with.</li>
+  <li>Use Report and Disconnect when needed.</li>
+</ul>
+
+<h2>4. User Responsibilities</h2>
+<ul>
+  <li>Behave respectfully.</li>
+  <li>Do not share sensitive personal details.</li>
+  <li>You are responsible for your activity.</li>
+</ul>
+
+<h2>5. Prohibited Conduct</h2>
+<ul>
+  <li>Harassment, hate speech, illegal acts.</li>
+  <li>Scams, impersonation, malware.</li>
+  <li>Recording or redistributing content.</li>
+</ul>
+
+<h2>6. No Recording Policy</h2>
+<ul>
+  <li>No screenshots or screen recording.</li>
+  <li>No reposting conversations.</li>
+</ul>
+
+<h2>7. Privacy &amp; Data</h2>
+<ul>
+  <li>No video/audio storage.</li>
+  <li>Metadata may be collected for safety.</li>
+</ul>
+
+<h2>8. Enforcement</h2>
+<ul>
+  <li>Temporary or permanent bans.</li>
+  <li>IP/device blocking.</li>
+</ul>
+
+<h2>9. Limitation of Liability</h2>
+<ul>
+  <li>Use Omingle at your own risk.</li>
+  <li>Your only remedy is to stop using the service.</li>
+</ul>
+
+<h2>10. Contact</h2>
+<p>businessman717@gmail.com</p>
+
+<p><strong>Thank you for using Omingle. Stay safe and respectful.</strong></p>
+
+</main>
+
+<footer>
+© 2026 Omingle · 18+ Only · For Entertainment Purposes
+</footer>
+</div>
 
 </body>
 </html>
-
-
