@@ -7,307 +7,283 @@
   <meta name="description" content="Community Guidelines for Omingle random chat platform." />
 
   <style>
+    /* =========================
+       OMINGLE BRAND THEME
+    ========================= */
     :root {
-      --bg: #0f1220;
-      --panel: #161a2b;
-      --text: #e8ecff;
-      --muted: #aab2d5;
-      --accent: #77a8ff;
-      --border: #232845;
-      --link: #8bb8ff;
-      --link-hover: #c9ddff;
+      --bg: #03050b;
+      --panel: rgba(15,23,42,0.78);
+      --text: #eef2ff;
+      --muted: #c7cbe8;
+      --accent: #f43f5e;
+      --border: rgba(244,63,94,0.35);
+      --link: #fda4af;
+      --link-hover: #fecdd3;
+      --shadow: 0 20px 40px -12px rgba(244,63,94,0.25);
     }
+
+    /* =========================
+       BASE
+    ========================= */
+    *, *::before, *::after { box-sizing: border-box; }
+
     body {
       margin: 0;
+      min-height: 100vh;
       background: var(--bg);
       color: var(--text);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
-      line-height: 1.6;
+      line-height: 1.65;
     }
+
+    /* Omingle glow */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: -10%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(139,92,246,0.18), transparent 70%);
+      filter: blur(90px);
+      z-index: -1;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -15%;
+      right: -10%;
+      width: 70%;
+      height: 70%;
+      background: radial-gradient(circle, rgba(244,63,94,0.18), transparent 70%);
+      filter: blur(110px);
+      z-index: -1;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+
+    /* =========================
+       LAYOUT
+    ========================= */
     .wrap {
       max-width: 900px;
       margin: auto;
-      padding: 32px 20px 60px;
+      padding: 32px 20px 64px;
     }
+
+    /* =========================
+       HEADER
+    ========================= */
     header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(3,5,11,0.75);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: auto;
+      padding: 14px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
     }
+
     .brand {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--text);
-      text-decoration: none;
+      font-size: 1.35rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #f9a8d4, #f43f5e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
+
     .back {
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 8px 16px;
+      border-radius: 40px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      color: var(--link);
+      background: rgba(244,63,94,0.18);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .back:hover {
+      background: #f43f5e;
+      color: white;
       text-decoration: none;
     }
-    .back:hover { color: var(--link-hover); }
+
+    /* =========================
+       CONTENT
+    ========================= */
     main {
       background: var(--panel);
-      padding: 24px;
-      border-radius: 14px;
+      padding: 28px;
+      border-radius: 18px;
       border: 1px solid var(--border);
-      box-shadow: 0 6px 28px rgba(0,0,0,0.35);
+      box-shadow: var(--shadow);
     }
-    h1, h2, h3, h4 {
-      line-height: 1.3;
-      margin: 0.7em 0 0.4em;
+
+    h1 {
+      margin-top: 0;
+      font-size: 2.3rem;
     }
-    h2, h3 { color: var(--accent); }
-    ul { padding-left: 1.2em; }
+
+    h2 {
+      color: var(--accent);
+      margin-top: 1.6em;
+    }
+
+    h3 {
+      color: var(--accent);
+      margin-top: 1.2em;
+    }
+
+    ul {
+      padding-left: 1.25em;
+      margin: 0.6em 0;
+    }
+
     li { margin: 0.4em 0; }
+
     footer {
-      margin-top: 20px;
+      margin-top: 32px;
       text-align: center;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+    }
+
+    ::selection {
+      background: rgba(244,63,94,0.35);
+      color: white;
+    }
+
+    @media (max-width: 680px) {
+      main { padding: 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 
 <body>
-<div class="wrap">
 
+<header>
+  <div class="header-inner">
+    <span class="brand">Omingle</span>
+    <a href="index.html" class="back">← Back to Home</a>
+  </div>
+</header>
+
+<div class="wrap">
 
 <main>
 
 <h1>Community Guidelines</h1>
 
 <p>
-Welcome to Omingle — a random chat platform for adults to connect with new people worldwide.  
-To keep the environment respectful and safe, everyone must follow these Community Guidelines.
+Welcome to Omingle — a random chat platform for adults to connect with new people worldwide.
+To keep the community respectful and safe, everyone must follow these guidelines.
 </p>
 
 <p>
-Violations may result in warnings, temporary bans, permanent bans, IP/device restrictions,  
-or reporting to authorities when required.
+Violations may result in warnings, temporary or permanent bans,
+IP/device restrictions, or reports to authorities when required.
 </p>
 
 <h2>1. Purpose of These Guidelines</h2>
-<p>These rules explain:</p>
 <ul>
-  <li>Acceptable behavior</li>
-  <li>Unacceptable behavior</li>
-  <li>How Omingle enforces rules</li>
-  <li>How to protect yourself</li>
-  <li>How to report harmful interactions</li>
+  <li>Define acceptable behavior</li>
+  <li>Prevent harmful interactions</li>
+  <li>Explain enforcement actions</li>
+  <li>Protect user safety</li>
 </ul>
 
 <h2>2. Age Requirement</h2>
 <ul>
-  <li>Users must be 18+.</li>
-  <li>No misrepresenting age.</li>
-  <li>No minors allowed on camera or nearby.</li>
-  <li>Report suspected minors immediately.</li>
+  <li>18+ only</li>
+  <li>No misrepresentation of age</li>
+  <li>No minors on camera or nearby</li>
+  <li>Report suspected minors immediately</li>
 </ul>
 
 <h2>3. Respectful Conduct</h2>
 <ul>
-  <li>Use polite language.</li>
-  <li>Maintain a friendly tone.</li>
-  <li>Disconnect if uncomfortable.</li>
-  <li>Respect cultural and language differences.</li>
+  <li>Be polite and courteous</li>
+  <li>Disconnect if uncomfortable</li>
+  <li>Respect cultural differences</li>
 </ul>
 
 <h2>4. Unacceptable Behavior</h2>
 
-<h3>4.1 Harassment & Bullying</h3>
+<h3>4.1 Harassment &amp; Bullying</h3>
 <ul>
-  <li>Insults or name‑calling</li>
-  <li>Mocking or ridiculing</li>
+  <li>Insults or mocking</li>
+  <li>Threats or aggressive language</li>
   <li>Unwanted attention</li>
-  <li>Aggressive or threatening language</li>
 </ul>
 
-<h3>4.2 Hate Speech & Discrimination</h3>
+<h3>4.2 Hate Speech</h3>
 <ul>
-  <li>Slurs targeting identity or appearance</li>
-  <li>Promoting extremist ideologies</li>
-  <li>Spreading hate against protected groups</li>
+  <li>Racial or discriminatory slurs</li>
+  <li>Extremist content</li>
+  <li>Targeting protected groups</li>
 </ul>
 
 <h3>4.3 Illegal or Dangerous Behavior</h3>
 <ul>
   <li>Violence or threats</li>
-  <li>Displaying weapons dangerously</li>
-  <li>Encouraging self‑harm</li>
-  <li>Discussing illegal activities</li>
-  <li>Selling prohibited items</li>
+  <li>Self‑harm encouragement</li>
+  <li>Illegal activity discussions</li>
 </ul>
 
-<h3>4.4 Scams & Fraud</h3>
+<h3>4.4 Scams &amp; Fraud</h3>
 <ul>
   <li>Requesting money</li>
-  <li>Scam attempts</li>
-  <li>Requesting financial information</li>
-  <li>Phishing or identity theft</li>
+  <li>Phishing attempts</li>
+  <li>Identity theft</li>
 </ul>
 
 <h3>4.5 Impersonation</h3>
 <ul>
-  <li>Pretending to be another person</li>
-  <li>Pretending to be a celebrity</li>
+  <li>Pretending to be others</li>
   <li>Pretending to be Omingle staff</li>
 </ul>
 
-<h2>5. Privacy Expectations</h2>
-
-<h3>5.1 Do Not Share Personal Information</h3>
+<h2>5. Privacy Rules</h2>
 <ul>
-  <li>Phone number</li>
-  <li>Home address</li>
-  <li>Email</li>
-  <li>Financial info</li>
-  <li>Social media accounts</li>
-  <li>Private photos or documents</li>
-</ul>
-
-<h3>5.2 Do Not Request Personal Information</h3>
-<ul>
-  <li>Do not pressure others for sensitive details.</li>
-</ul>
-
-<h3>5.3 No Recording Policy</h3>
-<ul>
-  <li>No video recording</li>
-  <li>No audio recording</li>
-  <li>No screenshots</li>
-  <li>No screen‑recording software</li>
+  <li>No sharing personal details</li>
+  <li>No recording or screenshots</li>
   <li>No reposting conversations</li>
 </ul>
 
-<h2>6. Guidelines for Video & Audio</h2>
-
-<h3>6.1 Be Presentable</h3>
-<ul>
-  <li>Be fully clothed</li>
-  <li>No disturbing gestures</li>
-  <li>No graphic content</li>
-</ul>
-
-<h3>6.2 Keep the Environment Safe</h3>
-<ul>
-  <li>No weapons</li>
-  <li>No drugs or paraphernalia</li>
-  <li>No disturbing posters</li>
-  <li>No people in the background without consent</li>
-</ul>
-
-<h3>6.3 Avoid Misleading Appearances</h3>
-<ul>
-  <li>No deepfakes</li>
-  <li>No deceptive filters</li>
-  <li>No prerecorded loops</li>
-</ul>
-
-<h2>7. Respect Boundaries</h2>
-<ul>
-  <li>Stop when asked</li>
-  <li>Do not force conversations</li>
-  <li>Disconnect if uncomfortable</li>
-</ul>
-
-<h2>8. Random Matching Rules</h2>
-<ul>
-  <li>Matches are unpredictable</li>
-  <li>You cannot choose who appears</li>
-  <li>No blaming users for appearance or location</li>
-</ul>
-
-<h2>9. Reporting Violations</h2>
-<ul>
-  <li>Report real violations</li>
-  <li>Provide accurate information</li>
-  <li>Do not misuse reporting</li>
-</ul>
-
-<h2>10. Enforcement Actions</h2>
+<h2>6. Enforcement</h2>
 <ul>
   <li>Warnings</li>
   <li>Temporary bans</li>
   <li>Permanent bans</li>
-  <li>IP/device restrictions</li>
-  <li>Reporting to authorities</li>
+  <li>IP/device blocking</li>
 </ul>
 
-<h2>11. Tips for Staying Safe</h2>
-<ul>
-  <li>Do not share personal info</li>
-  <li>End uncomfortable chats</li>
-  <li>Report violations</li>
-  <li>Keep your device secure</li>
-</ul>
-
-<h2>12. Healthy Communication Practices</h2>
-<ul>
-  <li>Listen actively</li>
-  <li>Avoid interrupting</li>
-  <li>Respect cultural differences</li>
-</ul>
-
-<h2>13. Content Restrictions</h2>
-<ul>
-  <li>No graphic violence</li>
-  <li>No harmful organizations</li>
-  <li>No unsafe activities</li>
-  <li>No disturbing imagery</li>
-</ul>
-
-<h2>14. Platform Integrity</h2>
-<ul>
-  <li>No hacking</li>
-  <li>No bots</li>
-  <li>No exploits</li>
-  <li>No malicious code</li>
-</ul>
-
-<h2>15. User Responsibility</h2>
-<ul>
-  <li>Be accountable</li>
-  <li>Be respectful</li>
-  <li>Follow community standards</li>
-</ul>
-
-<h2>16. Cultural Sensitivity</h2>
-<ul>
-  <li>Do not mock accents</li>
-  <li>Do not insult nationalities</li>
-  <li>Respect differences</li>
-  <li>Be patient</li>
-</ul>
-
-<h2>17. Third‑Party Links</h2>
-<ul>
-  <li>Do not share external links</li>
-  <li>Do not share downloads</li>
-  <li>Do not share suspicious websites</li>
-</ul>
-
-<h2>18. Compliance with Laws</h2>
-<p>Users must follow all applicable laws and regulations.</p>
-
-<h2>19. Updates to Guidelines</h2>
-<p>Guidelines may be updated periodically. Continued use means acceptance.</p>
-
-<h2>20. Final Agreement</h2>
+<h2>7. Final Agreement</h2>
 <p>
-By using Omingle, you agree to follow all Community Guidelines.
+By using Omingle, you agree to follow and respect these Community Guidelines.
 </p>
 
 </main>
 
 <footer>
-  © 2026 Omingle · 18+ Only · For Entertainment Purposes
+© 2026 Omingle · 18+ Only · For Entertainment Purposes
 </footer>
 
 </div>
+
 </body>
 </html>
