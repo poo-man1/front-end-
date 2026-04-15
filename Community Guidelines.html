@@ -2,170 +2,227 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Community Guidelines | Omingle</title>
+  <title>Community Guidelines | Omingle — 18+ Random Video Chat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Community Guidelines for Omingle random chat platform." />
+  <meta name="description" content="Omingle Community Guidelines — Our standards for respectful, safe interaction on the 18+ random video chat platform." />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
 
   <style>
     /* =========================
-       OMINGLE BRAND THEME
+       OMINGLE BRAND DESIGN SYSTEM
     ========================= */
     :root {
-      --bg: #03050b;
-      --panel: rgba(15,23,42,0.78);
-      --text: #eef2ff;
-      --muted: #c7cbe8;
-      --accent: #f43f5e;
-      --border: rgba(244,63,94,0.35);
-      --link: #fda4af;
-      --link-hover: #fecdd3;
-      --shadow: 0 20px 40px -12px rgba(244,63,94,0.25);
+      --bg:        #03050b;
+      --surface:   #080d1a;
+      --panel:     rgba(11, 17, 34, 0.82);
+      --text:      #e8ecff;
+      --muted:     #8890b0;
+      --accent:    #f43f5e;
+      --accent2:   #a855f7;
+      --border:    rgba(244, 63, 94, 0.22);
+      --border2:   rgba(168, 85, 247, 0.15);
+      --link:      #fda4af;
+      --link-h:    #fecdd3;
+      --r1: 8px;
+      --r2: 16px;
+      --r3: 24px;
+      --max: 880px;
     }
 
-    /* =========================
-       BASE
-    ========================= */
-    *, *::before, *::after { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
-      min-height: 100vh;
       background: var(--bg);
       color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
-      line-height: 1.65;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      min-height: 100vh;
     }
 
-    /* Omingle glow */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -20%;
-      left: -10%;
-      width: 80%;
-      height: 80%;
-      background: radial-gradient(circle, rgba(139,92,246,0.18), transparent 70%);
-      filter: blur(90px);
-      z-index: -1;
+    /* Ambient glows */
+    .glow-a, .glow-b {
+      position: fixed; pointer-events: none; z-index: 0;
+      border-radius: 50%; filter: blur(100px); opacity: 0.22;
     }
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -15%;
-      right: -10%;
-      width: 70%;
-      height: 70%;
-      background: radial-gradient(circle, rgba(244,63,94,0.18), transparent 70%);
-      filter: blur(110px);
-      z-index: -1;
+    .glow-a {
+      width: 700px; height: 700px;
+      top: -200px; left: -200px;
+      background: radial-gradient(circle, #a855f7, transparent 70%);
+      animation: drift-a 18s ease-in-out infinite alternate;
     }
-
-    a { color: var(--link); text-decoration: none; }
-    a:hover { color: var(--link-hover); text-decoration: underline; }
-
-    /* =========================
-       LAYOUT
-    ========================= */
-    .wrap {
-      max-width: 900px;
-      margin: auto;
-      padding: 32px 20px 64px;
+    .glow-b {
+      width: 600px; height: 600px;
+      bottom: -150px; right: -150px;
+      background: radial-gradient(circle, #f43f5e, transparent 70%);
+      animation: drift-b 22s ease-in-out infinite alternate;
     }
+    @keyframes drift-a { from { transform: translate(0,0); } to { transform: translate(60px,40px); } }
+    @keyframes drift-b { from { transform: translate(0,0); } to { transform: translate(-50px,-30px); } }
 
-    /* =========================
-       HEADER
-    ========================= */
+    /* Header */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(12px);
-      background: rgba(3,5,11,0.75);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(20px) saturate(1.4);
+      background: rgba(3, 5, 11, 0.78);
       border-bottom: 1px solid var(--border);
-      margin-bottom: 28px;
     }
-
     .header-inner {
-      max-width: 900px;
-      margin: auto;
-      padding: 14px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      max-width: var(--max); margin: auto; padding: 14px 24px;
+      display: flex; justify-content: space-between; align-items: center;
     }
-
     .brand {
-      font-size: 1.35rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #f9a8d4, #f43f5e);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px;
+      background: linear-gradient(130deg, #f9a8d4 0%, #f43f5e 50%, #a855f7 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      letter-spacing: -0.5px;
     }
-
-    .back {
-      padding: 8px 16px;
-      border-radius: 40px;
-      border: 1px solid var(--border);
-      background: rgba(244,63,94,0.18);
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    .back:hover {
-      background: #f43f5e;
-      color: white;
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--muted); font-size: 14px; font-weight: 500;
+      padding: 8px 16px; border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 40px; transition: color 0.2s, border-color 0.2s, background 0.2s;
       text-decoration: none;
     }
+    .back-link:hover { color: var(--text); border-color: var(--border); background: rgba(244,63,94,0.08); }
+    .back-link svg { width: 14px; height: 14px; }
 
-    /* =========================
-       CONTENT
-    ========================= */
-    main {
-      background: var(--panel);
-      padding: 28px;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
+    /* Wrap */
+    .wrap {
+      position: relative; z-index: 1;
+      max-width: var(--max); margin: auto; padding: 48px 24px 80px;
     }
 
+    /* Hero */
+    .page-hero {
+      margin-bottom: 40px; padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--accent);
+      background: rgba(244,63,94,0.1); border: 1px solid var(--border);
+      border-radius: 40px; padding: 5px 14px; margin-bottom: 16px;
+    }
     h1 {
-      margin-top: 0;
-      font-size: 2.3rem;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(28px, 5vw, 44px); line-height: 1.15; letter-spacing: -1px;
+      background: linear-gradient(140deg, #fff 30%, #c4c8e8 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 16px;
+    }
+    .meta {
+      font-size: 13px; color: var(--muted);
+      display: flex; flex-wrap: wrap; gap: 16px;
+    }
+    .meta span { display: inline-flex; align-items: center; gap: 5px; }
+
+    /* TOC */
+    .toc {
+      background: rgba(11, 17, 34, 0.7);
+      border: 1px solid rgba(168,85,247,0.18);
+      border-radius: var(--r2); padding: 24px 28px; margin-bottom: 40px;
+    }
+    .toc-title {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+      text-transform: uppercase; letter-spacing: 1px; color: var(--accent2);
+      margin-bottom: 14px;
+    }
+    .toc-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 6px 20px;
+    }
+    .toc-grid a {
+      font-size: 14px; color: var(--muted); text-decoration: none;
+      transition: color 0.15s; display: flex; align-items: center; gap: 6px;
+    }
+    .toc-grid a::before {
+      content: ''; display: inline-block; width: 5px; height: 5px;
+      border-radius: 50%; background: var(--accent); flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .toc-grid a:hover { color: var(--text); }
+    .toc-grid a:hover::before { background: var(--accent2); }
+
+    /* Sections */
+    .section {
+      background: var(--panel); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--r2); padding: 32px 36px; margin-bottom: 20px;
+      backdrop-filter: blur(8px); transition: border-color 0.25s;
+    }
+    .section:hover { border-color: rgba(244,63,94,0.18); }
+
+    .section-head {
+      display: flex; align-items: flex-start; gap: 14px;
+      margin-bottom: 20px; padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .section-num {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, rgba(244,63,94,0.25), rgba(168,85,247,0.15));
+      border: 1px solid rgba(244,63,94,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px;
+      color: var(--accent);
+    }
+    h2 {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: clamp(17px, 2.2vw, 21px); color: var(--text); line-height: 1.3;
     }
 
-    h2 {
-      color: var(--accent);
-      margin-top: 1.6em;
+    p { font-size: 15px; color: #c0c6e0; margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol { padding-left: 0; list-style: none; margin-bottom: 12px; }
+    li {
+      font-size: 15px; color: #c0c6e0; padding: 7px 0 7px 22px;
+      position: relative; border-bottom: 1px solid rgba(255,255,255,0.03);
     }
+    li:last-child { border-bottom: none; }
+    li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent); font-size: 13px; top: 9px;
+    }
+
+    strong { color: var(--text); font-weight: 600; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { color: var(--link-h); text-decoration: underline; }
 
     h3 {
-      color: var(--accent);
-      margin-top: 1.2em;
+      font-family: 'Syne', sans-serif; font-weight: 600; font-size: 15px;
+      color: var(--accent2); text-transform: uppercase; letter-spacing: 0.6px;
+      margin: 20px 0 8px;
     }
 
-    ul {
-      padding-left: 1.25em;
-      margin: 0.6em 0;
+    .callout {
+      border-radius: var(--r1); padding: 14px 18px; margin: 16px 0;
+      font-size: 14px; display: flex; gap: 10px; align-items: flex-start;
     }
-
-    li { margin: 0.4em 0; }
+    .callout.warn {
+      background: rgba(234,179,8,0.07); border: 1px solid rgba(234,179,8,0.2); color: #fcd34d;
+    }
+    .callout.danger {
+      background: rgba(244,63,94,0.07); border: 1px solid rgba(244,63,94,0.2); color: #fda4af;
+    }
+    .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
 
     footer {
-      margin-top: 32px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
+      position: relative; z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.05); padding: 32px 24px;
+      text-align: center; color: var(--muted); font-size: 13px;
     }
 
-    ::selection {
-      background: rgba(244,63,94,0.35);
-      color: white;
+    @media (max-width: 640px) {
+      .section { padding: 22px 18px; }
+      .wrap { padding: 32px 16px 60px; }
     }
 
-    @media (max-width: 680px) {
-      main { padding: 22px; }
-    }
+    ::selection { background: rgba(244,63,94,0.3); color: #fff; }
 
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
@@ -174,116 +231,188 @@
 </head>
 
 <body>
+<div class="glow-a"></div>
+<div class="glow-b"></div>
 
 <header>
   <div class="header-inner">
     <span class="brand">Omingle</span>
-    <a href="index.html" class="back">← Back to Home</a>
+    <a href="/" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 12L6 8l4-4"/></svg>
+      Back to Home
+    </a>
   </div>
 </header>
 
 <div class="wrap">
 
-<main>
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="badge">Community Standards</div>
+    <h1>Community Guidelines</h1>
+    <div class="meta">
+      <span>📅 Effective: January 1, 2026</span>
+      <span>🔄 Last Updated: April 15, 2026</span>
+      <span>🔞 18+ Platform</span>
+    </div>
+  </div>
 
-<h1>Community Guidelines</h1>
+  <!-- Intro -->
+  <div class="section" style="border-color:rgba(168,85,247,0.2)">
+    <p>Welcome to <strong>Omingle</strong> — a global, real‑time random chat platform that connects adults for spontaneous video, audio, and text conversations. Our mission is to foster a space where people can meet new friends, share perspectives, and enjoy genuine human connection — all within a respectful and safe environment.</p>
+    <p>These Community Guidelines ("Guidelines") define what we expect from every person who uses Omingle. They apply to all interactions, whether you're using video, audio, text, or any other feature. By using Omingle, you agree to follow these rules. <strong>Violations may result in temporary or permanent loss of access, IP/device bans, and, in cases of illegal activity, referral to law enforcement.</strong></p>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <span>These Guidelines supplement our <a href="/terms">Terms &amp; Conditions</a> and <a href="/privacy">Privacy Policy</a>. Please read all three documents to fully understand your responsibilities.</span>
+    </div>
+  </div>
 
-<p>
-Welcome to Omingle — a random chat platform for adults to connect with new people worldwide.
-To keep the community respectful and safe, everyone must follow these guidelines.
-</p>
+  <!-- TOC -->
+  <nav class="toc" aria-label="Table of Contents">
+    <div class="toc-title">Table of Contents</div>
+    <div class="toc-grid">
+      <a href="#s1">1. Purpose &amp; Scope</a>
+      <a href="#s2">2. Age Requirement (18+)</a>
+      <a href="#s3">3. Respectful Conduct</a>
+      <a href="#s4">4. Unacceptable Behavior</a>
+      <a href="#s5">5. Privacy &amp; Recording</a>
+      <a href="#s6">6. Reporting &amp; Enforcement</a>
+      <a href="#s7">7. Final Agreement</a>
+    </div>
+  </nav>
 
-<p>
-Violations may result in warnings, temporary or permanent bans,
-IP/device restrictions, or reports to authorities when required.
-</p>
+  <!-- Section 1: Purpose & Scope -->
+  <div class="section" id="s1">
+    <div class="section-head"><div class="section-num">01</div><h2>Purpose &amp; Scope</h2></div>
+    <p>These Guidelines exist to:</p>
+    <ul>
+      <li>Clearly define acceptable and unacceptable behavior on Omingle.</li>
+      <li>Protect the safety, privacy, and dignity of all users.</li>
+      <li>Explain the consequences for violating our standards.</li>
+      <li>Create a consistent, fair framework for moderation and enforcement.</li>
+    </ul>
+    <p>These rules apply to <strong>every interaction</strong> on the platform, including public chats, private messages (if available), and any content you display via your camera or microphone. They also apply to any attempt to circumvent our safety features or bans.</p>
+  </div>
 
-<h2>1. Purpose of These Guidelines</h2>
-<ul>
-  <li>Define acceptable behavior</li>
-  <li>Prevent harmful interactions</li>
-  <li>Explain enforcement actions</li>
-  <li>Protect user safety</li>
-</ul>
+  <!-- Section 2: Age Requirement -->
+  <div class="section" id="s2">
+    <div class="section-head"><div class="section-num">02</div><h2>Age Requirement (18+ Only)</h2></div>
+    <p>Omingle is strictly for adults aged 18 and older. No exceptions. By using the platform, you confirm that you are at least 18 years of age (or the legal age of majority in your jurisdiction, if higher).</p>
+    <h3>What is prohibited:</h3>
+    <ul>
+      <li>Misrepresenting your age to access the platform.</li>
+      <li>Allowing a minor to appear on camera, even in the background.</li>
+      <li>Engaging in conversation with someone you know or suspect is under 18.</li>
+      <li>Using the platform to solicit, groom, or interact with minors in any way.</li>
+    </ul>
+    <div class="callout danger">
+      <span class="callout-icon">🚫</span>
+      <span><strong>Zero tolerance:</strong> If we identify a minor on the platform — or an adult knowingly interacting with one — we will permanently ban the associated accounts and IP addresses. We will also report the incident to the National Center for Missing &amp; Exploited Children (NCMEC) and/or local law enforcement.</span>
+    </div>
+    <p>If you encounter someone you believe is under 18, <strong>disconnect immediately</strong> and use the Report button. Do not engage further.</p>
+  </div>
 
-<h2>2. Age Requirement</h2>
-<ul>
-  <li>18+ only</li>
-  <li>No misrepresentation of age</li>
-  <li>No minors on camera or nearby</li>
-  <li>Report suspected minors immediately</li>
-</ul>
+  <!-- Section 3: Respectful Conduct -->
+  <div class="section" id="s3">
+    <div class="section-head"><div class="section-num">03</div><h2>Respectful Conduct</h2></div>
+    <p>We expect all users to treat each other with basic courtesy and respect. While spontaneous conversations can be unpredictable, the following principles should guide your interactions:</p>
+    <ul>
+      <li><strong>Be polite.</strong> Greet others kindly and avoid aggressive language.</li>
+      <li><strong>Respect boundaries.</strong> If someone asks you to change the subject or disconnect, do so immediately.</li>
+      <li><strong>Use the Disconnect button.</strong> If a conversation makes you uncomfortable, you can leave at any time without explanation.</li>
+      <li><strong>Embrace diversity.</strong> Omingle connects people from different cultures, backgrounds, and beliefs. Disrespect based on identity is never acceptable.</li>
+    </ul>
+    <p>Remember: behind every screen is a real person. Your words and actions have impact.</p>
+  </div>
 
-<h2>3. Respectful Conduct</h2>
-<ul>
-  <li>Be polite and courteous</li>
-  <li>Disconnect if uncomfortable</li>
-  <li>Respect cultural differences</li>
-</ul>
+  <!-- Section 4: Unacceptable Behavior -->
+  <div class="section" id="s4">
+    <div class="section-head"><div class="section-num">04</div><h2>Unacceptable Behavior</h2></div>
+    <p>The following actions are strictly prohibited and will result in immediate enforcement action:</p>
 
-<h2>4. Unacceptable Behavior</h2>
+    <h3>4.1 Harassment &amp; Bullying</h3>
+    <ul>
+      <li>Repeated unwanted contact or messages.</li>
+      <li>Insults, name‑calling, or derogatory remarks about appearance, intelligence, or identity.</li>
+      <li>Threats of violence, intimidation, or stalking.</li>
+      <li>Encouraging others to harass or target a specific user.</li>
+    </ul>
 
-<h3>4.1 Harassment &amp; Bullying</h3>
-<ul>
-  <li>Insults or mocking</li>
-  <li>Threats or aggressive language</li>
-  <li>Unwanted attention</li>
-</ul>
+    <h3>4.2 Hate Speech &amp; Discrimination</h3>
+    <ul>
+      <li>Promoting violence or hatred against individuals or groups based on race, ethnicity, national origin, religion, gender, sexual orientation, disability, or any other protected characteristic.</li>
+      <li>Using slurs, stereotypes, or dehumanizing language.</li>
+      <li>Displaying symbols or imagery associated with hate groups.</li>
+    </ul>
 
-<h3>4.2 Hate Speech</h3>
-<ul>
-  <li>Racial or discriminatory slurs</li>
-  <li>Extremist content</li>
-  <li>Targeting protected groups</li>
-</ul>
+    <h3>4.3 Illegal or Dangerous Activities</h3>
+    <ul>
+      <li>Depicting, promoting, or threatening violence or self‑harm.</li>
+      <li>Discussing, planning, or facilitating illegal acts (e.g., drug sales, weapon trafficking, fraud).</li>
+      <li>Sharing content that exploits or endangers children (CSAM) — this will be reported to authorities immediately.</li>
+      <li>Content that promotes terrorism or violent extremism.</li>
+    </ul>
 
-<h3>4.3 Illegal or Dangerous Behavior</h3>
-<ul>
-  <li>Violence or threats</li>
-  <li>Self‑harm encouragement</li>
-  <li>Illegal activity discussions</li>
-</ul>
+    <h3>4.4 Sexual Misconduct &amp; Nudity</h3>
+    <ul>
+      <li><strong>No unsolicited nudity or sexual content.</strong> Omingle is a social platform, not an adult content site. Do not expose yourself or engage in sexual acts without clear, mutual consent.</li>
+      <li>No sharing of sexually explicit images or links.</li>
+      <li>No solicitation of sexual services or commercial sex.</li>
+    </ul>
 
-<h3>4.4 Scams &amp; Fraud</h3>
-<ul>
-  <li>Requesting money</li>
-  <li>Phishing attempts</li>
-  <li>Identity theft</li>
-</ul>
+    <h3>4.5 Scams, Fraud &amp; Impersonation</h3>
+    <ul>
+      <li>Requesting money, gifts, or financial information.</li>
+      <li>Phishing for login credentials or personal data.</li>
+      <li>Impersonating another person, brand, or Omingle staff.</li>
+      <li>Promoting multi‑level marketing schemes, cryptocurrency scams, or "get rich quick" offers.</li>
+    </ul>
 
-<h3>4.5 Impersonation</h3>
-<ul>
-  <li>Pretending to be others</li>
-  <li>Pretending to be Omingle staff</li>
-</ul>
+    <h3>4.6 Platform Abuse &amp; Spam</h3>
+    <ul>
+      <li>Using bots, scripts, or automated tools to interact with the platform.</li>
+      <li>Spamming repetitive messages, links, or advertisements.</li>
+      <li>Attempting to bypass bans or security measures (e.g., using VPNs to evade IP blocks).</li>
+      <li>Intentionally disrupting the service for other users (e.g., flashing strobe lights, loud noises).</li>
+    </ul>
+  </div>
 
-<h2>5. Privacy Rules</h2>
-<ul>
-  <li>No sharing personal details</li>
-  <li>No recording or screenshots</li>
-  <li>No reposting conversations</li>
-</ul>
+  <!-- Section 5: Privacy & Recording -->
+  <div class="section" id="s5">
+    <div class="section-head"><div class="section-num">05</div><h2>Privacy &amp; No Recording Policy</h2></div>
+    <p>Omingle is designed for ephemeral, private conversations. To protect everyone's privacy, you agree to the following:</p>
+    <ul>
+      <li><strong>Do not share personal information</strong> (full name, address, phone number, email, financial details) during sessions.</li>
+      <li><strong>No screenshots, screen recordings, or audio capture</strong> of any session are permitted.</li>
+      <li><strong>Do not redistribute or publish</strong> any part of a conversation outside the platform.</li>
+      <li>If you suspect someone is recording you, disconnect and report them immediately.</li>
+    </ul>
+    <p>Violating this policy is a serious offense that will result in an immediate and permanent ban.</p>
+  </div>
 
-<h2>6. Enforcement</h2>
-<ul>
-  <li>Warnings</li>
-  <li>Temporary bans</li>
-  <li>Permanent bans</li>
-  <li>IP/device blocking</li>
-</ul>
+  <!-- Section 6: Reporting & Enforcement -->
+  <div class="section" id="s6">
+    <div class="section-head"><div class="section-num">06</div><h2>Reporting &amp; Enforcement</h2></div>
+    <p>We rely on community reports to help keep Omingle safe. If you encounter a user violating these Guidelines:</p>
+    <ul>
+      <li>Use the <strong>Report</strong> button in the chat interface.</li>
+      <li>Provide a brief reason for the report (e.g., "nudity," "harassment," "underage").</li>
+      <li>Disconnect from the session — you do not need to stay and engage.</li>
+    </ul>
+    <p>Our moderation team reviews reports and takes action based on the severity and frequency of violations. Enforcement actions may include:</p>
+    <ul>
+      <li><strong>Warning:</strong> A notice reminding the user of the rules (for minor, first‑time infractions).</li>
+      <li><strong>Temporary Suspension:</strong> A time‑limited ban (e.g., 24 hours, 7 days).</li>
+      <li><strong>Permanent Ban:</strong> Complete and irreversible removal from the platform, including IP and device blocking.</li>
+      <li><strong>Legal Referral:</strong> Reporting to law enforcement or child protection agencies when required by law.</li>
+    </ul>
+    <p>We reserve the right to enforce these Guidelines at our sole discretion. We are not obligated to provide a warning before taking action in cases of severe violations.</p>
+  </div>
 
-<h2>7. Final Agreement</h2>
-<p>
-By using Omingle, you agree to follow and respect these Community Guidelines.
-</p>
-
-</main>
-
-<footer>
-© 2026 Omingle · 18+ Only · For Entertainment Purposes
-</footer>
-
-</div>
-
-</body>
-</html>
+  <!-- Section 7: Final Agreement -->
+  <div class="section" id="s7">
+    <div class="section-head"><div class="section-num">07</div><h2>Final Agreement</h2></div>
+    <p>By creating an account or using Omingle as a guest, you acknowledge that you have read, understood, and agree to abide by these Community Guidelines. You also understand that failure to comply may result in the loss of access to the platform.</p>
+    <p>We may update these Guidelines periodically. The "Last Updated" date at the top of this page indicates when changes were last made. Your continued use of Omingle after any changes constitutes acceptance of the revised Guidelines.</p>
+    <p>Thank you for helping us build a respectful, fun, and safe community for adults around the world.</p>
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1
