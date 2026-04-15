@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>Omingle — Connect Freely, Talk Freely</title>
   <!-- Google Fonts & simple CSS reset -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -467,7 +467,7 @@
       transform: scale(1.02);
     }
 
-    /* RESPONSIVE: Mobile — single screen, no vertical scroll */
+    /* RESPONSIVE: Mobile — single screen, no vertical scroll, footer fully visible */
     @media (max-width: 700px) {
       body, .container {
         height: 100vh;
@@ -476,138 +476,139 @@
         flex-direction: column;
       }
       .container {
-        padding: 0.8rem 0.8rem 0.5rem;
+        padding: 0.5rem 0.5rem 0.3rem;
         max-width: 100%;
         flex: 1;
         justify-content: space-between;
       }
 
       .navbar {
-        margin-bottom: 0.8rem;
-        padding: 0.5rem 1rem;
-        border-radius: 50px;
+        margin-bottom: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 40px;
         flex-shrink: 0;
       }
       .logo h1 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
       }
       .logo span {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
       }
       .tagline {
-        padding: 0.3rem 0.8rem;
-        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.65rem;
       }
 
       .hero {
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.5rem;
         flex-shrink: 0;
       }
       .hero-badge {
-        padding: 0.3rem 1rem;
-        font-size: 0.65rem;
-        margin-bottom: 0.8rem;
+        padding: 0.2rem 0.8rem;
+        font-size: 0.6rem;
+        margin-bottom: 0.5rem;
       }
       .hero h2 {
-        font-size: 1.8rem;
-        margin-bottom: 0.3rem;
+        font-size: 1.6rem;
+        margin-bottom: 0.2rem;
       }
       .hero-desc {
-        font-size: 0.85rem;
-        margin-bottom: 1rem;
-        max-width: 280px;
+        font-size: 0.75rem;
+        margin-bottom: 0.8rem;
+        max-width: 260px;
       }
       .btn-start {
-        padding: 0.7rem 1.5rem;
-        font-size: 1rem;
-        gap: 8px;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.9rem;
+        gap: 6px;
       }
       .btn-start i {
-        font-size: 1rem;
+        font-size: 0.9rem;
       }
       .online-count-modern {
-        padding: 0.3rem 0.8rem;
-        font-size: 0.75rem;
-        margin-top: 0.6rem;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.7rem;
+        margin-top: 0.4rem;
       }
 
-      /* features: show as horizontal scroll row to save space */
+      /* features: horizontal scroll to save vertical space */
       .features {
         display: flex;
         overflow-x: auto;
-        gap: 0.8rem;
-        margin: 0.8rem 0;
-        padding-bottom: 0.3rem;
+        gap: 0.6rem;
+        margin: 0.5rem 0;
+        padding-bottom: 0.2rem;
         scroll-snap-type: x mandatory;
         flex-shrink: 0;
         -webkit-overflow-scrolling: touch;
       }
       .feature-card {
-        flex: 0 0 150px;
-        padding: 0.8rem 0.5rem;
-        border-radius: 1.5rem;
+        flex: 0 0 130px;
+        padding: 0.6rem 0.4rem;
+        border-radius: 1.2rem;
         scroll-snap-align: start;
       }
       .icon-circle {
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
-        margin-bottom: 0.5rem;
-        border-radius: 20px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+        margin-bottom: 0.4rem;
+        border-radius: 16px;
       }
       .feature-card h3 {
-        font-size: 1rem;
-        margin-bottom: 0.2rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.1rem;
       }
       .feature-card p {
-        font-size: 0.7rem;
-        line-height: 1.2;
+        font-size: 0.65rem;
+        line-height: 1.1;
       }
 
-      /* interactive banner compress */
+      /* interactive banner: compact but visible */
       .interactive-banner {
-        padding: 0.8rem 1rem;
-        margin: 0.5rem 0;
-        border-radius: 1.5rem;
-        gap: 0.8rem;
-        flex-shrink: 0;
-      }
-      .banner-text h3 {
-        font-size: 1rem;
-        gap: 5px;
-      }
-      .banner-text p {
-        font-size: 0.7rem;
-      }
-      .mini-chat-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.75rem;
-        gap: 6px;
-      }
-
-      /* footer links: inline compact */
-      .footer-links {
-        margin-top: 0.5rem;
-        padding-top: 0.5rem;
+        padding: 0.6rem 0.8rem;
+        margin: 0.4rem 0;
+        border-radius: 1.2rem;
         gap: 0.5rem;
         flex-shrink: 0;
       }
+      .banner-text h3 {
+        font-size: 0.9rem;
+        gap: 4px;
+      }
+      .banner-text p {
+        font-size: 0.65rem;
+      }
+      .mini-chat-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.7rem;
+        gap: 4px;
+      }
+
+      /* footer links: fully visible, compact */
+      .footer-links {
+        margin-top: 0.3rem;
+        padding-top: 0.3rem;
+        gap: 0.3rem;
+        border-top-width: 0.5px;
+        flex-shrink: 0;
+      }
       .links-group {
-        gap: 0.8rem;
+        gap: 0.5rem;
         justify-content: center;
         width: 100%;
       }
       .links-group a {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
       }
       .copyright {
-        font-size: 0.6rem;
+        font-size: 0.55rem;
         width: 100%;
         text-align: center;
       }
       .badge-18 {
-        padding: 2px 8px;
-        font-size: 0.6rem;
+        padding: 1px 6px;
+        font-size: 0.5rem;
       }
 
       /* hide daily stat if present (not used) */
@@ -663,7 +664,7 @@
     </div>
   </div>
 
-  <!-- feature grid : energetic (now horizontal scroll on mobile) -->
+  <!-- feature grid : energetic (horizontal scroll on mobile) -->
   <div class="features">
     <div class="feature-card">
       <div class="icon-circle"><i class="fas fa-comments"></i></div>
@@ -704,7 +705,7 @@
     </div>
   </div>
 
-  <!-- footer links exactly from original but styled premium -->
+  <!-- footer links exactly from original but styled premium (fully visible on mobile) -->
   <div class="footer-links">
     <div class="links-group">
       <a href="Blog.html">Blogs</a>
@@ -770,7 +771,6 @@
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 
 <script>
