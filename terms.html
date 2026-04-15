@@ -45,7 +45,7 @@
       min-height: 100vh;
     }
 
-    /* ── Ambient glows ── */
+    /* Ambient glows */
     .glow-a, .glow-b {
       position: fixed; pointer-events: none; z-index: 0;
       border-radius: 50%; filter: blur(100px); opacity: 0.22;
@@ -65,7 +65,7 @@
     @keyframes drift-a { from { transform: translate(0,0); } to { transform: translate(60px,40px); } }
     @keyframes drift-b { from { transform: translate(0,0); } to { transform: translate(-50px,-30px); } }
 
-    /* ── Header ── */
+    /* Header */
     header {
       position: sticky; top: 0; z-index: 100;
       backdrop-filter: blur(20px) saturate(1.4);
@@ -100,7 +100,7 @@
     .back-link:hover { color: var(--text); border-color: var(--border); background: rgba(244,63,94,0.08); }
     .back-link svg { width: 14px; height: 14px; }
 
-    /* ── Page wrap ── */
+    /* Page wrap */
     .wrap {
       position: relative; z-index: 1;
       max-width: var(--max);
@@ -108,8 +108,324 @@
       padding: 48px 24px 80px;
     }
 
-    /* ── Hero block ── */
+    /* Hero block */
     .page-hero {
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(244,63,94,0.1);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 5px 14px;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      background: linear-gradient(140deg, #fff 30%, #c4c8e8 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 16px;
+    }
+    .meta {
+      font-size: 13px; color: var(--muted);
+      display: flex; flex-wrap: wrap; gap: 16px;
+    }
+    .meta span { display: inline-flex; align-items: center; gap: 5px; }
+
+    /* TOC */
+    .toc {
+      background: rgba(11, 17, 34, 0.7);
+      border: 1px solid rgba(168,85,247,0.18);
+      border-radius: var(--r2);
+      padding: 24px 28px;
+      margin-bottom: 40px;
+    }
+    .toc-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 13px;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: var(--accent2);
+      margin-bottom: 14px;
+    }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 6px 20px;
+    }
+    .toc-grid a {
+      font-size: 14px; color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .toc-grid a::before {
+      content: '';
+      display: inline-block;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .toc-grid a:hover { color: var(--text); }
+    .toc-grid a:hover::before { background: var(--accent2); }
+
+    /* Sections */
+    .section {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--r2);
+      padding: 32px 36px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.25s;
+    }
+    .section:hover { border-color: rgba(244,63,94,0.18); }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .section-num {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(244,63,94,0.25), rgba(168,85,247,0.15));
+      border: 1px solid rgba(244,63,94,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 13px;
+      color: var(--accent);
+    }
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(17px, 2.2vw, 21px);
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    p { font-size: 15px; color: #c0c6e0; margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol { padding-left: 0; list-style: none; margin-bottom: 12px; }
+    li {
+      font-size: 15px; color: #c0c6e0;
+      padding: 7px 0 7px 22px;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    li:last-child { border-bottom: none; }
+    li::before {
+      content: '→';
+      position: absolute; left: 0;
+      color: var(--accent); font-size: 13px;
+      top: 9px;
+    }
+    ol { counter-reset: ol-ctr; }
+    ol li::before {
+      content: counter(ol-ctr);
+      counter-increment: ol-ctr;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 11px;
+      background: rgba(244,63,94,0.15);
+      border: 1px solid rgba(244,63,94,0.25);
+      border-radius: 5px;
+      padding: 0 5px; top: 10px;
+    }
+
+    strong { color: var(--text); font-weight: 600; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { color: var(--link-h); text-decoration: underline; }
+
+    /* Callout */
+    .callout {
+      border-radius: var(--r1);
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .callout.warn {
+      background: rgba(234,179,8,0.07);
+      border: 1px solid rgba(234,179,8,0.2);
+      color: #fcd34d;
+    }
+    .callout.danger {
+      background: rgba(244,63,94,0.07);
+      border: 1px solid rgba(244,63,94,0.2);
+      color: #fda4af;
+    }
+    .callout.info {
+      background: rgba(59,130,246,0.07);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: #93c5fd;
+    }
+    .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600; font-size: 15px;
+      color: var(--accent2);
+      text-transform: uppercase; letter-spacing: 0.6px;
+      margin: 20px 0 8px;
+    }
+
+    /* contact card */
+    .contact-card {
+      background: rgba(168,85,247,0.07);
+      border: 1px solid rgba(168,85,247,0.2);
+      border-radius: var(--r1);
+      padding: 18px 22px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .section { padding: 22px 18px; }
+      .wrap { padding: 32px 16px 60px; }
+    }
+
+    ::selection { background: rgba(244,63,94,0.3); color: #fff; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="glow-a"></div>
+<div class="glow-b"></div>
+
+<header>
+  <div class="header-inner">
+    <span class="brand">Omingle</span>
+    <a href="/" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 12L6 8l4-4"/></svg>
+      Back to Home
+    </a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="badge">Legal Document</div>
+    <h1>Terms &amp; Conditions</h1>
+    <div class="meta">
+      <span>📅 Effective Date: January 1, 2026</span>
+      <span>🔄 Last Updated: April 15, 2026</span>
+      <span>🔞 18+ Platform</span>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <div class="section" style="border-color:rgba(168,85,247,0.2)">
+    <p>Welcome to <strong>Omingle</strong> ("Platform," "we," "us," or "our") — a real-time random video, audio, and text chat service that connects adults around the world. These Terms &amp; Conditions ("Terms") are a legally binding agreement between you ("User," "you") and Omingle. <strong>Please read them carefully before using any feature of this Platform.</strong></p>
+    <p>By accessing or using Omingle — whether via browser, mobile device, API, or any other method — you confirm that you have read, understood, and agree to be bound by these Terms, our <a href="/privacy">Privacy Policy</a>, and any additional guidelines we may post. If you do not agree, you must stop using the Platform immediately.</p>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <span>These Terms contain a limitation of liability clause (Section 14) and a binding agreement clause (Section 16). Review those sections closely.</span>
+    </div>
+  </div>
+
+  <!-- TOC (FULL 17 ITEMS) -->
+  <nav class="toc" aria-label="Table of Contents">
+    <div class="toc-title">Table of Contents</div>
+    <div class="toc-grid">
+      <a href="#s1">1. Eligibility</a>
+      <a href="#s2">2. Account &amp; Access</a>
+      <a href="#s3">3. Nature of Service</a>
+      <a href="#s4">4. User Responsibilities</a>
+      <a href="#s5">5. Prohibited Conduct</a>
+      <a href="#s6">6. No Recording Policy</a>
+      <a href="#s7">7. Intellectual Property</a>
+      <a href="#s8">8. Privacy &amp; Data</a>
+      <a href="#s9">9. Content Moderation</a>
+      <a href="#s10">10. Third-Party Services</a>
+      <a href="#s11">11. Advertising</a>
+      <a href="#s12">12. Enforcement &amp; Bans</a>
+      <a href="#s13">13. Disclaimers</a>
+      <a href="#s14">14. Limitation of Liability</a>
+      <a href="#s15">15. Indemnification</a>
+      <a href="#s16">16. Governing Law</a>
+      <a href="#s17">17. Changes to Terms</a>
+    </div>
+  </nav>
+
+  <!-- 1. Eligibility -->
+  <div class="section" id="s1">
+    <div class="section-head"><div class="section-num">01</div><h2>Eligibility</h2></div>
+    <p>Omingle is an <strong>adult-only platform strictly for users who are 18 years of age or older.</strong> By using this Platform, you represent and warrant the following:</p>
+    <ul><li>You are at least <strong>18 years old</strong>, or the legal age of majority in your country or region — whichever is higher.</li><li>You are legally permitted to access adult-oriented content and platforms under the laws of your jurisdiction.</li><li>You are not using a VPN, proxy, or any method to circumvent geographic or age-based restrictions.</li><li>You are not a registered sex offender, and you have not been convicted of any crime that would prohibit you from accessing this type of content.</li><li>If you are accessing on behalf of another individual, you confirm that individual also meets all eligibility criteria above.</li></ul>
+    <div class="callout danger"><span class="callout-icon">🚫</span><span><strong>Zero tolerance for minors:</strong> Any user found to be under 18, or any user who knowingly exposes a minor to this Platform, will be permanently banned and may be reported to relevant law enforcement authorities.</span></div>
+    <p>We reserve the right to request age verification at any time and to suspend or terminate accounts that cannot comply.</p>
+  </div>
+
+  <!-- 2. Account & Access -->
+  <div class="section" id="s2">
+    <div class="section-head"><div class="section-num">02</div><h2>Account &amp; Access</h2></div>
+    <p>Omingle may be used with or without a registered account, depending on available features. Whether you register or use the Platform as a guest, the following conditions apply:</p>
+    <h3>Guest Access</h3>
+    <ul><li>Guest sessions are temporary. No persistent profile is created.</li><li>Guest usage is still subject to all Terms herein.</li><li>We may collect anonymous technical metadata (IP address, device type, session duration) even in guest mode for safety and platform integrity purposes.</li></ul>
+    <h3>Registered Accounts</h3>
+    <ul><li>You agree to provide accurate, truthful registration information.</li><li>You are solely responsible for maintaining the confidentiality of your login credentials.</li><li>You agree to immediately notify us of any unauthorised use of your account at <a href="mailto:businessman717@gmail.com">businessman717@gmail.com</a>.</li><li>You may not transfer, sell, or share your account with any other person.</li><li>We reserve the right to suspend or terminate accounts that violate these Terms without prior notice.</li></ul>
+  </div>
+
+  <!-- 3. Nature of Service -->
+  <div class="section" id="s3">
+    <div class="section-head"><div class="section-num">03</div><h2>Nature of the Service</h2></div>
+    <p>Omingle is a <strong>random-matching communication platform</strong>. The core service connects two users anonymously in real-time video, audio, and/or text sessions. You understand and accept the following characteristics of this service:</p>
+    <ul><li>Matches are <strong>algorithmically random</strong>. Omingle does not pre-screen, vet, or approve the individuals you will be paired with.</li><li>Conversations are <strong>not moderated in real time</strong> by Omingle staff. You use the Report and Disconnect features as your primary safety tools.</li><li>The Platform is provided <strong>"as-is."</strong> We do not guarantee continuous availability, match quality, or content nature.</li><li>Features of the Platform may be updated, added, or removed at any time without notice.</li><li>Omingle is intended for <strong>entertainment and social interaction purposes only</strong>. It is not a mental health service, dating service, escort service, or commercial transaction platform.</li></ul>
+    <div class="callout info"><span class="callout-icon">ℹ️</span><span>Use the <strong>Disconnect</strong> button at any time to end a session. Use the <strong>Report</strong> button to flag inappropriate behaviour. Your safety is your responsibility.</span></div>
+  </div>
+
+  <!-- 4. User Responsibilities -->
+  <div class="section" id="s4">
+    <div class="section-head"><div class="section-num">04</div><h2>User Responsibilities</h2></div>
+    <p>Every user of Omingle assumes full and sole responsibility for their conduct, content, and interactions on the Platform. Specifically, you agree to:</p>
+    <h3>Conduct Standards</h3>
+    <ul><li>Treat all other users with dignity and basic respect.</li><li>Engage only in lawful conversations and activities during sessions.</li><li>Exercise personal discretion before sharing any personal information, images, or files.</li><li>Use the Report function promptly when you encounter abusive, illegal, or otherwise inappropriate behaviour.</li></ul>
+    <h3>Personal Data Safety</h3>
+    <ul><li>Do not share your full legal name, home address, phone number, financial information, government-issued ID, or similar sensitive data in any session.</li><li>Omingle is not responsible for any harm resulting from personal information you voluntarily disclose to other users.</li></ul>
+    <h3>Technical Responsibilities</h3>
+    <ul><li>You are responsible for your own device, browser, internet connection, and security software.</li><li>You agree not to interfere with the Platform's technical infrastructure, including but not limited to scraping, reverse engineering, or deploying bots.</li></ul>
+  </div>
+
+  <!-- 5. Prohibited Conduct -->
+  <div class="section" id="s5">
+    <div class="section-head"><div class="section-num">05</div><h2>Prohibited Conduct</h2></div>
+    <p>The following actions are <strong>strictly forbidden</strong> on Omingle and may result in immediate permanent termination of access, reporting to law enforcement, and/or legal action:</p>
+    <h3>Illegal &amp; Harmful Content</h3>
+    <ul><li>Sharing, displaying, or soliciting any content that depicts or involves minors in a sexual context — this constitutes child sexual abuse material (CSAM) and will be reported to the National Center for Missing &amp; Exploited Children (NCMEC) and law enforcement without exception.</li><li>Conducting, soliciting, or facilitating any illegal transaction, including but not limited to the sale of drugs, weapons, or stolen goods.</li><li>Sharing content that promotes, glorifies, or incites violence, terrorism, self-harm, or hate speech.</li></ul>
+    <h3>Platform Abuse</h3>
+    <ul><li>Harassment, stalking, or intimidation of other users.</li><li>Impersonating any person, brand, or authority.</li><li>Spamming, phishing, or distributing malware, viruses, or harmful code.</li><li>Using automated scripts, bots, or any method to artificially inflate usage or disrupt service.</li></ul>
+  </div>
+
+  <!-- 6. No Recording Policy -->
+  <div class="section" id="s6">
+    <div class="section-head"><div class="section-num">06</div><h2>No Recording Policy</h2></div>
+    <p>To preserve the privacy and ephemeral nature of conversations, you agree to the following:</p>
+    <ul><li><strong>No screenshots, screen recordings, or audio capture</strong> of any session are permitted.</li><li>You may not redistribute, publish, or share any portion of a conversation outside the Platform.</li><li>If you become aware that a conversation is being recorded by another party, disconnect immediately and report the user.</li><li>Violation of this policy will result in an immediate, permanent ban and may expose you to legal liability.</li></ul>
+  </div>
+
+  <!-- 7. Intellectual Property -->
+  <div class="section" id="s7">
+    <div cl    .page-hero {
       margin-bottom: 40px;
       padding-bottom: 32px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
