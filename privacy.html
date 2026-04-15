@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Privacy Policy | Omingle</title>
+  <title>Privacy Policy | Omingle — Random Video Chat for Adults</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Omingle Privacy Policy — Learn how we collect, use, protect, and share your information on our random video, audio, and text conversation platform." />
   <meta name="robots" content="index, follow" />
@@ -29,16 +29,13 @@
       --link:     #fda4af;
       --link-hov: #ffe4e6;
       --shadow:   0 24px 60px -12px rgba(244, 63, 94, 0.22);
-
       --r1: 8px;
       --r2: 16px;
       --r3: 24px;
-
       --w: 880px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -50,322 +47,163 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Ambient glows */
     .glow-tl, .glow-br {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(100px);
-      z-index: -1;
-      pointer-events: none;
+      position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none;
     }
     .glow-tl {
-      top: -15%; left: -10%;
-      width: 65vw; height: 65vw;
+      top: -15%; left: -10%; width: 65vw; height: 65vw;
       background: radial-gradient(circle, rgba(168,85,247,0.14), transparent 65%);
     }
     .glow-br {
-      bottom: -15%; right: -10%;
-      width: 55vw; height: 55vw;
+      bottom: -15%; right: -10%; width: 55vw; height: 55vw;
       background: radial-gradient(circle, rgba(244,63,94,0.16), transparent 65%);
     }
 
-    /* ---- HEADER ---- */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
+      position: sticky; top: 0; z-index: 50;
       backdrop-filter: blur(16px) saturate(180%);
       -webkit-backdrop-filter: blur(16px) saturate(180%);
       background: rgba(3, 5, 11, 0.78);
       border-bottom: 1px solid var(--border);
     }
     .header-inner {
-      max-width: var(--w);
-      margin: auto;
-      padding: 14px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      max-width: var(--w); margin: auto; padding: 14px 24px;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .brand {
-      font-family: 'Sora', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 800;
+      font-family: 'Sora', sans-serif; font-size: 1.35rem; font-weight: 800;
       background: linear-gradient(130deg, #f9a8d4 20%, #f43f5e 80%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.5px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; letter-spacing: -0.5px;
     }
     .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 18px;
-      border-radius: 40px;
-      border: 1px solid var(--border);
-      background: rgba(244, 63, 94, 0.12);
-      color: var(--text);
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px;
+      border-radius: 40px; border: 1px solid var(--border);
+      background: rgba(244, 63, 94, 0.12); color: var(--text);
+      font-size: 0.875rem; font-weight: 600; text-decoration: none;
       transition: background 0.2s, border-color 0.2s;
     }
-    .back-btn:hover {
-      background: rgba(244, 63, 94, 0.22);
-      border-color: rgba(244, 63, 94, 0.5);
-      text-decoration: none;
-      color: var(--text);
-    }
+    .back-btn:hover { background: rgba(244, 63, 94, 0.22); border-color: rgba(244,63,94,0.5); }
 
-    /* ---- LAYOUT ---- */
-    .wrap {
-      max-width: var(--w);
-      margin: auto;
-      padding: 48px 24px 80px;
-    }
+    .wrap { max-width: var(--w); margin: auto; padding: 48px 24px 80px; }
 
-    /* ---- HERO BLOCK ---- */
-    .page-hero {
-      margin-bottom: 40px;
-      text-align: center;
-    }
+    .page-hero { margin-bottom: 40px; text-align: center; }
     .badge {
-      display: inline-block;
-      padding: 5px 16px;
-      border-radius: 40px;
-      background: rgba(244, 63, 94, 0.14);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #fda4af;
-      margin-bottom: 20px;
+      display: inline-block; padding: 5px 16px; border-radius: 40px;
+      background: rgba(244,63,94,0.14); border: 1px solid rgba(244,63,94,0.3);
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #fda4af; margin-bottom: 20px;
     }
     .page-hero h1 {
-      font-family: 'Sora', sans-serif;
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -1px;
-      line-height: 1.15;
+      font-family: 'Sora', sans-serif; font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800; letter-spacing: -1px; line-height: 1.15;
       background: linear-gradient(130deg, #f9a8d4 10%, #f43f5e 55%, #a855f7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 14px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 14px;
     }
     .meta-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px 20px;
-      color: var(--muted);
-      font-size: 0.875rem;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 20px;
+      color: var(--muted); font-size: 0.875rem;
     }
-    .meta-row span { display: flex; align-items: center; gap: 5px; }
 
-    /* ---- TOC ---- */
     .toc-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--r2);
-      padding: 28px 32px;
-      margin-bottom: 40px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--r2); padding: 28px 32px; margin-bottom: 40px;
     }
     .toc-card h2 {
-      font-family: 'Sora', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 18px;
+      font-family: 'Sora', sans-serif; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px;
     }
     .toc-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 6px 20px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 6px 20px;
     }
     .toc-grid a {
-      color: var(--link);
-      font-size: 0.875rem;
-      text-decoration: none;
-      padding: 4px 0;
-      border-bottom: 1px solid transparent;
+      color: var(--link); font-size: 0.875rem; text-decoration: none;
+      padding: 4px 0; border-bottom: 1px solid transparent;
       transition: color 0.15s, border-color 0.15s;
     }
-    .toc-grid a:hover {
-      color: var(--link-hov);
-      border-bottom-color: rgba(253, 164, 175, 0.3);
-      text-decoration: none;
-    }
+    .toc-grid a:hover { color: var(--link-hov); border-bottom-color: rgba(253,164,175,0.3); }
 
-    /* ---- SECTIONS ---- */
     .policy-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--r2);
-      padding: 36px 36px 32px;
-      margin-bottom: 24px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--r2); padding: 36px 36px 32px; margin-bottom: 24px;
       box-shadow: var(--shadow);
     }
-    .policy-card:target {
-      border-color: rgba(244, 63, 94, 0.55);
-    }
-
+    .policy-card:target { border-color: rgba(244,63,94,0.55); }
     .section-label {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: rgba(244, 63, 94, 0.1);
-      border: 1px solid rgba(244, 63, 94, 0.25);
-      border-radius: 30px;
-      padding: 3px 12px;
-      margin-bottom: 12px;
+      display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); background: rgba(244,63,94,0.1);
+      border: 1px solid rgba(244,63,94,0.25); border-radius: 30px;
+      padding: 3px 12px; margin-bottom: 12px;
     }
-
     .policy-card h3 {
-      font-family: 'Sora', sans-serif;
-      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 14px;
-      letter-spacing: -0.3px;
+      font-family: 'Sora', sans-serif; font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      font-weight: 700; color: var(--text); margin-bottom: 14px; letter-spacing: -0.3px;
     }
-
-    .policy-card p {
-      color: #c4cde8;
-      font-size: 0.97rem;
-      margin-bottom: 12px;
-    }
-    .policy-card p:last-child { margin-bottom: 0; }
-
+    .policy-card p { color: #c4cde8; font-size: 0.97rem; margin-bottom: 12px; }
     .policy-card h4 {
-      font-family: 'Sora', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #d8b4fe;
-      margin: 20px 0 10px;
+      font-family: 'Sora', sans-serif; font-size: 0.95rem; font-weight: 700;
+      color: #d8b4fe; margin: 20px 0 10px;
     }
-
     ul.styled {
-      list-style: none;
-      padding: 0;
+      list-style: none; padding: 0;
     }
     ul.styled li {
-      position: relative;
-      padding: 7px 0 7px 22px;
-      color: #c4cde8;
-      font-size: 0.97rem;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative; padding: 7px 0 7px 22px; color: #c4cde8;
+      font-size: 0.97rem; border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     ul.styled li:last-child { border-bottom: none; }
     ul.styled li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      opacity: 0.7;
+      content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      width: 7px; height: 7px; border-radius: 50%; background: var(--accent); opacity: 0.7;
     }
 
+    .info-box, .note-box {
+      border-radius: var(--r1); padding: 14px 18px; margin: 16px 0; font-size: 0.9rem;
+    }
     .info-box {
-      background: rgba(244, 63, 94, 0.07);
-      border: 1px solid rgba(244, 63, 94, 0.25);
-      border-left: 3px solid var(--accent);
-      border-radius: var(--r1);
-      padding: 14px 18px;
-      margin: 16px 0;
-      font-size: 0.9rem;
-      color: #fda4af;
+      background: rgba(244,63,94,0.07); border: 1px solid rgba(244,63,94,0.25);
+      border-left: 3px solid var(--accent); color: #fda4af;
     }
-    .info-box strong { color: #ffe4e6; }
-
     .note-box {
-      background: rgba(168, 85, 247, 0.07);
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      border-left: 3px solid var(--accent2);
-      border-radius: var(--r1);
-      padding: 14px 18px;
-      margin: 16px 0;
-      font-size: 0.9rem;
-      color: #d8b4fe;
+      background: rgba(168,85,247,0.07); border: 1px solid rgba(168,85,247,0.25);
+      border-left: 3px solid var(--accent2); color: #d8b4fe;
     }
 
-    /* Table */
     .table-wrap { overflow-x: auto; margin: 16px 0; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
     th {
-      background: rgba(244, 63, 94, 0.12);
-      color: #fda4af;
-      font-family: 'Sora', sans-serif;
-      font-size: 0.78rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      padding: 10px 14px;
-      text-align: left;
+      background: rgba(244,63,94,0.12); color: #fda4af;
+      font-family: 'Sora', sans-serif; font-size: 0.78rem; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 10px 14px; text-align: left;
       border-bottom: 1px solid var(--border);
     }
     td {
-      padding: 10px 14px;
-      color: #c4cde8;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      vertical-align: top;
+      padding: 10px 14px; color: #c4cde8;
+      border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top;
     }
     tr:last-child td { border-bottom: none; }
 
-    /* Contact card */
     .contact-box {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: rgba(168, 85, 247, 0.08);
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      border-radius: var(--r2);
-      padding: 20px 24px;
-      margin-top: 16px;
+      display: flex; align-items: center; gap: 16px;
+      background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.25);
+      border-radius: var(--r2); padding: 20px 24px; margin-top: 16px;
     }
     .contact-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
+      width: 44px; height: 44px; border-radius: 50%;
       background: linear-gradient(135deg, rgba(168,85,247,0.3), rgba(244,63,94,0.3));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
     }
     .contact-box a { color: var(--link); }
     .contact-box a:hover { color: var(--link-hov); }
 
-    /* ---- FOOTER ---- */
     footer {
-      text-align: center;
-      padding: 32px 24px;
-      color: var(--muted);
-      font-size: 0.82rem;
-      border-top: 1px solid var(--border);
-      line-height: 2;
+      text-align: center; padding: 32px 24px; color: var(--muted);
+      font-size: 0.82rem; border-top: 1px solid var(--border); line-height: 2;
     }
     footer a { color: var(--muted); text-decoration: underline; }
     footer a:hover { color: var(--link); }
-    footer strong { color: var(--text); }
 
-    /* ---- RESPONSIVE ---- */
     @media (max-width: 600px) {
       .policy-card { padding: 24px 20px; }
       .toc-card { padding: 20px; }
@@ -379,7 +217,6 @@
 <div class="glow-tl"></div>
 <div class="glow-br"></div>
 
-<!-- ════ HEADER ════ -->
 <header>
   <div class="header-inner">
     <span class="brand">Omingle</span>
@@ -387,7 +224,6 @@
   </div>
 </header>
 
-<!-- ════ MAIN ════ -->
 <div class="wrap">
 
   <!-- Hero -->
@@ -401,45 +237,34 @@
     </div>
   </div>
 
-  <!-- Table of Contents -->
+  <!-- TOC -->
   <div class="toc-card">
     <h2>Table of Contents</h2>
     <div class="toc-grid">
-      <a href="#s1">1. Introduction</a>
-      <a href="#s2">2. Age Requirement</a>
-      <a href="#s3">3. Information We Do Not Collect</a>
-      <a href="#s4">4. Information We Collect</a>
-      <a href="#s5">5. How We Use Your Data</a>
-      <a href="#s6">6. Cookies &amp; Tracking</a>
-      <a href="#s7">7. Google AdSense &amp; Advertising</a>
-      <a href="#s8">8. Security Measures</a>
-      <a href="#s9">9. Data Retention</a>
-      <a href="#s10">10. Data Sharing &amp; Disclosure</a>
-      <a href="#s11">11. Your Rights &amp; Choices</a>
-      <a href="#s12">12. International Transfers</a>
-      <a href="#s13">13. Third-Party Links</a>
-      <a href="#s14">14. Bans &amp; Violations</a>
-      <a href="#s15">15. Children's Privacy</a>
-      <a href="#s16">16. User Safety Tips</a>
-      <a href="#s17">17. Changes to This Policy</a>
-      <a href="#s18">18. Contact Us</a>
+      <a href="#s1">1. Introduction</a> <a href="#s2">2. Age Requirement</a>
+      <a href="#s3">3. Information We Do Not Collect</a> <a href="#s4">4. Information We Collect</a>
+      <a href="#s5">5. How We Use Your Data</a> <a href="#s6">6. Cookies &amp; Tracking</a>
+      <a href="#s7">7. Google AdSense &amp; Advertising</a> <a href="#s8">8. Security Measures</a>
+      <a href="#s9">9. Data Retention</a> <a href="#s10">10. Data Sharing &amp; Disclosure</a>
+      <a href="#s11">11. Your Rights &amp; Choices</a> <a href="#s12">12. International Transfers</a>
+      <a href="#s13">13. Third-Party Links</a> <a href="#s14">14. Bans &amp; Violations</a>
+      <a href="#s15">15. Children's Privacy</a> <a href="#s16">16. User Safety Tips</a>
+      <a href="#s17">17. Changes to This Policy</a> <a href="#s18">18. Contact Us</a>
       <a href="#s19">19. Acknowledgment</a>
     </div>
   </div>
 
-  <!-- ── Section 1 ── -->
+  <!-- Section 1 -->
   <div class="policy-card" id="s1">
     <div class="section-label">Section 01</div>
     <h3>Introduction</h3>
     <p>Welcome to <strong>Omingle</strong> ("we," "our," "us," or "the Company"). Omingle is a live, random conversation platform that connects adults worldwide for spontaneous video, audio, and text-based interactions.</p>
     <p>This Privacy Policy explains in clear, plain language exactly what personal information we collect from you, why we collect it, how we use and protect it, and what rights you have over your data. By accessing or using Omingle — whether through our website, web app, or any related services — you agree to the practices described in this Policy.</p>
     <p>Please read this Policy carefully. If you do not agree with any part of it, please discontinue using Omingle immediately.</p>
-    <div class="note-box">
-      This Privacy Policy applies to all users of Omingle, regardless of where you are located in the world. Additional rights may apply depending on your country or region (e.g., GDPR for EU residents, CCPA for California residents).
-    </div>
+    <div class="note-box">This Privacy Policy applies to all users of Omingle, regardless of where you are located in the world. Additional rights may apply depending on your country or region (e.g., GDPR for EU residents, CCPA for California residents).</div>
   </div>
 
-  <!-- ── Section 2 ── -->
+  <!-- Section 2 -->
   <div class="policy-card" id="s2">
     <div class="section-label">Section 02</div>
     <h3>Age Requirement — 18+ Only</h3>
@@ -453,7 +278,7 @@
     <p>We reserve the right to permanently ban any account or IP address found to be associated with a minor, and to cooperate with law enforcement where required.</p>
   </div>
 
-  <!-- ── Section 3 ── -->
+  <!-- Section 3 -->
   <div class="policy-card" id="s3">
     <div class="section-label">Section 03</div>
     <h3>Information We Do <em>Not</em> Collect</h3>
@@ -467,19 +292,17 @@
     </ul>
   </div>
 
-  <!-- ── Section 4 ── -->
+  <!-- Section 4 -->
   <div class="policy-card" id="s4">
     <div class="section-label">Section 04</div>
     <h3>Information We Collect</h3>
     <p>While we limit what we collect to the minimum necessary to operate the platform, the following data may be gathered:</p>
-
     <h4>4.1 — Information You Provide Directly</h4>
     <ul class="styled">
       <li><strong>Email address (optional):</strong> If you choose to create an account or contact support, we may collect your email to communicate with you.</li>
       <li><strong>Support messages:</strong> Any messages, complaints, or feedback you send to us through email or a contact form are retained to resolve your inquiry.</li>
       <li><strong>Reported content details:</strong> When you submit a report about another user, we collect the details you provide (e.g., reason for report, timestamp) to investigate the matter.</li>
     </ul>
-
     <h4>4.2 — Automatically Collected Data</h4>
     <ul class="styled">
       <li><strong>IP address:</strong> Collected automatically when you visit our platform. Used for security, abuse prevention, and approximate regional analytics.</li>
@@ -489,29 +312,9 @@
       <li><strong>Referral / traffic source:</strong> If you arrived via a link, we may log that source for analytics purposes.</li>
       <li><strong>Cookies and tracking data:</strong> See Section 6 for full details on our cookie practices, including advertising cookies used by Google AdSense.</li>
     </ul>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Data Type</th>
-            <th>Why Collected</th>
-            <th>Stored?</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>IP Address</td><td>Security, ban enforcement, region analytics</td><td>Yes (limited period)</td></tr>
-          <tr><td>Email Address</td><td>Account creation, support communication</td><td>Yes (until deletion requested)</td></tr>
-          <tr><td>Browser / Device</td><td>Compatibility, diagnostics</td><td>Aggregated only</td></tr>
-          <tr><td>Session Timestamps</td><td>Security logs, fraud prevention</td><td>Yes (limited period)</td></tr>
-          <tr><td>Video / Audio Streams</td><td>N/A — not collected</td><td>No</td></tr>
-          <tr><td>Ad Interaction Data</td><td>Managed by Google AdSense (see §7)</td><td>By Google</td></tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 
-  <!-- ── Section 5 ── -->
+  <!-- Section 5 -->
   <div class="policy-card" id="s5">
     <div class="section-label">Section 05</div>
     <h3>How We Use Your Data</h3>
@@ -521,115 +324,172 @@
       <li><strong>Safety and security:</strong> To detect, prevent, and investigate fraud, abuse, violations of our Terms of Service, and illegal activities.</li>
       <li><strong>Ban enforcement:</strong> To enforce bans and restrictions against users who violate our policies, using IP address or session data to prevent repeat offenders from re-joining.</li>
       <li><strong>Customer support:</strong> To respond to your questions, complaints, reports, or feedback when you contact us.</li>
-      <li><strong>Analytics and improvement:</strong> To understand aggregated usage patterns so we can optimize performance, fix bugs, and improve user experience.</li>
+      <li><strong>Analytics and improvement:</strong> To understand aggregated usage patterns so we can optimize performance and user experience.</li>
       <li><strong>Legal compliance:</strong> To comply with applicable laws, regulations, legal processes, or enforceable governmental requests.</li>
-      <li><strong>Advertising:</strong> To serve relevant, non-intrusive advertisements through Google AdSense. See Section 7 for full details.</li>
     </ul>
-    <p>We do <strong>not</strong> use your data for unsolicited marketing, sell it to data brokers, or use it to make automated decisions that significant
-    .wrap {
-      max-width: var(--container-w);
-      margin: auto;
-      padding: var(--space-5) var(--space-3) var(--space-6);
-    }
-
-    main {
-      background: var(--panel);
-      padding: var(--space-5);
-      border-radius: var(--radius-2);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-    }
-
-    h1 { font-size: var(--fs-600); margin-top: 0; }
-    h3 { color: var(--accent); }
-
-    ul { padding-left: 1.2em; }
-    li { margin: 0.35em 0; }
-
-    .section {
-      margin-top: var(--space-4);
-      padding-top: var(--space-3);
-      border-top: 1px solid var(--border);
-    }
-
-    footer {
-      text-align: center;
-      margin-top: var(--space-4);
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <div class="header-inner">
-    <span class="brand">Omingle</span>
-    <a class="back" href="index.html">← Back to Home</a>
   </div>
-</header>
 
-<div class="wrap">
-<main>
+  <!-- Section 6 -->
+  <div class="policy-card" id="s6">
+    <div class="section-label">Section 06</div>
+    <h3>Cookies &amp; Tracking Technologies</h3>
+    <p>Omingle uses cookies and similar technologies (e.g., local storage, pixels) to enhance your experience, analyze site traffic, and serve relevant advertisements. By using our platform, you consent to our use of cookies as described below.</p>
+    <h4>6.1 — Types of Cookies We Use</h4>
+    <ul class="styled">
+      <li><strong>Essential Cookies:</strong> Required for the platform to function (e.g., session matching, security features). These cannot be disabled.</li>
+      <li><strong>Analytics Cookies:</strong> Help us understand how users interact with Omingle (e.g., pages visited, time spent). We use aggregated data only.</li>
+      <li><strong>Advertising Cookies:</strong> Used by Google AdSense and other ad partners to show you relevant ads based on your interests (see Section 7).</li>
+    </ul>
+    <h4>6.2 — Managing Cookies</h4>
+    <p>Most web browsers allow you to control cookies through settings. You can delete or block cookies, but doing so may impair certain features of Omingle. To opt out of personalized advertising, visit <a href="https://adssettings.google.com" target="_blank">Google Ads Settings</a> or <a href="https://optout.aboutads.info" target="_blank">aboutads.info</a>.</p>
+  </div>
 
-<h1>Privacy Policy</h1>
+  <!-- Section 7 -->
+  <div class="policy-card" id="s7">
+    <div class="section-label">Section 07</div>
+    <h3>Google AdSense &amp; Advertising</h3>
+    <p>Omingle displays advertisements provided by Google AdSense. Google uses cookies to serve ads based on your prior visits to our site and other websites. Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to Omingle and/or other sites on the Internet.</p>
+    <ul class="styled">
+      <li>You may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank">Google Ads Settings</a>.</li>
+      <li>Alternatively, you can opt out of a third-party vendor's use of cookies for personalized advertising by visiting <a href="https://optout.aboutads.info" target="_blank">www.aboutads.info</a>.</li>
+      <li>We do not control Google's data collection practices; please review Google's <a href="https://policies.google.com/technologies/ads" target="_blank">Advertising Privacy Policy</a> for more details.</li>
+    </ul>
+  </div>
 
-<p>
-Your privacy is extremely important to us. This Privacy Policy explains how Omingle (“we,” “our,” “us”)
-collects, uses, stores, protects, and shares your information when you access or use our platform.
-</p>
+  <!-- Section 8 -->
+  <div class="policy-card" id="s8">
+    <div class="section-label">Section 08</div>
+    <h3>Security Measures</h3>
+    <p>We implement reasonable administrative, technical, and physical safeguards designed to protect your information from unauthorized access, disclosure, alteration, or destruction. However, no method of transmission over the Internet or electronic storage is 100% secure. Measures include:</p>
+    <ul class="styled">
+      <li>Encryption of data in transit (TLS/SSL).</li>
+      <li>Firewalls and intrusion detection systems.</li>
+      <li>Regular security assessments and updates.</li>
+      <li>Access controls limiting employee access to data on a need-to-know basis.</li>
+    </ul>
+    <p>If we become aware of a data breach that affects your personal information, we will notify you in accordance with applicable laws.</p>
+  </div>
 
-<section class="section"><h3>1. Introduction</h3><p>Omingle connects adults worldwide for spontaneous conversations.</p></section>
+  <!-- Section 9 -->
+  <div class="policy-card" id="s9">
+    <div class="section-label">Section 09</div>
+    <h3>Data Retention</h3>
+    <p>We retain personal information only for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law. Retention periods vary:</p>
+    <ul class="styled">
+      <li><strong>IP logs and session metadata:</strong> Retained for up to 90 days for security and abuse prevention.</li>
+      <li><strong>Email correspondence:</strong> Retained for up to 2 years for support history.</li>
+      <li><strong>Ban records:</strong> Retained indefinitely to prevent banned users from re-accessing the platform.</li>
+      <li><strong>Aggregated analytics data:</strong> May be retained indefinitely as it does not identify individuals.</li>
+    </ul>
+  </div>
 
-<section class="section"><h3>2. Age Requirement</h3>
-<p>Omingle is strictly 18+.</p>
-<ul>
-<li>Disconnect immediately</li>
-<li>Report the user</li>
-<li>Contact us at <a href="mailto:businessman717@gmail.com">businessman717@gmail.com</a></li>
-</ul>
-</section>
+  <!-- Section 10 -->
+  <div class="policy-card" id="s10">
+    <div class="section-label">Section 10</div>
+    <h3>Data Sharing &amp; Disclosure</h3>
+    <p>We do not sell, rent, or trade your personal information to third parties for their own marketing purposes. We may share information in the following limited circumstances:</p>
+    <ul class="styled">
+      <li><strong>Service Providers:</strong> We may share data with trusted vendors who assist us in operating the platform (e.g., hosting, analytics, customer support), subject to confidentiality obligations.</li>
+      <li><strong>Legal Requirements:</strong> We may disclose information if required to do so by law, subpoena, court order, or to protect the rights, property, or safety of Omingle, our users, or the public.</li>
+      <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets, user data may be transferred as part of the transaction. You will be notified via prominent notice on our site.</li>
+      <li><strong>With Your Consent:</strong> We may share information for any other purpose with your explicit consent.</li>
+    </ul>
+  </div>
 
-<section class="section"><h3>3. Information We Do Not Collect</h3>
-<ul>
-<li>No video/audio storage</li>
-<li>No biometric data</li>
-<li>No real‑time monitoring</li>
-</ul>
-</section>
+  <!-- Section 11 -->
+  <div class="policy-card" id="s11">
+    <div class="section-label">Section 11</div>
+    <h3>Your Rights &amp; Choices</h3>
+    <p>Depending on your jurisdiction, you may have certain rights regarding your personal information, including:</p>
+    <ul class="styled">
+      <li><strong>Access:</strong> You can request a copy of the personal data we hold about you.</li>
+      <li><strong>Correction:</strong> You can request that we correct inaccurate or incomplete data.</li>
+      <li><strong>Deletion:</strong> You can request that we delete your personal data, subject to legal retention requirements.</li>
+      <li><strong>Opt-out of Marketing:</strong> You can unsubscribe from promotional emails (we rarely send them).</li>
+      <li><strong>Cookie Preferences:</strong> You can manage cookies through browser settings (see Section 6).</li>
+    </ul>
+    <p>To exercise these rights, please contact us at <a href="mailto:businessman717@gmail.com">businessman717@gmail.com</a>. We will respond within the timeframes required by applicable law.</p>
+  </div>
 
-<section class="section"><h3>4. Information We Collect</h3>
-<h4>4.1 Provided Information</h4>
-<ul><li>Email (optional)</li><li>Support messages</li></ul>
-<h4>4.2 Automatic Data</h4>
-<ul><li>IP address</li><li>Browser/device</li></ul>
-</section>
+  <!-- Section 12 -->
+  <div class="policy-card" id="s12">
+    <div class="section-label">Section 12</div>
+    <h3>International Data Transfers</h3>
+    <p>Omingle is operated globally, and your information may be transferred to, stored, and processed in countries outside of your own. These countries may have data protection laws that differ from those in your jurisdiction. We take steps to ensure that your data receives an adequate level of protection, such as relying on Standard Contractual Clauses or other lawful transfer mechanisms.</p>
+  </div>
 
-<section class="section"><h3>5. How We Use Data</h3><ul><li>Safety</li><li>Platform operation</li></ul></section>
-<section class="section"><h3>6. Security Measures</h3><ul><li>Encryption</li><li>Firewall</li></ul></section>
-<section class="section"><h3>7. Data Retention</h3><ul><li>Session ends → data removed</li></ul></section>
-<section class="section"><h3>8. Data Sharing</h3><ul><li>Legal compliance</li></ul></section>
-<section class="section"><h3>9. User Rights</h3><ul><li>Request deletion</li></ul></section>
-<section class="section"><h3>10. International Transfers</h3><p>Secure encrypted transfers.</p></section>
-<section class="section"><h3>11. Third‑Party Links</h3><p>Use at your own risk.</p></section>
-<section class="section"><h3>12. Bans & Violations</h3><ul><li>IP history</li></ul></section>
-<section class="section"><h3>13. Children’s Privacy</h3><p>No minors allowed.</p></section>
-<section class="section"><h3>14. User Safety Tips</h3><ul><li>Don’t share personal info</li></ul></section>
-<section class="section"><h3>15. Changes to Policy</h3><p>Updated periodically.</p></section>
-<section class="section"><h3>16. Contact</h3>
-<p><a href="mailto:businessman717@gmail.com">businessman717@gmail.com</a></p>
-</section>
-<section class="section"><h3>17. Final Acknowledgment</h3>
-<p>By using Omingle, you agree to this Privacy Policy.</p>
-</section>
+  <!-- Section 13 -->
+  <div class="policy-card" id="s13">
+    <div class="section-label">Section 13</div>
+    <h3>Third-Party Links</h3>
+    <p>Our platform may contain links to third-party websites or services that are not owned or controlled by Omingle. This Privacy Policy does not apply to those third parties. We encourage you to review the privacy policies of any third-party site you visit.</p>
+  </div>
 
-</main>
+  <!-- Section 14 -->
+  <div class="policy-card" id="s14">
+    <div class="section-label">Section 14</div>
+    <h3>Bans &amp; Violations</h3>
+    <p>If you are banned from Omingle for violating our Terms of Service, we may retain certain information (e.g., IP address, device fingerprint) to prevent you from circumventing the ban. This data is used strictly for enforcement purposes and is not shared with third parties except as required by law.</p>
+  </div>
+
+  <!-- Section 15 -->
+  <div class="policy-card" id="s15">
+    <div class="section-label">Section 15</div>
+    <h3>Children's Privacy</h3>
+    <p>Omingle is not intended for anyone under the age of 18. We do not knowingly collect personal information from minors. If we become aware that we have inadvertently collected data from a person under 18, we will delete it promptly. If you believe a minor has used our platform, please contact us immediately.</p>
+  </div>
+
+  <!-- Section 16 -->
+  <div class="policy-card" id="s16">
+    <div class="section-label">Section 16</div>
+    <h3>User Safety Tips</h3>
+    <p>Your privacy also depends on your own actions. We strongly recommend:</p>
+    <ul class="styled">
+      <li>Do not share personal identifiers (real name, address, phone, financial details) with strangers.</li>
+      <li>Use the "Disconnect" button if you feel uncomfortable at any time.</li>
+      <li>Report any suspicious, abusive, or illegal behavior using the in-session tools.</li>
+      <li>Consider using a VPN if you are concerned about IP address visibility.</li>
+    </ul>
+  </div>
+
+  <!-- Section 17 -->
+  <div class="policy-card" id="s17">
+    <div class="section-label">Section 17</div>
+    <h3>Changes to This Privacy Policy</h3>
+    <p>We may update this Privacy Policy from time to time to reflect changes in our practices or for legal reasons. When we make material changes, we will post the updated Policy on this page and update the "Last Updated" date. Your continued use of Omingle after any changes constitutes your acceptance of the revised Policy.</p>
+  </div>
+
+  <!-- Section 18 -->
+  <div class="policy-card" id="s18">
+    <div class="section-label">Section 18</div>
+    <h3>Contact Us</h3>
+    <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please reach out:</p>
+    <div class="contact-box">
+      <div class="contact-icon">📧</div>
+      <div>
+        <strong>Email:</strong> <a href="mailto:businessman717@gmail.com">businessman717@gmail.com</a><br />
+        <span style="font-size:0.85rem; color:var(--muted);">We typically respond within 48 hours.</span>
+      </div>
+    </div>
+    <p style="margin-top:12px;">You may also write to our designated privacy representative at: Omingle Privacy Office, 8 The Green, Suite R, Dover, DE 19901, USA.</p>
+  </div>
+
+  <!-- Section 19 -->
+  <div class="policy-card" id="s19">
+    <div class="section-label">Section 19</div>
+    <h3>Acknowledgment</h3>
+    <p>By using Omingle, you acknowledge that you have read, understood, and agree to be bound by this Privacy Policy. If you do not agree, please discontinue use of the platform immediately.</p>
+    <p>Thank you for trusting Omingle with your conversations. We are committed to maintaining a safe, private, and respectful environment for adults worldwide.</p>
+  </div>
+
+</div> <!-- /.wrap -->
 
 <footer>
-© 2026 Omingle · For Entertainment Purposes · 18+ Only
+  <strong>Omingle — 18+ Random Video Chat</strong><br />
+  © 2026 Omingle. All rights reserved. |
+  <a href="terms.html">Terms &amp; Conditions</a> |
+  <a href="privacy-policy.html">Privacy Policy</a>
 </footer>
-</div>
 
 </body>
 </html>
