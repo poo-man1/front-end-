@@ -38,7 +38,15 @@ button,input{font:inherit}
   flex:1;min-height:0;display:grid;grid-template-columns:minmax(280px,30.7%) minmax(0,1fr);
   gap:7px;padding:1px 7px 7px
 }
-.video-column{min-height:0;display:grid;grid-template-rows:1fr 1fr;gap:7px}
+.video-column{min-height:0;display:grid;grid-template-rows:1fr 1fr;gap:7px;position:relative}
+.center-brand{
+  position:absolute;z-index:5;left:50%;top:50%;transform:translate(-50%,-50%);
+  padding:7px 17px;border:1px solid #ff72b7;border-radius:999px;
+  background:rgba(12,7,12,.94);color:#ff8fc4;
+  font-size:16px;font-weight:800;letter-spacing:.4px;
+  box-shadow:0 0 18px rgba(255,63,155,.28);
+  pointer-events:none
+}
 .video-box{
   min-height:0;position:relative;overflow:hidden;border-radius:7px;background:#101014;
   border:1px solid #17151d
@@ -104,9 +112,7 @@ button,input{font:inherit}
   .brand-icon{width:31px;height:31px}
   .workspace{grid-template-columns:1fr;grid-template-rows:minmax(190px,42%) minmax(0,1fr);gap:6px;padding:5px}
   .video-column{grid-template-columns:1fr 1fr;grid-template-rows:1fr;gap:6px}
-  .video-brand{font-size:14px;left:7px;bottom:7px}
-  .video-brand .mini-icon{width:19px;height:19px;font-size:10px}
-  .video-brand small{font-size:9px}
+  .center-brand{font-size:13px;padding:5px 13px}
   .video-tools{display:none}
   .welcome{padding:10px 11px 4px;font-size:13px;line-height:1.4}
   .welcome h1{font-size:16px}
@@ -126,10 +132,6 @@ button,input{font:inherit}
 </head>
 <body>
 <header class="topbar">
-  <div class="brand">
-    <span class="brand-icon"><i class="fa-regular fa-message"></i></span>
-    <span class="brand-text">Gomingle</span>
-  </div>
   <div class="header-actions">
     <button class="icon-pill" type="button" aria-label="Display settings" title="Display settings"><i class="fa-solid fa-sun"></i></button>
     <div class="online-pill"><span class="online-dot"></span><strong id="onlineUsers">0</strong> online</div>
@@ -139,16 +141,15 @@ button,input{font:inherit}
 
 <main class="workspace">
   <section class="video-column" aria-label="Video feeds">
+    <div class="center-brand">Gomingle</div>
     <div class="video-box">
       <span class="remote-label">STRANGER</span>
       <video id="remote" autoplay playsinline></video>
-      <div class="video-brand"><span class="mini-icon"><i class="fa-regular fa-message"></i></span>gomingle<small>.com</small></div>
       <div class="video-tools"><input type="range" min="0" max="100" value="100" aria-label="Video volume"><button type="button" aria-label="Report video" onclick="report()"><i class="fa-regular fa-flag"></i></button></div>
     </div>
     <div class="video-box">
       <span class="local-label">YOU</span>
       <video id="local" autoplay muted playsinline></video>
-      <div class="video-brand"><span class="mini-icon"><i class="fa-regular fa-message"></i></span>gomingle<small>.com</small></div>
     </div>
   </section>
 
