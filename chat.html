@@ -1,276 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#050507">
 <title>Gomingle – Video Chat</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: Arial, sans-serif;
-  background: #0a0a0a;
-  color: white;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+:root{
+  --bg:#050507;--panel:#0c0b10;--panel2:#111017;--line:#292333;
+  --text:#f7f5fb;--muted:#9691a3;--purple:#ff3f9b;--pink:#ff4f9f;
 }
-
-/* ===== TOPBAR ===== */
-.topbar {
-  height: 52px;
-  background: rgba(0,0,0,0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: bold;
-  color: #ffffff;
-  flex-shrink: 0;
-  position: relative;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+body{height:100dvh;overflow:hidden;display:flex;flex-direction:column}
+button,input{font:inherit}
+.topbar{
+  height:48px;flex:0 0 48px;padding:0 10px;display:flex;align-items:center;justify-content:space-between;
+  background:#050507;border-bottom:1px solid #17151d
 }
-
-.online-badge {
-  position: absolute;
-  right: 14px;
-  font-size: 12px;
-  color: #cccccc;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.brand{display:flex;align-items:center;gap:7px;font-size:27px;font-weight:800;letter-spacing:-1.2px}
+.brand-icon{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;
+  color:#fff;background:linear-gradient(145deg,#ff68b3,#d91e78);font-size:19px}
+.brand-text{color:#f6f4f9}
+.brand-text span{color:#ff9acb}
+.header-actions{display:flex;align-items:center;gap:8px}
+.icon-pill,.online-pill{
+  height:28px;border:1px solid #4a2438;border-radius:20px;background:#0e0c13;
+  display:flex;align-items:center;justify-content:center;color:#e8c4d8
 }
-
-.online-dot {
-  width: 8px; height: 8px;
-  background: #ffffff;
-  border-radius: 50%;
+.icon-pill{width:38px;font-size:12px}
+.online-pill{padding:0 11px;gap:6px;font-size:11px}
+.online-pill strong{color:#ff8fc4;font-size:12px}
+.online-dot{width:7px;height:7px;border-radius:50%;background:#43db83;box-shadow:0 0 8px #43db83}
+#statusBar{display:none;flex:0 0 auto;text-align:center;padding:6px 10px;background:#30101f;color:#ffe0ef;font-size:12px}
+.workspace{
+  flex:1;min-height:0;display:grid;grid-template-columns:minmax(280px,30.7%) minmax(0,1fr);
+  gap:7px;padding:1px 7px 7px
 }
-
-/* ===== STATUS BAR ===== */
-#statusBar {
-  text-align: center;
-  font-size: 12px;
-  padding: 4px 8px;
-  background: rgba(255,255,255,0.1);
-  color: #e5e5e5;
-  flex-shrink: 0;
-  display: none;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
+.video-column{min-height:0;display:grid;grid-template-rows:1fr 1fr;gap:7px}
+.video-box{
+  min-height:0;position:relative;overflow:hidden;border-radius:7px;background:#101014;
+  border:1px solid #17151d
 }
-
-/* ===== VIDEO SECTION ===== */
-.video-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 8px;
-  min-height: 0;
+.video-box video{width:100%;height:100%;display:block;object-fit:cover;background:#101014}
+#local{transform:scaleX(-1)}
+.video-brand{
+  position:absolute;left:11px;bottom:10px;z-index:2;display:flex;align-items:center;gap:5px;
+  font-size:20px;font-weight:800;letter-spacing:-.8px;text-shadow:0 2px 8px #000
 }
-
-.video-wrapper {
-  flex: 1;
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #111;
-  border: 2px solid rgba(255,255,255,0.4);
-  min-height: 0;
+.video-brand .mini-icon{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;
+  color:#fff;background:linear-gradient(145deg,#ff68b3,#d91e78);font-size:12px}
+.video-brand small{font-size:12px;color:#ffacd2;letter-spacing:0}
+.video-tools{position:absolute;right:10px;bottom:10px;z-index:3;display:flex;align-items:center;gap:12px;color:#aaa;font-size:12px}
+.video-tools input{width:90px;accent-color:#aaa}
+.video-tools button{border:0;background:transparent;color:#aaa;cursor:pointer}
+.remote-label,.local-label{position:absolute;top:10px;left:11px;z-index:2;padding:5px 8px;
+  border-radius:5px;background:#0008;color:#d7d2df;font-size:10px;letter-spacing:.2px}
+.chat-side{
+  min-width:0;min-height:0;position:relative;display:flex;flex-direction:column;
+  border:1px solid #17151d;border-radius:8px;background:#0b0a0d;overflow:hidden
 }
-
-.video-wrapper video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.welcome{
+  flex:0 0 auto;padding:15px 12px 8px;color:#f3f0f7;line-height:1.5;font-size:16px
 }
-
-.video-label {
-  position: absolute;
-  bottom: 8px;
-  left: 10px;
-  font-size: 11px;
-  font-weight: 600;
-  color: white;
-  background: rgba(0,0,0,0.6);
-  padding: 3px 8px;
-  border-radius: 20px;
+.welcome h1{font-size:18px;font-weight:750;margin-bottom:3px;letter-spacing:-.3px}
+.age-line{font-weight:700;color:#ff9acb;margin-bottom:2px}
+.age-badge{display:inline-block;padding:1px 5px;margin-right:5px;border-radius:3px;
+  background:#e31d55;color:#fff;font-size:11px;vertical-align:1px}
+.rules{color:#e3dfe8}
+.rules .ban{color:#9993a5;font-weight:700;margin-top:2px}
+#messages{
+  flex:1;min-height:0;overflow-y:auto;padding:12px;color:#e9e5ef;font-size:13px;line-height:1.5;
+  scrollbar-width:thin;scrollbar-color:#a83270 transparent
 }
-
-/* Desktop: side by side */
-@media (min-width: 769px) {
-  .video-section {
-    flex-direction: row;
-    padding: 10px;
-    gap: 10px;
-  }
+#messages div{padding:4px 0;overflow-wrap:anywhere;border-bottom:1px solid #ffffff08}
+#messages div b{color:#ff9acb}
+.bottom-area{flex:0 0 auto;padding:0 0 0}
+.utility-row{height:39px;display:flex;align-items:center;gap:7px;padding:0 10px}
+.utility-btn{
+  height:30px;padding:0 11px;border-radius:20px;border:1px solid #30283e;background:#0b0a10;
+  color:#e7e1ef;font-size:10px;font-weight:700;display:inline-flex;align-items:center;gap:7px;cursor:pointer
 }
-
-/* ===== CHAT SECTION ===== */
-.chat-section {
-  flex-shrink: 0;
-  background: rgba(10,10,10,0.95);
-  border-top: 1px solid rgba(255,255,255,0.3);
-  display: flex;
-  flex-direction: column;
-  max-height: 220px;
+.utility-btn .globe{color:#ff9bc9}
+.utility-btn.premium{background:linear-gradient(110deg,#ff5ba9,#e52d86);border-color:transparent;color:#fff}
+.utility-btn.premium i{color:#ffe27a}
+.composer{display:grid;grid-template-columns:88px minmax(0,1fr);gap:5px;padding:0 0 0}
+.start-btn{
+  min-height:58px;border:1px solid #54213d;border-radius:7px;background:#0d0a15;color:#fff;
+  font-size:14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px
 }
-
-#messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 8px 12px;
-  font-size: 13px;
-  max-height: 100px;
-  min-height: 40px;
+.start-btn small{font-size:10px;color:#a49bb2}
+.message-form{min-width:0;display:flex;align-items:stretch;border:1px solid #54213d;border-radius:7px;background:#0a090d}
+.message-form input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff;padding:0 14px;font-size:13px}
+.message-form input::placeholder{color:#817b8d}
+.send-btn{width:46px;border:0;background:transparent;color:#858091;font-size:17px;cursor:pointer}
+.send-btn:hover{color:#c1a0ff}
+.mobile-controls{display:none}
+@media(max-width:700px){
+  body{overflow:hidden}
+  .topbar{height:46px;flex-basis:46px}
+  .brand{font-size:23px}
+  .brand-icon{width:31px;height:31px}
+  .workspace{grid-template-columns:1fr;grid-template-rows:minmax(190px,42%) minmax(0,1fr);gap:6px;padding:5px}
+  .video-column{grid-template-columns:1fr 1fr;grid-template-rows:1fr;gap:6px}
+  .video-brand{font-size:14px;left:7px;bottom:7px}
+  .video-brand .mini-icon{width:19px;height:19px;font-size:10px}
+  .video-brand small{font-size:9px}
+  .video-tools{display:none}
+  .welcome{padding:10px 11px 4px;font-size:13px;line-height:1.4}
+  .welcome h1{font-size:16px}
+  #messages{padding:8px 11px}
+  .utility-row{height:35px;padding:0 7px}
+  .composer{grid-template-columns:66px minmax(0,1fr)}
+  .start-btn{min-height:49px;font-size:12px}
+  .message-form input{padding:0 10px;font-size:12px}
+  .send-btn{width:38px}
 }
-
-#messages::-webkit-scrollbar { width: 3px; }
-#messages::-webkit-scrollbar-thumb { background: #ffffff; border-radius: 4px; }
-
-#messages div {
-  padding: 3px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  line-height: 1.4;
-}
-
-#messages div b { color: #e5e5e5; }
-
-/* ===== CONTROLS ===== */
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 10px;
-  background: rgba(0,0,0,0.8);
-  border-top: 1px solid rgba(255,255,255,0.2);
-  flex-shrink: 0;
-}
-
-.controls input {
-  flex: 1;
-  padding: 9px 14px;
-  border-radius: 25px;
-  border: 1px solid rgba(255,255,255,0.4);
-  background: rgba(255,255,255,0.07);
-  color: white;
-  font-size: 13px;
-  outline: none;
-  min-width: 0;
-}
-
-.controls input::placeholder { color: #888; }
-.controls input:focus { border-color: #ffffff; }
-
-.ctrl-btn {
-  padding: 9px 12px;
-  border: none;
-  border-radius: 22px;
-  background: #ffffff;
-  color: #0a0a0a;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  transition: 0.2s;
-  flex-shrink: 0;
-}
-
-.ctrl-btn:hover { background: #dddddd; transform: scale(1.04); }
-.ctrl-btn.gray  { background: #2d2d2d; color: white; }
-.ctrl-btn.gray:hover { background: #4a4a4a; }
-.ctrl-btn.next  { background: linear-gradient(105deg, #ffffff, #b3b3b3); color: #0a0a0a; }
-
-/* Hide text on very small screens, show icons only */
-@media (max-width: 400px) {
-  .btn-text { display: none; }
-  .ctrl-btn { padding: 9px 10px; }
+@media(max-width:380px){
+  .welcome{font-size:12px}
+  .utility-btn{padding:0 8px}
+  .online-pill{font-size:10px;padding:0 8px}
 }
 </style>
 </head>
 <body>
-
-<!-- TOPBAR -->
-<div class="topbar">
-  Gomingle
-  <div class="online-badge">
-    <div class="online-dot"></div>
-    <span id="onlineUsers">0</span> online
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-icon"><i class="fa-regular fa-message"></i></span>
+    <span class="brand-text">Gomingle</span>
   </div>
-</div>
-
-<!-- STATUS -->
-<div id="statusBar"></div>
-
-<!-- VIDEOS -->
-<div class="video-section">
-  <div class="video-wrapper">
-    <video id="remote" autoplay playsinline></video>
-    <div class="video-label">Stranger</div>
+  <div class="header-actions">
+    <button class="icon-pill" type="button" aria-label="Display settings" title="Display settings"><i class="fa-solid fa-sun"></i></button>
+    <div class="online-pill"><span class="online-dot"></span><strong id="onlineUsers">0</strong> online</div>
   </div>
-  <div class="video-wrapper">
-    <video id="local" autoplay muted playsinline></video>
-    <div class="video-label">You</div>
-  </div>
-</div>
+</header>
+<div id="statusBar" role="status" aria-live="polite"></div>
 
-<!-- CHAT MESSAGES -->
-<div class="chat-section">
-  <div id="messages"></div>
+<main class="workspace">
+  <section class="video-column" aria-label="Video feeds">
+    <div class="video-box">
+      <span class="remote-label">STRANGER</span>
+      <video id="remote" autoplay playsinline></video>
+      <div class="video-brand"><span class="mini-icon"><i class="fa-regular fa-message"></i></span>gomingle<small>.com</small></div>
+      <div class="video-tools"><input type="range" min="0" max="100" value="100" aria-label="Video volume"><button type="button" aria-label="Report video" onclick="report()"><i class="fa-regular fa-flag"></i></button></div>
+    </div>
+    <div class="video-box">
+      <span class="local-label">YOU</span>
+      <video id="local" autoplay muted playsinline></video>
+      <div class="video-brand"><span class="mini-icon"><i class="fa-regular fa-message"></i></span>gomingle<small>.com</small></div>
+    </div>
+  </section>
 
-  <!-- CONTROLS -->
-  <div class="controls">
-    <input id="text" placeholder="Type a message…" onkeydown="if(event.key==='Enter')send()" />
-    <button class="ctrl-btn" onclick="send()"><i class="fas fa-paper-plane"></i> <span class="btn-text">Send</span></button>
-    <button class="ctrl-btn gray" onclick="toggleMic()" id="micBtn"><i class="fas fa-microphone"></i></button>
-    <button class="ctrl-btn gray" onclick="toggleCam()" id="camBtn"><i class="fas fa-video"></i></button>
-    <button class="ctrl-btn gray" onclick="report()"><i class="fas fa-flag"></i></button>
-    <button class="ctrl-btn next" onclick="next()"><i class="fas fa-forward"></i> <span class="btn-text">Next</span></button>
-  </div>
-</div>
+  <section class="chat-side" aria-label="Chat panel">
+    <div class="welcome">
+      <h1>Welcome to Gomingle.</h1>
+      <div class="age-line"><span class="age-badge">18+</span>You must be 18 or older</div>
+      <div class="rules">
+        <div>No nudity, hate speech, or harassment</div>
+        <div>Your camera must show you, live</div>
+        <div>Do not ask for gender — this is not a dating site</div>
+        <div class="ban">Violators will be banned</div>
+      </div>
+    </div>
+    <div id="messages" aria-live="polite"></div>
+    <div class="bottom-area">
+      <div class="utility-row">
+      </div>
+      <div class="composer">
+        <button class="start-btn" type="button" onclick="next()"><span>Next</span><small>Skip</small></button>
+        <div class="message-form">
+          <input id="text" placeholder="Type a message..." autocomplete="off"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();send();}" aria-label="Type a message">
+          <button class="send-btn" type="button" onclick="send()" aria-label="Send message"><i class="fa-solid fa-play"></i></button>
+        </div>
+      </div>
+      <div class="mobile-controls">
+        <button class="ctrl-btn" type="button" onclick="toggleMic()" id="micBtn"><i class="fa-solid fa-microphone"></i></button>
+        <button class="ctrl-btn" type="button" onclick="toggleCam()" id="camBtn"><i class="fa-solid fa-video"></i></button>
+        <button class="ctrl-btn" type="button" onclick="report()"><i class="fa-solid fa-flag"></i></button>
+      </div>
+    </div>
+  </section>
+</main>
 
-<!-- Socket.IO -->
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<!-- WebRTC logic -->
 <script src="app.js"></script>
-
 <script>
-  // Online count
-  socket.on("onlineCount", (count) => {
-    const el = document.getElementById("onlineUsers");
-    if (el) el.innerText = count;
-  });
+  // Existing Socket.IO online counter.
+  if (typeof socket !== "undefined" && socket) {
+    socket.on("onlineCount", (count) => {
+      const el = document.getElementById("onlineUsers");
+      if (el) el.innerText = count;
+    });
+  }
 
-  // Status bar
+  // Preserve existing status callback while showing status in the redesigned UI.
   const statusBar = document.getElementById("statusBar");
-  const _orig = window.showStatus;
-  window.showStatus = function(text) {
-    statusBar.textContent = text;
+  const originalShowStatus = window.showStatus;
+  window.showStatus = function(message) {
+    statusBar.textContent = message;
     statusBar.style.display = "block";
-    clearTimeout(statusBar._t);
-    statusBar._t = setTimeout(() => statusBar.style.display = "none", 3000);
-    if (_orig) _orig(text);
-  };
-
-  // Mic/cam icon toggle
-  const micBtn = document.getElementById("micBtn");
-  const camBtn = document.getElementById("camBtn");
-  const _mic = window.toggleMic;
-  const _cam = window.toggleCam;
-  window.toggleMic = function() {
-    _mic();
-    const on = micBtn.querySelector("i").className.includes("slash");
-    micBtn.querySelector("i").className = on ? "fas fa-microphone" : "fas fa-microphone-slash";
-    micBtn.style.background = on ? "#2d2d2d" : "#4a4a4a";
-  };
-  window.toggleCam = function() {
-    _cam();
-    const on = camBtn.querySelector("i").className.includes("slash");
-    camBtn.querySelector("i").className = on ? "fas fa-video" : "fas fa-video-slash";
-    camBtn.style.background = on ? "#2d2d2d" : "#4a4a4a";
+    clearTimeout(statusBar._timer);
+    statusBar._timer = setTimeout(() => statusBar.style.display = "none", 3000);
+    if (typeof originalShowStatus === "function") originalShowStatus(message);
   };
 </script>
 </body>
